@@ -5,8 +5,12 @@
 #include <vector>
 #include <memory.h>
 #include <string.h>
+
+#ifndef NO_ILP
 #include <opengm/inference/lpcplex.hxx>
 #include <opengm/inference/lpcplex2.hxx>
+#endif
+
 #include <boost/serialization/serialization.hpp>
 
 #include "pgmlink/pgm.h"
@@ -18,8 +22,10 @@ namespace pgm
 {
 
 typedef PertGmType ConstraintPoolOpengmModel;
+#ifndef NO_ILP
 typedef opengm::LPCplex<pgmlink::PertGmType, OpengmModelDeprecated::ogmAccumulator> ConstraintPoolCplexOptimizer;
 typedef opengm::LPCplex2<pgmlink::PertGmType, OpengmModelDeprecated::ogmAccumulator> ConstraintPoolCplex2Optimizer;
+#endif
 
 //------------------------------------------------------------------------
 // ConstraintPool
@@ -304,10 +310,10 @@ private:
     void serialize(Archive & ar, const unsigned int);
 };
 
-
 //------------------------------------------------------------------------
 // ConstraintPool - Implementation
 //------------------------------------------------------------------------
+#ifndef NO_ILP
 
 template<class CONSTRAINT_TYPE>
 void ConstraintPool::add_constraint(const CONSTRAINT_TYPE&)
@@ -908,6 +914,8 @@ void ConstraintPool::FixNodeValueLinearConstraint::serialize(Archive & ar, const
     ar & value;
     ar & node;
 }
+
+#endif
 
 } // namespace pgm
 } // namespace pgmlink

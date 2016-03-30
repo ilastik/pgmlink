@@ -13,6 +13,8 @@ include_directories(
 # enable dynamic linking with boost test
 add_definitions(-DBOOST_TEST_DYN_LINK)
 
+SET(TESTS_WITH_CPLEX "constraint_test.cpp reasoner_constracking_test.cpp")
+
 # autodiscover test sources and add tests
 file(GLOB TEST_SRCS *.cpp)
 foreach(test_src ${TEST_SRCS})
@@ -21,6 +23,8 @@ foreach(test_src ${TEST_SRCS})
   else()
     if((${test_src} MATCHES "reasoner_dyn_prog_constracking_test.cpp") AND NOT (WITH_DPCT))
       message(STATUS "Not building dynamic programming tests")
+    elseif(NOT GUROBI_FOUND AND NOT CPLEX_FOUND AND (";${TESTS_WITH_CPLEX};" MATCHES ";${test_src};"))
+      message("Excluding test ${test_src} as it depends on an ILP solver")
     else()
       get_filename_component(test_name ${test_src} NAME_WE)
       add_executable( ${test_name} ${test_src} )

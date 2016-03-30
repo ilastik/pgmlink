@@ -40,7 +40,7 @@ set(PYPGMLINK_SRCS
   )
 
 add_library(pypgmlink SHARED ${PYPGMLINK_SRCS})#
-target_link_libraries(pypgmlink pgmlink ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} )
+target_link_libraries(pypgmlink pgmlink${SUFFIX} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} )
 if(WIN32)
   set_target_properties(pypgmlink PROPERTIES PREFIX "" OUTPUT_NAME "pgmlink" SUFFIX ".pyd")
 else()

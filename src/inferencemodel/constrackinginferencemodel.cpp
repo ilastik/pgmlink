@@ -4,6 +4,8 @@
 namespace pgmlink
 {
 
+#ifndef NO_ILP
+
 ConsTrackingInferenceModel::ConsTrackingInferenceModel(Parameter& param):
     InferenceModel(param),
     number_of_transition_nodes_(0),
@@ -1347,5 +1349,7 @@ void ConsTrackingInferenceModel::set_starting_point(const IlpSolution& solution)
 {
     optimizer_->setStartingPoint(solution.begin());
 }
+
+#endif
 
 } // namespace pgmlink
