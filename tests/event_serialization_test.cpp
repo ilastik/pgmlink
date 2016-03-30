@@ -105,12 +105,18 @@ BOOST_AUTO_TEST_CASE( Event_Serialization )
                                 "none", // random_forest_filename
                                 fov,
                                 "none" // event_vector_dump_filename
+#ifdef NO_ILP
+                                , SolverType::FlowSolver
+#endif
                             );
 
 
     std::cout << "run conservation tracking" << std::endl;
 
     Parameter consTrackingParams = Parameter();
+#ifdef NO_ILP
+    consTrackingParams.solver = SolverType::FlowSolver;
+#endif
 
     EventVectorVectorVector events = tracking(
                 ts,

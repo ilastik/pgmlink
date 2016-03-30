@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_CASE( dummy )
 //    BOOST_CHECK_EQUAL(count_moves, 5);
 //}
 
-
+#ifndef NO_ILP
 BOOST_AUTO_TEST_CASE( Tracking_TwoStage_ConservationTracking_Division ) {
 
    std::cout << "Constructing HypothesesGraph" << std::endl;
@@ -250,6 +250,7 @@ BOOST_AUTO_TEST_CASE( Tracking_TwoStage_ConservationTracking_Division ) {
    BOOST_CHECK_EQUAL(count_moves, 1);
    BOOST_CHECK_EQUAL(count_divisions, 1);
 }
+#endif
 
 BOOST_AUTO_TEST_CASE( Tracking_Flow_ConservationTracking_Division ) {
 
@@ -323,6 +324,7 @@ BOOST_AUTO_TEST_CASE( Tracking_Flow_ConservationTracking_Division ) {
                                false, //with_merger_resolution
                                3, //n_dim
                                5, //transition_parameter
+                               {},
                                0, //border_width for app/disapp costs
                                true, //with_constraints
                                uparam, // uncertainty parameters
@@ -855,6 +857,7 @@ BOOST_AUTO_TEST_CASE( Tracking_Flow_ConservationTracking_Division ) {
 //    BOOST_CHECK_EQUAL(mergers,3);
 //}
 
+#ifndef NO_ILP
 BOOST_AUTO_TEST_CASE( Tracking_TwoStage_ConservationTracking_AppearanceSimple ) {
 
    std::cout << "Constructing HypothesesGraph" << std::endl;
@@ -963,6 +966,7 @@ BOOST_AUTO_TEST_CASE( Tracking_TwoStage_ConservationTracking_AppearanceSimple ) 
    }
    BOOST_CHECK_EQUAL(num_events, 4);
 }
+#endif
 
 BOOST_AUTO_TEST_CASE( Tracking_DynProg_ConservationTracking_AppearanceSimple ) {
 
@@ -1040,6 +1044,7 @@ BOOST_AUTO_TEST_CASE( Tracking_DynProg_ConservationTracking_AppearanceSimple ) {
                                false, //with_merger_resolution
                                3, //n_dim
                                5, //transition_parameter
+                               {},
                                0, //border_width for app/disapp costs
                                true, //with_constraints
                                uparam, // uncertainty parameters
@@ -1817,6 +1822,7 @@ BOOST_AUTO_TEST_CASE( Tracking_DynProg_ConservationTracking_AppearanceSimple ) {
 //    BOOST_CHECK_EQUAL(multis, 0);
 //}
 
+#ifndef NO_ILP
 BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_MergerResolvingDivision ) {
    std::cout << "Constructing HypothesesGraph" << std::endl;
    std::cout << std::endl;
@@ -1954,6 +1960,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_MergerResolvingDivision ) {
    }
    BOOST_CHECK_EQUAL(num_mergers, 2);
 }
+#endif
 
 //BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector2 ) {
 
