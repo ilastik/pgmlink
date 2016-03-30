@@ -26,6 +26,7 @@ using namespace std;
 using namespace pgmlink;
 using namespace boost::python;
 
+#ifndef NO_ILP
 vector<vector<Event> > pythonChaingraphTracking(ChaingraphTracking& tr, TraxelStore& ts)
 {
     vector<vector<Event> > result;
@@ -43,6 +44,7 @@ vector<vector<Event> > pythonChaingraphTracking(ChaingraphTracking& tr, TraxelSt
     Py_END_ALLOW_THREADS
     return result;
 }
+#endif
 
 vector<vector<vector<Event> > > pythonConsTracking(
         ConsTracking& tr,
@@ -100,6 +102,7 @@ vector<vector<vector<Event> > > pythonConsTracking(
     return result;
 }
 
+#ifndef NO_ILP
 vector<vector<vector<Event> > > pythonStructuredLearningTracking(
     StructuredLearningTracking& tr,
     TraxelStore& ts,
@@ -123,6 +126,7 @@ vector<vector<vector<Event> > > pythonStructuredLearningTracking(
     vector<vector<vector<Event> > > result;
     return result;
 }
+#endif
 
 EventVectorVector python_resolve_mergers(ConsTracking& tracker,
         EventVectorVector& events,
@@ -203,6 +207,7 @@ void export_track()
                         .def_pickle(TemplatedPickleSuite< vector<double> >() )
                         ;
 
+#ifndef NO_ILP
     class_<ChaingraphTracking>("ChaingraphTracking",
                                init<string, double, double, double, double,
                                bool, double, double, bool,
@@ -216,6 +221,7 @@ void export_track()
     .def("set_with_divisions", &ChaingraphTracking::set_with_divisions)
     .def("set_cplex_timeout", &ChaingraphTracking::set_cplex_timeout)
     ;
+#endif
 
     class_<Parameter>("ConservationTrackingParameter")
     .def("register_detection_func", &Parameter::register_detection_func)
@@ -306,11 +312,13 @@ void export_track()
     ;
 
     enum_<SolverType>("ConsTrackingSolverType")
-    .value("CplexSolver", SolverType::CplexSolver)
     .value("DynProgSolver", SolverType::DynProgSolver)
     .value("FlowSolver", SolverType::FlowSolver)
+#ifndef NO_ILP
+    .value("CplexSolver", SolverType::CplexSolver)
     .value("DPInitCplexSolver", SolverType::DPInitCplexSolver)
     .value("FlowInitCplexSolver", SolverType::FlowInitCplexSolver)
+#endif
     ;
 
     enum_<Event::EventType>("EventType")
@@ -360,6 +368,7 @@ void export_track()
     .def_pickle(TemplatedPickleSuite<Event>() )
     ;
 
+#ifndef NO_ILP
     class_<StructuredLearningTracking>("StructuredLearningTracking",
                                        init<boost::shared_ptr<HypothesesGraph>, unsigned int, bool, double, double, bool, double,
                                        string, FieldOfView, string, SolverType,unsigned int>(
@@ -392,5 +401,6 @@ void export_track()
     .def("setWeight", &StructuredLearningTracking::setWeight)
     .def("getStructuredLearningTrackingParameters", &StructuredLearningTracking::get_structured_learning_tracking_parameters)
     ;
+#endif
 
 }

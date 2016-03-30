@@ -39,12 +39,12 @@ set(PYPGMLINK_SRCS
   pyevaluation.cpp
   )
 
-add_library(pypgmlink SHARED ${PYPGMLINK_SRCS})#
-target_link_libraries(pypgmlink pgmlink${SUFFIX} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} )
+add_library(pypgmlink${SUFFIX} SHARED ${PYPGMLINK_SRCS})#
+target_link_libraries(pypgmlink${SUFFIX} pgmlink${SUFFIX} ${Boost_LIBRARIES} ${PYTHON_LIBRARIES} )
 if(WIN32)
-  set_target_properties(pypgmlink PROPERTIES PREFIX "" OUTPUT_NAME "pgmlink" SUFFIX ".pyd")
+  set_target_properties(pypgmlink${SUFFIX} PROPERTIES PREFIX "" OUTPUT_NAME "pgmlink${SUFFIX}" SUFFIX ".pyd")
 else()
-  set_target_properties(pypgmlink PROPERTIES PREFIX "" OUTPUT_NAME "pgmlink" SUFFIX ".so")
+  set_target_properties(pypgmlink${SUFFIX} PROPERTIES PREFIX "" OUTPUT_NAME "pgmlink${SUFFIX}" SUFFIX ".so")
 endif()
 
 ##generate python module directory
@@ -75,7 +75,7 @@ set(PYPGMLINK_INSTALL_DIR ${PYPGMLINK_INSTALL_DIR}
 # use this in INSTALL() commands to get packaging right
 file(RELATIVE_PATH PYPGMLINK_INSTALL_DIR ${CMAKE_INSTALL_PREFIX} ${PYPGMLINK_INSTALL_DIR})
 
-install(TARGETS pypgmlink 
+install(TARGETS pypgmlink${SUFFIX} 
 	RUNTIME DESTINATION ${PYPGMLINK_INSTALL_DIR}
 	LIBRARY DESTINATION ${PYPGMLINK_INSTALL_DIR})
 
