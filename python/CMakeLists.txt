@@ -26,12 +26,14 @@ endif()
 # include external headers as system includes so we do not have to cope with their warnings
 include_directories( SYSTEM ${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS}/python2.7 )
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/pypgmlink.cpp.cmake ${CMAKE_CURRENT_BINARY_DIR}/pypgmlink.cpp @ONLY)
+
 # pypgmlink
 set(PYPGMLINK_SRCS
   pyfield_of_view.cpp
   pyUncertaintyParameter.cpp
   pyhypotheses.cpp
-  pypgmlink.cpp
+  ${CMAKE_CURRENT_BINARY_DIR}/pypgmlink.cpp
   pytrack.cpp
   pytraxels.cpp
   pymerger_resolving.cpp
