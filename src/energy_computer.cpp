@@ -68,11 +68,42 @@ void EnergyComputer::storeNodeEnergies(
 	}
 }
 
-void EnergyComputer::convexifyEnergies(feature_array& energies)
+void EnergyComputer::convexifyEnergies(feature_array& energies, double eps)
 {
 	if(convexify_)
 	{
-		// TODO: implement me!
+        auto bestStateIt = std::min_element(energies.begin(), energies.end());
+        int bestStateIdx = std::distance(energies.begin(), bestStateIt);
+
+        for(int direction : {-1, +1})
+        {
+            auto pos = bestStateIdx + direction;
+            double previousGradient = 0;
+
+            while(pos >= 0 && pos < energies.size())
+            {
+                double newGradient = energies[pos] - energies[pos - direction];
+                if(abs(newGradient - previousGradient) < eps)
+                {
+                    // cost function's derivative is roughly constant, add epsilon
+                    previousGradient += eps;
+                    energies[pos] = energies[pos-direction] + previousGradient;
+                }
+                else if(newGradient < previousGradient)
+                {
+                    // cost function got too flat, set feature value to match old slope
+                    previousGradient += eps;
+                    energies[pos] = energies[pos-direction] + previousGradient;
+                }
+                else
+                {
+                    // all good, continue with new slope
+                    previousGradient = newGradient;
+                }
+
+                pos += direction;
+            }
+        }
 	}
 }
 
