@@ -516,7 +516,7 @@ void DynProgConsTrackInferenceModel::conclude(HypothesesGraph& g,
     };
 
     size_t num_paths = 0;
-    // for each path, increment the number of cells the nodes and arcs along the path
+    // for each path, increment the number of cells inside the nodes and arcs along the path
     for(dpct::TrackingAlgorithm::Path& p : solution_paths_)
     {
         // a path starts at the dummy-source and goes to the dummy-sink. these arcs are of type dummy, and thus skipped
@@ -603,7 +603,10 @@ void DynProgConsTrackInferenceModel::conclude(HypothesesGraph& g,
                 break;
                 case dpct::Arc::Dummy:
                 {
-                    // do nothing
+                    if(first_arc_on_path && a == p.back())
+                    {
+                        increase_object_count(a->getSourceNode());
+                    }
                 } break;
                 default:
                 {

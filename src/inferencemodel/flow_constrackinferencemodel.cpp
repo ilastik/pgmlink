@@ -93,6 +93,10 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
         }
 
         // disappearance cost
+        if(param_.with_tracklets)
+        {
+            tr = tracklet_map[n].back();
+        }
         if(param_.with_disappearance)
         {
             std::vector<float> dis_costs = tr.features["disEnergy"];
@@ -291,8 +295,11 @@ void FlowConsTrackInferenceModel::conclude(HypothesesGraph& g,
     };
 
     // detections
-    for(HypothesesGraph::NodeIt n(g); n != lemon::INVALID; ++n)
+    for(std::map<HypothesesGraph::Node, dpct::FlowGraph::FullNode>::iterator nodeIterator = node_reference_map_.begin();
+        nodeIterator != node_reference_map_.end();
+        ++nodeIterator)
     {
+        HypothesesGraph::Node n = nodeIterator->first;
         int flow = 0;
         if(contains(app_reference_map_, n) && inference_graph_.getFlowMap()[app_reference_map_[n]] > 0)
         {
