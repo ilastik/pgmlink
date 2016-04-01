@@ -361,10 +361,6 @@ EventVectorVectorVector ConsTracking::operator()(
 
     if (with_merger_resolution)
     {
-        // always run merger resolving with CPLEX
-        SolverType chosen_solver = solver_;
-        solver_ = SolverType::CplexSolver;
-
         EventVectorVectorVector merger_resolved_events;
 
         for(auto& event : events)
@@ -384,9 +380,6 @@ EventVectorVectorVector ConsTracking::operator()(
                                                  transition_classifier
                                              ));
         }
-
-        // reset solver
-        solver_ = chosen_solver;
 
         return merger_resolved_events;
     }
