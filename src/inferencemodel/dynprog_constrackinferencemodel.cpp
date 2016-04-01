@@ -236,7 +236,7 @@ void DynProgConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
         double perturbed_score = getTransitionArcScore(*graph, a) - getDivMBestOffset(Transition, g, HypothesesGraph::Node(), a, size_t(true));
 
         std::vector<double> scoreDeltas(param_.max_number_objects, 0.0);
-        scoreDeltas[0] = param_.max_number_objects, perturbed_score;
+        scoreDeltas[0] = perturbed_score;
         dpct::Graph::ArcPtr inf_arc = inference_graph_.addMoveArc(source,
                                                                   target,
                                                                   scoreDeltas,
