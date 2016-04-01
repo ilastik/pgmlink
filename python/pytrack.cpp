@@ -312,8 +312,10 @@ void export_track()
     ;
 
     enum_<SolverType>("ConsTrackingSolverType")
+#ifdef WITH_DPCT
     .value("DynProgSolver", SolverType::DynProgSolver)
     .value("FlowSolver", SolverType::FlowSolver)
+#endif
 #ifndef NO_ILP
     .value("CplexSolver", SolverType::CplexSolver)
     .value("DPInitCplexSolver", SolverType::DPInitCplexSolver)
