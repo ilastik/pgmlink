@@ -3,14 +3,18 @@
 
 #include <boost/function.hpp>
 
+
 #include <opengm/graphicalmodel/graphicalmodel.hxx>
 #include <opengm/inference/inference.hxx>
+
+#ifndef NO_ILP
 #include <opengm/inference/lpcplex.hxx>
 //#include <opengm/inference/lpcplex2.hxx>
+#include "pgmlink/inferencemodel/constraint_pool.hxx"
+#endif
 
 #include "pgmlink/hypotheses.h"
 #include "pgmlink/pgm.h"
-#include "pgmlink/inferencemodel/constraint_pool.hxx"
 #include "pgmlink/inferencemodel/inferencemodel.h"
 
 namespace pgmlink
@@ -31,8 +35,10 @@ public:
     typedef pgm::OpengmModelDeprecated::ogmGraphicalModel::IndexType IndexType;
     typedef std::vector<LabelType> IlpSolution;
     typedef PertGmType GraphicalModelType;
+#ifndef NO_ILP
     typedef opengm::LPCplex<PertGmType, pgm::OpengmModelDeprecated::ogmAccumulator> cplex_optimizer;
     typedef opengm::LPCplex2<PertGmType, opengm::Minimizer> cplex2_optimizer;
+#endif
     typedef std::map<HypothesesGraph::Node, size_t> HypothesesGraphNodeMap;
     typedef std::map<HypothesesGraph::Arc, size_t> HypothesesGraphArcMap;
 
@@ -121,6 +127,7 @@ protected:
     HypothesesGraphArcMap arc_map_;
     std::map<HypothesesGraph::Node, size_t> detection_f_node_map_;
 
+#ifndef NO_ILP
     cplex_optimizer::Parameter cplex_param_;
     boost::shared_ptr<cplex_optimizer> optimizer_;
     pgm::ConstraintPool constraint_pool_;
@@ -128,6 +135,7 @@ protected:
     cplex2_optimizer::Parameter cplex2_param_;
     boost::shared_ptr<cplex2_optimizer> optimizer2_;
     pgm::ConstraintPool linear_constraint_pool_;
+#endif
 
     unsigned int number_of_transition_nodes_, number_of_division_nodes_;
     unsigned int number_of_appearance_nodes_, number_of_disappearance_nodes_;
@@ -139,6 +147,7 @@ protected:
     std::map<std::pair<size_t, std::pair<size_t, size_t> >, size_t> cplex_factor_id_map_;
 };
 
+#ifndef NO_ILP
 template<class INF>
 void ConsTrackingInferenceModel::add_constraints(INF &optimizer)
 {
@@ -152,6 +161,7 @@ void ConsTrackingInferenceModel::add_linear_constraints(INF &optimizer)
     LOG(logDEBUG) << "ConsTrackingInferenceModel::add_linear_constraints";
     linear_constraint_pool_.add_constraints_to_model(model_, optimizer);
 }
+#endif
 
 } // namespace pgmlink
 

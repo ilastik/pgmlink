@@ -17,10 +17,12 @@
 #include <boost/bimap.hpp>
 #include <opengm/inference/inference.hxx>
 
+#ifndef NO_ILP
 #ifdef WITH_GUROBI
 #include <opengm/inference/lpgurobi.hxx>
 #else
 #include <opengm/inference/lpcplex.hxx>
+#endif
 #endif
 
 #include "pgmlink/event.h"
@@ -36,13 +38,16 @@ class Traxel;
 
 namespace pgm 
 {
+#ifndef NO_ILP
 #ifdef WITH_GUROBI
   typedef opengm::LPGurobi<OpengmModel, opengm::Minimizer> OpengmLPCplex;
 #else
   typedef opengm::LPCplex<OpengmModel, opengm::Minimizer> OpengmLPCplex;
 #endif
+#endif
 } /* namespace pgm */
 
+#ifndef NO_ILP
 class Chaingraph : public Reasoner {
 public:
     typedef pgm::chaingraph::Model::node_var_map node_var_map;
@@ -128,7 +133,9 @@ private:
     };
     void reset();
 
+#ifndef NO_ILP
     pgm::OpengmLPCplex* optimizer_;
+#endif
     boost::shared_ptr<pgm::chaingraph::Model> linking_model_;
 
     bool with_constraints_;
@@ -138,6 +145,8 @@ private:
     double cplex_timeout_;
     pgm::chaingraph::ModelBuilder* builder_;
   };
+
+#endif
 
 } /* namespace pgmlink */
 #endif /* REASONER_PGM_H */

@@ -44,31 +44,7 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
     for (HypothesesGraph::NodeIt n(*graph); n != lemon::INVALID; ++n)
     {
         LOG(logDEBUG3) << "Adding node in timestep " << timestep_map[n] << " to FlowGraph" << std::endl;
-        std::vector<float> costs;
 
-        if(param_.with_tracklets)
-            costs = tracklet_map[n].front().features["detEnergy"];
-        else
-            costs = traxel_map[n].features["detEnergy"];
-
-        // for merger resolving: paths can start and end at other timeframes!
-        // if(!inference_graph_.getConfig().withAppearance)
-        // {
-        //     if(lemon::countInArcs(*graph, n) == 0)
-        //     {
-        //         in_first_frame = true;
-        //     }
-        // }
-
-        // if(!inference_graph_.getConfig().withDisappearance)
-        // {
-        //     if(lemon::countOutArcs(*graph, n) == 0)
-        //     {
-        //         in_last_frame = true;
-        //     }
-        // }
-
-        // appearance and disappearance cost
         Traxel tr;
         if(param_.with_tracklets)
         {
@@ -79,27 +55,68 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
             tr = traxel_map[n];
         }
 
-        std::vector<float> app_costs = tr.features["appEnergy"];
-        std::vector<float> dis_costs = tr.features["disEnergy"];
-        
+        // detection cost
+        std::vector<float> costs = tr.features["detEnergy"];
         std::vector<double> costDeltas;
-        std::vector<double> appearanceCostDeltas;
-        std::vector<double> disappearanceCostDeltas;
         for(size_t i = 1; i < costs.size(); i++)
-        {
             costDeltas.push_back(costs[i] - costs[i-1]);
-            appearanceCostDeltas.push_back(app_costs[i] - app_costs[i-1]);
-            disappearanceCostDeltas.push_back(dis_costs[i] - dis_costs[i-1]);
-        }
-        // assert(costDeltas.size() == param_.max_number_objects);
-
         dpct::FlowGraph::FullNode inf_node = inference_graph_.addNode(costDeltas, timestep_map[n] - first_timestep);
-        dpct::FlowGraph::Arc inf_app = inference_graph_.addArc(inference_graph_.getSource(), inf_node.u, appearanceCostDeltas);
-        dpct::FlowGraph::Arc inf_dis = inference_graph_.addArc(inf_node.v, inference_graph_.getTarget(), disappearanceCostDeltas);
-
         node_reference_map_[n] = inf_node;
-        app_reference_map_[n] = inf_app;
-        dis_reference_map_[n] = inf_dis;
+        std::cout << "Adding node that can be used " << costDeltas.size() << " times" << std::endl;
+        
+        // appearance cost
+        if(param_.with_appearance)
+        {
+            std::cout << "Adding appearance arc" << std::endl;
+            std::vector<float> app_costs = tr.features["appEnergy"];
+            std::vector<double> appearanceCostDeltas;
+            for(size_t i = 1; i < costs.size(); i++)
+            {
+                appearanceCostDeltas.push_back(app_costs[i] - app_costs[i-1]);
+            }
+            dpct::FlowGraph::Arc inf_app = inference_graph_.addArc(inference_graph_.getSource(), inf_node.u, appearanceCostDeltas);
+            app_reference_map_[n] = inf_app;
+        }
+        else
+        {
+            if(lemon::countInArcs(*graph, n) == 0)
+            {
+                std::cout << "intermediate appearance disabled but node with no in arcs may still be used in tracking (" << costs.size()-1 << ") times" << std::endl;
+                std::vector<double> appearanceCostDeltas(costs.size()-1, 0);
+                dpct::FlowGraph::Arc inf_app = inference_graph_.addArc(inference_graph_.getSource(), inf_node.u, appearanceCostDeltas);
+                app_reference_map_[n] = inf_app;
+            }
+            else
+            {
+                std::cout << "node had in-arcs, not adding appearance" << std::endl;
+            }
+        }
+
+        // disappearance cost
+        if(param_.with_tracklets)
+        {
+            tr = tracklet_map[n].back();
+        }
+        if(param_.with_disappearance)
+        {
+            std::vector<float> dis_costs = tr.features["disEnergy"];
+            std::vector<double> disappearanceCostDeltas;
+            for(size_t i = 1; i < costs.size(); i++)
+            {
+                disappearanceCostDeltas.push_back(dis_costs[i] - dis_costs[i-1]);
+            }
+            dpct::FlowGraph::Arc inf_dis = inference_graph_.addArc(inf_node.v, inference_graph_.getTarget(), disappearanceCostDeltas);
+            dis_reference_map_[n] = inf_dis;
+        }
+        else
+        {
+            if(lemon::countOutArcs(*graph, n) == 0)
+            {
+                std::vector<double> disappearanceCostDeltas(costs.size()-1, 0);
+                dpct::FlowGraph::Arc inf_dis = inference_graph_.addArc(inf_node.v, inference_graph_.getTarget(), disappearanceCostDeltas);
+                dis_reference_map_[n] = inf_dis;
+            }
+        }
     }
 
     LOG(logINFO) << "Creating DPCT arcs";
@@ -174,9 +191,6 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
             }
         }
     }
-
-    // LOG(logINFO) << "Constructed DPCT graph with " << inference_graph_.getNumNodes() << " nodes and " << inference_graph_.getNumArcs()
-    //              << " arcs on " << inference_graph_.getNumTimesteps() << " timesteps" << std::endl;
 }
 
 void FlowConsTrackInferenceModel::fixFirstDisappearanceNodesToLabels(
@@ -275,19 +289,27 @@ void FlowConsTrackInferenceModel::conclude(HypothesesGraph& g,
     typedef std::map<HypothesesGraph::Node, dpct::FlowGraph::Arc>::iterator NodeToFlowArcMapIt;
     typedef std::map<HypothesesGraph::Arc, dpct::FlowGraph::Arc>::iterator ArcToFlowArcMapIt;
 
-    // detections
-    for(HypothesesGraph::NodeIt n(g); n != lemon::INVALID; ++n)
+    auto contains = [](const std::map<HypothesesGraph::Node, dpct::FlowGraph::Arc>& m, const HypothesesGraph::Node& n)
     {
+        return m.find(n) != m.end();
+    };
+
+    // detections
+    for(std::map<HypothesesGraph::Node, dpct::FlowGraph::FullNode>::iterator nodeIterator = node_reference_map_.begin();
+        nodeIterator != node_reference_map_.end();
+        ++nodeIterator)
+    {
+        HypothesesGraph::Node n = nodeIterator->first;
         int flow = 0;
-        if(inference_graph_.getFlowMap()[app_reference_map_[n]] > 0)
+        if(contains(app_reference_map_, n) && inference_graph_.getFlowMap()[app_reference_map_[n]] > 0)
         {
             // appearance
             flow = inference_graph_.getFlowMap()[app_reference_map_[n]];
         }
-        else if(inference_graph_.getFlowMap()[dis_reference_map_[n]] > 0)
+        else if(contains(dis_reference_map_, n) && inference_graph_.getFlowMap()[dis_reference_map_[n]] > 0)
         {
             // disappearance
-            inference_graph_.getFlowMap()[dis_reference_map_[n]];
+            flow = inference_graph_.getFlowMap()[dis_reference_map_[n]];
         }
         else
         {

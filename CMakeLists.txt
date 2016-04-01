@@ -90,7 +90,12 @@ else()
         set(OPTIMIZER_LIBRARIES ${GUROBI_LIBRARY} ${GUROBI_CXX_LIBRARY})
         add_definitions(-DWITH_GUROBI)
     else()
+      if(WITH_DPCT)
+        message(WARNING "No ILP solver found, building with flow solver only")
+        add_definitions(-DNO_ILP)
+      else()
         message(ERROR "No optimizer found at all!")
+      endif()
     endif()
 endif()
 
@@ -150,6 +155,7 @@ endif(WITH_DPCT)
 mark_as_advanced( Boost_DIR )
 
 # build options
+set(SUFFIX "" CACHE STRING "Library suffix appended to the library name - which enables having several differently configured pgmlink libraries in the path")
 
 # logging level
 set(LOGGING_LEVEL "INFO" CACHE STRING "Choose a global logging level: NO_LOGGING, ERROR, WARNING, INFO, DEBUG, DEBUG1, ..., DEBUG4")
@@ -211,7 +217,7 @@ endif()
 file(GLOB_RECURSE LIB_SOURCES src/*.cpp)
 file(GLOB_RECURSE HEADERS include/*.h*)
 
-add_library(pgmlink SHARED ${LIB_SOURCES} ${HEADERS})
+add_library(pgmlink${SUFFIX} SHARED ${LIB_SOURCES} ${HEADERS})
 
 file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/pgmlink )
 if(WIN32)
@@ -226,20 +232,22 @@ endif(WIN32)
 
 include_directories( ${CMAKE_CURRENT_BINARY_DIR}/include )
 
-target_link_libraries(pgmlink ${PYTHON_LIBRARY} ${ANN_LIBRARIES} ${Boost_LIBRARIES} ${OPTIMIZER_LIBRARIES} ${VIGRA_IMPEX_LIBRARY} ${LEMON_LIBRARIES} ${HDF5_LIBRARIES} ${Mlpack_LIBRARIES} ${Armadillo_LIBRARIES} ${DPCT_LIBRARIES})
+target_link_libraries(pgmlink${SUFFIX} ${PYTHON_LIBRARY} ${ANN_LIBRARIES} ${Boost_LIBRARIES} ${OPTIMIZER_LIBRARIES} ${VIGRA_IMPEX_LIBRARY} ${LEMON_LIBRARIES} ${HDF5_LIBRARIES} ${Mlpack_LIBRARIES} ${Armadillo_LIBRARIES} ${DPCT_LIBRARIES})
 
 # Install target pgmlink
-install(TARGETS pgmlink
+install(TARGETS pgmlink${SUFFIX}
 	ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
         RUNTIME DESTINATION bin)
 
-# install headers
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/"
-        DESTINATION include
-        PATTERN ".h"
-        PATTERN ".hxx"
-        PATTERN ".git" EXCLUDE)
+# install headers only if suffix is empty
+if(NOT "${SUFFIX}" STREQUAL "")
+  install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+          DESTINATION include
+          PATTERN ".h"
+          PATTERN ".hxx"
+          PATTERN ".git" EXCLUDE)
+endif()
 
 # API documentation with Doxygen
 find_package(Doxygen)
@@ -255,7 +263,10 @@ else(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 # tools
-add_subdirectory(tools/)
+SET(WITH_TOOLS false CACHE BOOL "Build some tools for inference experiments")
+if(WITH_TOOLS)
+  add_subdirectory(tools/)
+endif()
 
 # Tests
 if(WITH_TESTS)
@@ -264,7 +275,7 @@ if(WITH_TESTS)
 endif()
 
 # StructSVM
-SET(WITH_FUNKEY true CACHE BOOL "Build with Funkey StructSVM support")
+SET(WITH_FUNKEY false CACHE BOOL "Build with Funkey StructSVM support")
 if(WITH_FUNKEY)
   #SET(Funkey_Binary_File CACHE FILEPATH "path to funkey binary file")
   add_definitions(-DFUNKEY_BINARY_FILE=\"${Funkey_Binary_File}\")

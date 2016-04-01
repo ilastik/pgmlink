@@ -19,10 +19,12 @@
 #include "pgmlink/tracking.h"
 #include "pgmlink/traxels.h"
 #include "pgmlink/energy_computer.h"
+
 #include "pgmlink/inferencemodel/constrackinginferencemodel.h"
 #include "pgmlink/inferencemodel/structuredlearningtrackinginferencemodel.h"
 #include "pgmlink/structuredLearningTracking.h"
 #include "pgmlink/inferencemodel/perturbedinferencemodel.h"
+
 #include "pgmlink/inferencemodel/dynprog_constrackinferencemodel.h"
 #include "pgmlink/inferencemodel/dynprog_perturbedinferencemodel.h"
 #include "pgmlink/inferencemodel/flow_constrackinferencemodel.h"
@@ -133,6 +135,12 @@ boost::shared_ptr<Perturbation> ConservationTracking::create_perturbation()
 boost::shared_ptr<InferenceModel> ConservationTracking::create_inference_model(Parameter& param)
 {
     param_ = param;
+#ifdef NO_ILP
+    if(solver_ == SolverType::CplexSolver)
+    {
+        throw std::runtime_error("No ILP solver built in, cannot create inference model");
+    }
+#else
     if(solver_ == SolverType::CplexSolver)
     {
         if (inference_model_){
@@ -143,6 +151,7 @@ boost::shared_ptr<InferenceModel> ConservationTracking::create_inference_model(P
             return boost::make_shared<ConsTrackingInferenceModel>(param);
         }
     }
+#endif // NO_ILP
 #ifdef WITH_DPCT
     else if(solver_ == SolverType::DynProgSolver)
     {
@@ -162,10 +171,17 @@ boost::shared_ptr<InferenceModel> ConservationTracking::create_inference_model(P
 
 boost::shared_ptr<InferenceModel> ConservationTracking::create_inference_model()
 {
+#ifdef NO_ILP
+    if(solver_ == SolverType::CplexSolver)
+    {
+        throw std::runtime_error("No ILP solver built in, cannot create inference model");
+    }
+#else
     if(solver_ == SolverType::CplexSolver)
     {
         return boost::make_shared<ConsTrackingInferenceModel>(param_);
     }
+#endif // NO_ILP
 #ifdef WITH_DPCT
     else if(solver_ == SolverType::DynProgSolver)
     {
@@ -187,12 +203,19 @@ boost::shared_ptr<InferenceModel> ConservationTracking::create_inference_model()
 
 boost::shared_ptr<InferenceModel> ConservationTracking::create_perturbed_inference_model(boost::shared_ptr<Perturbation> perturb)
 {
+#ifdef NO_ILP
+    if(solver_ == SolverType::CplexSolver)
+    {
+        throw std::runtime_error("No ILP solver built in, cannot create perturbed inference model");
+    }
+#else
     if(solver_ == SolverType::CplexSolver)
     {
         return boost::make_shared<PerturbedInferenceModel>(
                     param_,
                     perturb);
     }
+#endif // NO_ILP
 #ifdef WITH_DPCT
     else if (solver_ == SolverType::DynProgSolver)
     {
@@ -251,6 +274,11 @@ void ConservationTracking::twoStageInference(HypothesesGraph & hypotheses)
 #ifndef WITH_DPCT
     throw std::runtime_error("Dynamic Programming Solver has not been built!");
 #else
+
+#ifdef NO_ILP
+        throw std::runtime_error("No ILP solver support built in, cannot warm start");
+#else 
+
     if(solver_ != SolverType::DPInitCplexSolver)
         throw std::logic_error("TwoStageInference should only be called with DPInitCplexSolver");
     HypothesesGraph *graph = get_prepared_graph(hypotheses);
@@ -287,6 +315,7 @@ void ConservationTracking::twoStageInference(HypothesesGraph & hypotheses)
     IlpSolution sol = constrack_inf_model->infer();
     constrack_inf_model->conclude(hypotheses, tracklet_graph_, tracklet2traxel_node_map_, sol);
     std::cout << "ILP model eval: " << constrack_inf_model->get_model().evaluate(sol) << std::endl;
+#endif
 #endif
 }
 
@@ -329,6 +358,7 @@ void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, P
         inference_model->fixFirstDisappearanceNodesToLabels(hypotheses, tracklet_graph_, tracklet2traxel_node_map_);
     }
 
+#ifndef NO_ILP
     if(training_to_hard_constraints_ and !with_structured_learning_)
     {
         boost::static_pointer_cast<ConsTrackingInferenceModel>(inference_model)->fixNodesToLabels(hypotheses);
@@ -351,6 +381,7 @@ void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, P
                 get_export_filename(0, labels_export_file_name_));
         }
     }
+#endif
 
     // run inference & conclude
     solutions_.push_back(inference_model->infer());
@@ -359,8 +390,11 @@ void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, P
     inference_model->conclude(hypotheses, tracklet_graph_, tracklet2traxel_node_map_, solutions_.back());
 
     // print solution energies
+#ifndef NO_ILP
     if(solver_ == SolverType::CplexSolver)
+    {
         std::cout << "ILP model eval: " << boost::static_pointer_cast<ConsTrackingInferenceModel>(inference_model)->get_model().evaluate(solutions_.back()) << std::endl;
+    }
     else if(solver_ == SolverType::DynProgSolver || solver_ == SolverType::FlowSolver)
     {
         boost::shared_ptr<ConsTrackingInferenceModel> constrack_inf_model = 
@@ -382,6 +416,7 @@ void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, P
 
         inference_model->conclude(hypotheses, tracklet_graph_, tracklet2traxel_node_map_, solutions_.back());
     }
+#endif
 
     size_t numberOfIterations = uncertainty_param_.numberOfIterations;
     if (uncertainty_param_.distributionId == MbestCPLEX)
@@ -399,12 +434,14 @@ void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, P
             LOG(logDEBUG) << "------------> Beginning Iteration " << iterStep << " <-----------\n";
             if (uncertainty_param_.distributionId == DiverseMbest)
             {
+#ifndef NO_ILP
                 if(solver_ == SolverType::CplexSolver)
                 {
                     boost::static_pointer_cast<DivMBestPerturbation>(perturbation)->push_away_from_solution(
                                 boost::static_pointer_cast<ConsTrackingInferenceModel>(inference_model)->get_model(),
                                 solutions_.back());
                 }
+#endif
 
                 boost::static_pointer_cast<DivMBestPerturbation>(perturbation)->registerOriginalGraph(&hypotheses,
                                                                                                       &tracklet2traxel_node_map_);
@@ -421,6 +458,7 @@ void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, P
                 perturbed_inference_model->fixFirstDisappearanceNodesToLabels(hypotheses, tracklet_graph_, tracklet2traxel_node_map_);
             }
 
+#ifndef NO_ILP
             if(solver_ == SolverType::CplexSolver)
             {
                 boost::static_pointer_cast<ConsTrackingInferenceModel>(perturbed_inference_model)->set_inference_params(1,
@@ -428,6 +466,7 @@ void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, P
                                                                 "",
                                                                 get_export_filename(iterStep, labels_export_file_name_));
             }
+#endif
 
             solutions_.push_back(perturbed_inference_model->infer());
             LOG(logINFO) << "conclude iteration " << iterStep;

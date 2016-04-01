@@ -27,6 +27,7 @@ namespace pgm
 {
 namespace chaingraph
 {
+#ifndef NO_ILP
 ////
 //// class chaingraph::Model
 ////
@@ -945,7 +946,7 @@ inline void ECCV12ModelBuilder::add_incoming_factor( const HypothesesGraph& hypo
     table.add_to( *m.opengm_model );
     LOG(logDEBUG) << "ECCV12ModelBuilder::add_incoming_factor(): leaving";
 }
-
+#endif
 } /* namespace chaingraph */
 } /* namespace pgm */
 } /* namespace pgmlink */
