@@ -62,12 +62,10 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
             costDeltas.push_back(costs[i] - costs[i-1]);
         dpct::FlowGraph::FullNode inf_node = inference_graph_.addNode(costDeltas, timestep_map[n] - first_timestep);
         node_reference_map_[n] = inf_node;
-        std::cout << "Adding node that can be used " << costDeltas.size() << " times" << std::endl;
         
         // appearance cost
         if(param_.with_appearance)
         {
-            std::cout << "Adding appearance arc" << std::endl;
             std::vector<float> app_costs = tr.features["appEnergy"];
             std::vector<double> appearanceCostDeltas;
             for(size_t i = 1; i < costs.size(); i++)
@@ -81,14 +79,9 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
         {
             if(lemon::countInArcs(*graph, n) == 0)
             {
-                std::cout << "intermediate appearance disabled but node with no in arcs may still be used in tracking (" << costs.size()-1 << ") times" << std::endl;
                 std::vector<double> appearanceCostDeltas(costs.size()-1, 0);
                 dpct::FlowGraph::Arc inf_app = inference_graph_.addArc(inference_graph_.getSource(), inf_node.u, appearanceCostDeltas);
                 app_reference_map_[n] = inf_app;
-            }
-            else
-            {
-                std::cout << "node had in-arcs, not adding appearance" << std::endl;
             }
         }
 
