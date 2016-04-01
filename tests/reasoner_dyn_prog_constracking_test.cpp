@@ -16,6 +16,8 @@
 #include <lemon/list_graph.h>
 #include <lemon/maps.h>
 
+#define private public
+
 #include "pgmlink/graph.h"
 #include "pgmlink/hypotheses.h"
 #include "pgmlink/features/feature.h"
@@ -23,6 +25,7 @@
 #include "pgmlink/tracking.h"
 #include "pgmlink/field_of_view.h"
 #include "pgmlink/reasoner_constracking.h"
+#include "pgmlink/energy_computer.h"
 
 using namespace pgmlink;
 using namespace std;
@@ -2241,6 +2244,28 @@ BOOST_AUTO_TEST_CASE( Tracking_Flow_MergerResolvingDivision ) {
        }
    }
    BOOST_CHECK_EQUAL(num_mergers, 2);
+}
+
+BOOST_AUTO_TEST_CASE( EnergyComputer_convexify )
+{
+    Parameter consTrackingParams = Parameter();
+    EnergyComputer energyComputer(consTrackingParams, true);
+
+    feature_array features = {10.0, 1.0, 9.0, -5.3};
+    std::cout << "Before: " << features << std::endl;
+    energyComputer.convexifyEnergies(features);
+    std::cout << "After: " << features << std::endl;
+    feature_array deltas;
+    for(size_t i = 1; i < features.size(); i++)
+    {
+        deltas.push_back(features[i] - features[i-1]);
+    }
+    std::cout << "Deltas: " << deltas << std::endl;
+
+    for(size_t i = 1; i < deltas.size(); i++)
+    {
+        BOOST_CHECK(deltas[i-1] < deltas[i]);
+    }
 }
 
 //BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector2 ) {

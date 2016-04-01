@@ -61,7 +61,7 @@ private:
 		HypothesesGraph::Node n, 
 		EnergyType t,
 		const feature_array& energies);
-	void convexifyEnergies(feature_array& energies, double eps=0.000001);
+	void convexifyEnergies(feature_array& energies, feature_type eps=0.00001);
 	double get_transition_probability(Traxel& tr1, Traxel& tr2, size_t state) const;
 	double get_transition_prob(double distance, size_t state, double alpha) const;
 
