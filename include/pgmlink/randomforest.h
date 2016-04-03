@@ -22,7 +22,7 @@ namespace RF
 {
 typedef unsigned int RF_LABEL_TYPE;
 
-typedef float feature_type; // all feature values have this type
+typedef double feature_type; // all feature values have this type
 typedef vigra::MultiArray<1, feature_type> feature_array;
 typedef vigra::MultiArrayShape<1>::type array_shape;
 

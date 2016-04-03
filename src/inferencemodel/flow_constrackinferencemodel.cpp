@@ -56,7 +56,7 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
         }
 
         // detection cost
-        std::vector<float> costs = tr.features["detEnergy"];
+        feature_array costs = tr.features["detEnergy"];
         std::vector<double> costDeltas;
         for(size_t i = 1; i < costs.size(); i++)
             costDeltas.push_back(costs[i] - costs[i-1]);
@@ -66,7 +66,7 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
         // appearance cost
         if(param_.with_appearance)
         {
-            std::vector<float> app_costs = tr.features["appEnergy"];
+            feature_array app_costs = tr.features["appEnergy"];
             std::vector<double> appearanceCostDeltas;
             for(size_t i = 1; i < costs.size(); i++)
             {
@@ -92,7 +92,7 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
         }
         if(param_.with_disappearance)
         {
-            std::vector<float> dis_costs = tr.features["disEnergy"];
+            feature_array dis_costs = tr.features["disEnergy"];
             std::vector<double> disappearanceCostDeltas;
             for(size_t i = 1; i < costs.size(); i++)
             {
@@ -132,7 +132,7 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
             tr2 = traxel_map[graph->target(a)];
         }
 
-        std::vector<float> costs = tr1.get_feature_store()->get_traxel_features(tr1, tr2)["transEnergy"];
+        feature_array costs = tr1.get_feature_store()->get_traxel_features(tr1, tr2)["transEnergy"];
         std::vector<double> costDeltas;
         for(size_t i = 1; i < costs.size(); i++)
         {
@@ -168,7 +168,7 @@ void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
                 {
                     tr = traxel_map[n];
                 }
-                std::vector<float> costs = tr.features["divEnergy"];
+                feature_array costs = tr.features["divEnergy"];
                 assert(costs.size() == 2);
                 double division_cost = costs[1] - costs[0];
                 // double perturb_div = generateRandomOffset(Division, division_cost, tr);
