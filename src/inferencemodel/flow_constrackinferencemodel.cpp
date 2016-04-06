@@ -9,7 +9,8 @@ namespace pgmlink
 {
 
 FlowConsTrackInferenceModel::FlowConsTrackInferenceModel(Parameter &param):
-    InferenceModel(param)
+    InferenceModel(param),
+    isMergerResolving_(false)
 {
 }
 
@@ -21,11 +22,18 @@ std::vector<size_t> FlowConsTrackInferenceModel::infer()
 {
     LOG(logINFO) << "Starting Tracking...";
     
-    inference_graph_.maxFlowMinCostTracking();
+    if(isMergerResolving_)
+        inference_graph_.maxFlow();
+    else
+        inference_graph_.maxFlowMinCostTracking();
 
     return std::vector<size_t>();
 }
 
+void FlowConsTrackInferenceModel::set_inference_params(bool isMergerResolving)
+{
+    isMergerResolving_ = isMergerResolving;
+}
 
 void FlowConsTrackInferenceModel::build_from_graph(const HypothesesGraph& g)
 {

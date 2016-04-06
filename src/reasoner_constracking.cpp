@@ -319,7 +319,7 @@ void ConservationTracking::twoStageInference(HypothesesGraph & hypotheses)
 #endif
 }
 
-void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, Parameter& param)
+void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses, bool isMergerResolving)
 {
     HypothesesGraph *graph = get_prepared_graph(hypotheses);
 
@@ -380,6 +380,14 @@ void ConservationTracking::perturbedInference(HypothesesGraph & hypotheses)//, P
                 constraints_file_,
                 get_export_filename(0, labels_export_file_name_));
         }
+    }
+#endif
+#ifdef WITH_DPCT
+    if(solver_ == SolverType::FlowSolver && isMergerResolving)
+    {
+        boost::static_pointer_cast<FlowConsTrackInferenceModel>(inference_model)->set_inference_params(
+            isMergerResolving
+        );
     }
 #endif
 
