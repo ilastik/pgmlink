@@ -592,7 +592,7 @@ boost::shared_ptr<std::vector< std::vector<Event> > > events(const HypothesesGra
         LOG(logDEBUG2) << "events(): processing timestep: " << t;
         ret->push_back(std::vector<Event>());
 
-        map<unsigned int, vector<unsigned int> > resolver_map;
+        std::map<unsigned int, std::vector<unsigned int> > resolver_map;
 
         // for every node: destiny
         LOG(logDEBUG2) << "events(): for every node: destiny";
@@ -927,7 +927,7 @@ std::vector< std::vector<Event> > merge_event_vectors(const std::vector<std::vec
     std::vector<std::vector<Event> >::const_iterator it2 = ev2.begin();
     for (; it1 != ev1.end(); ++it1, ++it2) {
         ret->push_back(std::vector<Event>());
-        std::back_insert_iterator<vector<Event> > push_back_inserter(*(ret->rbegin()));
+        std::back_insert_iterator<std::vector<Event> > push_back_inserter(*(ret->rbegin()));
         std::copy(it1->begin(), it1->end(), push_back_inserter);
         std::copy(it2->begin(), it2->end(), push_back_inserter);
     }
@@ -1539,9 +1539,9 @@ namespace
 template <typename T>
 struct StrToTypeConverter
 {
-    T operator()(const string& s)
+    T operator()(const std::string& s)
     {
-        stringstream ss(s);
+        std::stringstream ss(s);
         boost::archive::text_iarchive ia(ss);
         T t;
         ia & t;
