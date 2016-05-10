@@ -74,7 +74,10 @@ EventVectorVectorVector StructuredLearningTracking::operator()(
     double cplex_timeout,
     TimestepIdCoordinateMapPtr coordinates,
     boost::python::object transition_classifier)
-{}
+{
+	assert(false); // FIXME: missing return - added a dummy return to make it compile
+	return EventVectorVectorVector();
+}
 
 namespace
 {
