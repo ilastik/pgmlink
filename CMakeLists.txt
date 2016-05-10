@@ -49,7 +49,7 @@ find_package( Cplex )
 find_package( GUROBI )
 find_package( VIGRA REQUIRED )
 find_package( Lemon REQUIRED )
-find_package( Boost REQUIRED COMPONENTS serialization program_options python)
+find_package( Boost REQUIRED COMPONENTS serialization program_options python date_time)
 message(STATUS "  found: ${Boost_LIBRARIES}")
 find_package( Armadillo REQUIRED )
 find_package( Mlpack REQUIRED )
@@ -204,27 +204,10 @@ if(NOT WIN32)
   set(USE_COMPILER_HIDDEN_VISIBILITY OFF)
 endif()
 
-if(WIN32)
-  add_compiler_export_flags() # enable dynamic symbol export/import for shared libs (on Windows)
-endif()
-
 file(GLOB_RECURSE LIB_SOURCES src/*.cpp)
 file(GLOB_RECURSE HEADERS include/*.h*)
 
 add_library(pgmlink SHARED ${LIB_SOURCES} ${HEADERS})
-
-file( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/pgmlink )
-if(WIN32)
-  generate_export_header( pgmlink ) # generates pgmlink_export.h
-  file( RENAME ${CMAKE_CURRENT_BINARY_DIR}/pgmlink_export.h  ${CMAKE_CURRENT_BINARY_DIR}/include/pgmlink/pgmlink_export.h )
-else(WIN32)
-  configure_file(${CMAKE_SOURCE_DIR}/include/pgmlink/pgmlink_export.h.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/include/pgmlink/pgmlink_export.h
-    COPYONLY)
-endif(WIN32)
-
-
-include_directories( ${CMAKE_CURRENT_BINARY_DIR}/include )
 
 target_link_libraries(pgmlink ${PYTHON_LIBRARY} ${ANN_LIBRARIES} ${Boost_LIBRARIES} ${OPTIMIZER_LIBRARIES} ${VIGRA_IMPEX_LIBRARY} ${LEMON_LIBRARIES} ${HDF5_LIBRARIES} ${Mlpack_LIBRARIES} ${Armadillo_LIBRARIES} ${DPCT_LIBRARIES})
 
