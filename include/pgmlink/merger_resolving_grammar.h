@@ -10,7 +10,7 @@
 
 
 // pgmlink headers
-#include "pgmlink/pgmlink_export.h"
+#include "pgmlink_export.h"
 
 namespace pgmlink
 {

@@ -12,7 +12,7 @@ namespace pgmlink
 
 class HypothesesGraph;
 
-class Reasoner
+class PGMLINK_EXPORT Reasoner
 {
 public:
     /**

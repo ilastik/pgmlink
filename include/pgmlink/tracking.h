@@ -15,12 +15,12 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 
-#include "pgmlink/event.h"
-#include "pgmlink/pgmlink_export.h"
-#include "pgmlink/traxels.h"
-#include "pgmlink/field_of_view.h"
-#include "pgmlink/merger_resolving.h"
-#include "pgmlink/conservationtracking_parameter.h"
+#include "event.h"
+#include "pgmlink_export.h"
+#include "traxels.h"
+#include "field_of_view.h"
+#include "merger_resolving.h"
+#include "conservationtracking_parameter.h"
 #include <boost/python.hpp>
 
 namespace pgmlink

@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include <stdint.h>
 
-#include "pgmlink/pgmlink_export.h"
+#include "pgmlink_export.h"
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 

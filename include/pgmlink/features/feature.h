@@ -9,10 +9,10 @@
 
 #include <cmath>
 #include <stdexcept>
-#include "pgmlink/log.h"
-#include "pgmlink/traxels.h"
-#include "pgmlink/field_of_view.h"
-#include "pgmlink/pgmlink_export.h"
+#include "../log.h"
+#include "../traxels.h"
+#include "../field_of_view.h"
+#include "../pgmlink_export.h"
 
 namespace pgmlink
 {

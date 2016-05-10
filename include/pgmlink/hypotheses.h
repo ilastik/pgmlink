@@ -18,11 +18,11 @@
 #include <lemon/list_graph.h>
 #include <lemon/maps.h>
 
-#include "pgmlink/event.h"
-#include "pgmlink/graph.h"
-#include "pgmlink/log.h"
-#include "pgmlink/pgmlink_export.h"
-#include "pgmlink/traxels.h"
+#include "event.h"
+#include "graph.h"
+#include "log.h"
+#include "pgmlink_export.h"
+#include "traxels.h"
 
 namespace pgmlink
 {
@@ -463,12 +463,12 @@ public:
     PGMLINK_EXPORT void init_labeling_maps();
     PGMLINK_EXPORT void write_hypotheses_graph_state(const std::string out_fn);
 
-    static void copy(HypothesesGraph& src, HypothesesGraph& dest);
-    static void copy_subgraph(HypothesesGraph &src, HypothesesGraph &dest,
+    static PGMLINK_EXPORT void copy(HypothesesGraph& src, HypothesesGraph& dest);
+    static PGMLINK_EXPORT void copy_subgraph(HypothesesGraph &src, HypothesesGraph &dest,
                               HypothesesGraph::base_graph::NodeMap<bool> &selected_nodes,
                               HypothesesGraph::base_graph::ArcMap<bool> &selected_arcs);
 
-    void save_to_graphviz_dot_file(const std::string& filename,
+    void PGMLINK_EXPORT save_to_graphviz_dot_file(const std::string& filename,
                                    bool with_tracklets,
                                    bool with_divisions,
                                    boost::function<double (const Traxel&, const size_t)> detection,

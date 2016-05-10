@@ -22,9 +22,9 @@
 #include <boost/serialization/shared_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "pgmlink/pgmlink_export.h"
-#include "pgmlink/log.h"
-#include "pgmlink/features/featurestore.h"
+#include "pgmlink_export.h"
+#include "log.h"
+#include "features/featurestore.h"
 
 namespace pgmlink
 {
@@ -214,32 +214,32 @@ public:
     class FeatureMapAccessor
     {
     public:
-        FeatureMapAccessor() {}
+        PGMLINK_EXPORT FeatureMapAccessor() {}
 
         /// constructor
-        FeatureMapAccessor(Traxel* parent):
+        PGMLINK_EXPORT FeatureMapAccessor(Traxel* parent):
             parent_(parent)
         {}
 
-        FeatureMapAccessor(Traxel* parent, const FeatureMap& fm);
+        PGMLINK_EXPORT FeatureMapAccessor(Traxel* parent, const FeatureMap& fm);
 
-        const size_t size() const;
+        PGMLINK_EXPORT const size_t size() const;
 
         // non-const access and iterators
-        feature_array& operator[](const std::string& feature_name);
-        FeatureMap::iterator find(const std::string& feature_name);
-        FeatureMap::iterator begin();
-        FeatureMap::iterator end();
+        PGMLINK_EXPORT feature_array& operator[](const std::string& feature_name);
+        PGMLINK_EXPORT FeatureMap::iterator find(const std::string& feature_name);
+        PGMLINK_EXPORT FeatureMap::iterator begin();
+        PGMLINK_EXPORT FeatureMap::iterator end();
 
         // const access and iterators
-        feature_array operator[](const std::string& feature_name) const;
-        FeatureMap::const_iterator find(const std::string& feature_name) const;
-        FeatureMap::const_iterator begin() const;
-        FeatureMap::const_iterator end() const;
-        const FeatureMap& get() const;
+        PGMLINK_EXPORT feature_array operator[](const std::string& feature_name) const;
+        PGMLINK_EXPORT FeatureMap::const_iterator find(const std::string& feature_name) const;
+        PGMLINK_EXPORT FeatureMap::const_iterator begin() const;
+        PGMLINK_EXPORT FeatureMap::const_iterator end() const;
+        PGMLINK_EXPORT const FeatureMap& get() const;
 
         /// This is invoked by a traxel that is added to a feature store
-        void feature_store_set_notification();
+        PGMLINK_EXPORT void feature_store_set_notification();
 
     private:
         Traxel* parent_;
@@ -254,7 +254,7 @@ public:
     FeatureMapAccessor features;
 
     // method to set the used feature store from outside
-    void set_feature_store(boost::shared_ptr<FeatureStore> fs);
+    PGMLINK_EXPORT void set_feature_store(boost::shared_ptr<FeatureStore> fs);
     boost::shared_ptr<FeatureStore> get_feature_store() { return featurestore_; }
 
     // position according to locator
@@ -270,7 +270,7 @@ public:
     PGMLINK_EXPORT double distance_to(const Traxel& other) const;
     PGMLINK_EXPORT double distance_to_corr(const Traxel& other) const;
     PGMLINK_EXPORT double angle(const Traxel& leg1, const Traxel& leg2) const;
-    friend std::ostream& operator<< (std::ostream &out, const Traxel &t);
+    friend PGMLINK_EXPORT std::ostream& operator<< (std::ostream &out, const Traxel &t);
 
 
 private:

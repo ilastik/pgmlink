@@ -23,7 +23,7 @@ namespace pgmlink
 
 class Traxel;
 
-class ConservationTracking : public Reasoner
+class PGMLINK_EXPORT ConservationTracking : public Reasoner
 {
 public:
     typedef std::vector<pgm::OpengmModelDeprecated::ogmInference::LabelType> IlpSolution;

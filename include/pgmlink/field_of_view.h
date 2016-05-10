@@ -8,7 +8,7 @@
 #define FIELD_OF_VIEW_H
 
 #include <vector>
-#include "pgmlink/pgmlink_export.h"
+#include "pgmlink_export.h"
 #include <boost/serialization/vector.hpp>
 
 namespace pgmlink
