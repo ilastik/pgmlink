@@ -1271,10 +1271,10 @@ BOOST_AUTO_TEST_CASE( CovarianceCalculator_test )
 
     LOG(logINFO) << "  " << inv_cov(0, 0) << "\t" << inv_cov(1, 0);
     LOG(logINFO) << "  " << inv_cov(0, 1) << "\t" << inv_cov(1, 1);
-    BOOST_CHECK(( 1.89 < inv_cov(0, 0)) and (inv_cov(0, 0) <  1.90));
-    BOOST_CHECK((-2.13 < inv_cov(1, 0)) and (inv_cov(1, 0) < -2.12));
-    BOOST_CHECK((-2.13 < inv_cov(0, 1)) and (inv_cov(0, 1) < -2.12));
-    BOOST_CHECK(( 2.71 < inv_cov(1, 1)) and (inv_cov(1, 1) <  2.72));
+    BOOST_CHECK(( 1.89 < inv_cov(0, 0)) && (inv_cov(0, 0) <  1.90));
+    BOOST_CHECK((-2.13 < inv_cov(1, 0)) && (inv_cov(1, 0) < -2.12));
+    BOOST_CHECK((-2.13 < inv_cov(0, 1)) && (inv_cov(0, 1) < -2.12));
+    BOOST_CHECK(( 2.71 < inv_cov(1, 1)) && (inv_cov(1, 1) <  2.72));
 }
 
 BOOST_AUTO_TEST_CASE( SquaredMahalanobisCalculator_test )
