@@ -355,7 +355,7 @@ PGMLINK_EXPORT void set_feature_store(TraxelStore&, boost::shared_ptr<FeatureSto
 template<typename InputIt>
 TraxelStore& add(TraxelStore&, InputIt begin, InputIt end);
 
-std::vector<std::vector<Traxel> > nested_vec_from(const TraxelStore&);
+PGMLINK_EXPORT std::vector<std::vector<Traxel> > nested_vec_from(const TraxelStore&);
 
 /**
  * Filter by field of fiew.
