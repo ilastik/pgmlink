@@ -14,27 +14,27 @@ using namespace pgmlink;
 using namespace pgmlink::features;
 
 // using namespace boost;
-typedef typename
+typedef
 property_map<node_timestep, HypothesesGraph::base_graph>::type
 node_timestep_type;
-typedef typename
+typedef
 property_map<node_active_count, HypothesesGraph::base_graph>::type
 node_active_map_type;
-typedef typename
+typedef
 property_map<arc_active_count, HypothesesGraph::base_graph>::type
 arc_active_map_type;
-typedef typename
+typedef
 property_map<division_active_count, HypothesesGraph::base_graph>::type
 div_active_map_type;
-typedef typename
+typedef
 property_map<node_traxel, HypothesesGraph::base_graph>::type
 node_traxel_type;
-typedef typename
+typedef
 property_map<node_tracklet, HypothesesGraph::base_graph>::type
 node_tracklet_type;
-typedef typename HypothesesGraph::NodeIt NodeIt;
-typedef typename HypothesesGraph::InArcIt InArcIt;
-typedef typename HypothesesGraph::OutArcIt OutArcIt;
+typedef HypothesesGraph::NodeIt NodeIt;
+typedef HypothesesGraph::InArcIt InArcIt;
+typedef HypothesesGraph::OutArcIt OutArcIt;
 
 void get_graph(HypothesesGraph& graph)
 {
