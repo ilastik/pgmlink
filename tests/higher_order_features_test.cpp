@@ -1300,12 +1300,12 @@ BOOST_AUTO_TEST_CASE( SquaredMahalanobisCalculator_test )
     BOOST_CHECK_EQUAL(matrix.shape(0), 7);
     BOOST_CHECK_EQUAL(matrix.shape(1), 1);
     BOOST_CHECK(( 0.7153 < matrix(0, 0)) and (matrix(0, 0) <  0.7154));
-    BOOST_CHECK(( 2.1810 < matrix(1, 0)) and (matrix(1, 0) <  2.1811));
-    BOOST_CHECK(( 2.9443 < matrix(2, 0)) and (matrix(2, 0) <  2.9444));
-    BOOST_CHECK(( 0.1657 < matrix(3, 0)) and (matrix(3, 0) <  0.1658));
-    BOOST_CHECK(( 1.1733 < matrix(4, 0)) and (matrix(4, 0) <  1.1734));
-    BOOST_CHECK(( 0.3489 < matrix(5, 0)) and (matrix(5, 0) <  0.3490));
-    BOOST_CHECK(( 4.4711 < matrix(6, 0)) and (matrix(6, 0) <  4.4712));
+    BOOST_CHECK(( 2.1810 < matrix(1, 0)) && (matrix(1, 0) <  2.1811));
+    BOOST_CHECK(( 2.9443 < matrix(2, 0)) && (matrix(2, 0) <  2.9444));
+    BOOST_CHECK(( 0.1657 < matrix(3, 0)) && (matrix(3, 0) <  0.1658));
+    BOOST_CHECK(( 1.1733 < matrix(4, 0)) && (matrix(4, 0) <  1.1734));
+    BOOST_CHECK(( 0.3489 < matrix(5, 0)) && (matrix(5, 0) <  0.3490));
+    BOOST_CHECK(( 4.4711 < matrix(6, 0)) && (matrix(6, 0) <  4.4712));
 }
 
 BOOST_AUTO_TEST_CASE( MVNOutlierCalculator_calculate )
