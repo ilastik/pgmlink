@@ -26,6 +26,7 @@
 #include "pgmlink/pgm.h"
 #include "pgmlink/hypotheses.h"
 #include "pgmlink/features/feature.h"
+#include "pgmlink_export.h"
 
 // Both boost and lemon define the same template ignore_unused_variable_warning<T>.
 // Using boost templates with lemon types triggers ADL and the (MSVC++) compiler can't
@@ -131,7 +132,7 @@ private:
 class ModelBuilder
 {
 public:
-    ModelBuilder(boost::function<double (const Traxel&)> appearance = ConstantFeature(1000),
+    PGMLINK_EXPORT ModelBuilder(boost::function<double (const Traxel&)> appearance = ConstantFeature(1000),
                  boost::function<double (const Traxel&)> disappearance = ConstantFeature(1000),
                  boost::function<double (const Traxel&, const Traxel&)> move = SquaredDistance(),
                  double opportunity_cost = 0,
@@ -145,43 +146,43 @@ public:
           forbidden_cost_(forbidden_cost),
           cplex_timeout_(1e+75) {}
 
-    virtual chaingraph::ModelBuilder* clone() const = 0;
-    virtual ~ModelBuilder() {}
+    virtual PGMLINK_EXPORT chaingraph::ModelBuilder* clone() const = 0;
+    virtual PGMLINK_EXPORT ~ModelBuilder() {}
 
     // mandatory parameters
-    function<double (const Traxel&)> appearance() const
+    PGMLINK_EXPORT function<double (const Traxel&)> appearance() const
     {
         return appearance_;
     }
-    ModelBuilder& appearance( function<double (const Traxel&)> );
+    PGMLINK_EXPORT ModelBuilder& appearance( function<double (const Traxel&)> );
 
-    function<double (const Traxel&)> disappearance() const
+    PGMLINK_EXPORT function<double (const Traxel&)> disappearance() const
     {
         return disappearance_;
     }
-    ModelBuilder& disappearance( function<double (const Traxel&)> );
+    PGMLINK_EXPORT ModelBuilder& disappearance( function<double (const Traxel&)> );
 
-    function<double (const Traxel&, const Traxel&)> move() const
+    PGMLINK_EXPORT function<double (const Traxel&, const Traxel&)> move() const
     {
         return move_;
     }
-    ModelBuilder& move( function<double (const Traxel&, const Traxel&)> );
+    PGMLINK_EXPORT ModelBuilder& move( function<double (const Traxel&, const Traxel&)> );
 
-    double opportunity_cost() const
+    PGMLINK_EXPORT double opportunity_cost() const
     {
         return opportunity_cost_;
     }
-    ModelBuilder& opportunity_cost( double c )
+    PGMLINK_EXPORT ModelBuilder& opportunity_cost( double c )
     {
         opportunity_cost_ = c;
         return *this;
     }
 
-    double forbidden_cost() const
+    PGMLINK_EXPORT double forbidden_cost() const
     {
         return forbidden_cost_;
     }
-    ModelBuilder& forbidden_cost( double c )
+    PGMLINK_EXPORT ModelBuilder& forbidden_cost( double c )
     {
         forbidden_cost_ = c;
         return *this;
@@ -189,43 +190,43 @@ public:
 
     //// optional parameters
     // detection vars
-    ModelBuilder& with_detection_vars( function<double (const Traxel&)> detection = ConstantFeature(10),
+    PGMLINK_EXPORT ModelBuilder& with_detection_vars( function<double (const Traxel&)> detection = ConstantFeature(10),
                                        function<double (const Traxel&)> non_detection = ConstantFeature(200));
-    ModelBuilder& without_detection_vars();
-    bool has_detection_vars() const
+    PGMLINK_EXPORT ModelBuilder& without_detection_vars();
+    PGMLINK_EXPORT bool has_detection_vars() const
     {
         return with_detection_vars_;
     }
-    function<double (const Traxel&)> detection() const
+    PGMLINK_EXPORT function<double (const Traxel&)> detection() const
     {
         return detection_;
     }
-    function<double (const Traxel&)> non_detection() const
+    PGMLINK_EXPORT function<double (const Traxel&)> non_detection() const
     {
         return non_detection_;
     }
 
     // divisions
-    ModelBuilder& with_divisions( function<double (const Traxel&, const Traxel&, const Traxel&)> div = KasterDivision(10) );
-    ModelBuilder& without_divisions();
-    bool has_divisions() const
+    PGMLINK_EXPORT ModelBuilder& with_divisions( function<double (const Traxel&, const Traxel&, const Traxel&)> div = KasterDivision(10) );
+    PGMLINK_EXPORT ModelBuilder& without_divisions();
+    PGMLINK_EXPORT bool has_divisions() const
     {
         return with_divisions_;
     }
-    function<double (const Traxel&, const Traxel&, const Traxel&)> division() const
+    PGMLINK_EXPORT function<double (const Traxel&, const Traxel&, const Traxel&)> division() const
     {
         return division_;
     }
 
     // build
-    virtual chaingraph::Model* build( const HypothesesGraph& ) const = 0;
+    PGMLINK_EXPORT virtual chaingraph::Model* build( const HypothesesGraph& ) const = 0;
 
     // refinement
-    void add_hard_constraints( const Model&, const HypothesesGraph&, OpengmLPCplex& );
-    void fix_detections( const Model&, const HypothesesGraph&, OpengmLPCplex& );
+    PGMLINK_EXPORT void add_hard_constraints( const Model&, const HypothesesGraph&, OpengmLPCplex& );
+    PGMLINK_EXPORT void fix_detections( const Model&, const HypothesesGraph&, OpengmLPCplex& );
 
     // cplex parameters
-    void set_cplex_timeout( double seconds );
+    PGMLINK_EXPORT void set_cplex_timeout( double seconds );
 
 
 protected:
@@ -260,16 +261,16 @@ private:
 class TrainableModelBuilder : public chaingraph::ModelBuilder
 {
 public:
-    TrainableModelBuilder(boost::function<double (const Traxel&)> appearance = ConstantFeature(1000),
+    PGMLINK_EXPORT TrainableModelBuilder(boost::function<double (const Traxel&)> appearance = ConstantFeature(1000),
                           boost::function<double (const Traxel&)> disappearance = ConstantFeature(1000),
                           boost::function<double (const Traxel&, const Traxel&)> move = SquaredDistance(),
                           double opportunity_cost = 0,
                           double forbidden_cost = 100000)
         : chaingraph::ModelBuilder(appearance, disappearance, move, opportunity_cost, forbidden_cost) {}
-    virtual TrainableModelBuilder* clone() const;
+    virtual PGMLINK_EXPORT TrainableModelBuilder* clone() const;
 
     // build
-    virtual chaingraph::Model* build( const HypothesesGraph& ) const;
+    virtual PGMLINK_EXPORT chaingraph::Model* build( const HypothesesGraph& ) const;
 
 private:
     void add_detection_factor( const HypothesesGraph&, Model&, const HypothesesGraph::Node& ) const;
@@ -282,16 +283,16 @@ private:
 class ECCV12ModelBuilder : public chaingraph::ModelBuilder
 {
 public:
-    ECCV12ModelBuilder(boost::function<double (const Traxel&)> appearance = ConstantFeature(1000),
+    PGMLINK_EXPORT ECCV12ModelBuilder(boost::function<double (const Traxel&)> appearance = ConstantFeature(1000),
                        boost::function<double (const Traxel&)> disappearance = ConstantFeature(1000),
                        boost::function<double (const Traxel&, const Traxel&)> move = SquaredDistance(),
                        double opportunity_cost = 0,
                        double forbidden_cost = 100000)
         : chaingraph::ModelBuilder(appearance, disappearance, move, opportunity_cost, forbidden_cost) {}
-    virtual ECCV12ModelBuilder* clone() const;
+    virtual PGMLINK_EXPORT ECCV12ModelBuilder* clone() const;
 
     // build
-    virtual chaingraph::Model* build( const HypothesesGraph& ) const;
+    virtual PGMLINK_EXPORT chaingraph::Model* build( const HypothesesGraph& ) const;
 
 private:
     void add_detection_factor( const HypothesesGraph&, Model&, const HypothesesGraph::Node& ) const;
