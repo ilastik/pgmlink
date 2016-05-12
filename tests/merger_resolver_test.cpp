@@ -341,7 +341,6 @@ BOOST_AUTO_TEST_CASE( MergerResolver_resolve_mergers_3 )
     {
         for (vector<Event>::iterator e_it = t_it->begin(); e_it != t_it->end(); ++ e_it)
         {
-            cout << *e_it << "\n";
             if (e_it->type == Event::ResolvedTo)
             {
                 ++resolve_count;
