@@ -7,6 +7,7 @@
 
 // boost
 #include <boost/shared_ptr.hpp>
+#include "pgmlink/pgmlink_export.h"
 
 namespace pgmlink
 {
@@ -26,7 +27,7 @@ namespace helpers
 class CalculatorLookup
 {
 public:
-    static boost::shared_ptr<FeatureCalculator> extract_calculator(const std::string& name);
+    static PGMLINK_EXPORT boost::shared_ptr<FeatureCalculator> extract_calculator(const std::string& name);
 
 private:
     static const std::map<std::string, boost::shared_ptr<FeatureCalculator> > calculator_map_;
