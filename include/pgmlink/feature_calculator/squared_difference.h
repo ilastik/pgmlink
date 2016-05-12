@@ -23,9 +23,9 @@ class SquaredDifferenceCalculator : public FeatureCalculator
 public:
     static const std::string name_;
 
-    virtual ~SquaredDifferenceCalculator();
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~SquaredDifferenceCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 };
 
 

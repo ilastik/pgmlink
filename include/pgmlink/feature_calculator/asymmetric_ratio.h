@@ -22,10 +22,10 @@ class AsymmetricRatioCalculator : public FeatureCalculator
 public:
     static const std::string name_;
 
-    virtual ~AsymmetricRatioCalculator();
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2) const;
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2, const feature_array& f3) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~AsymmetricRatioCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2, const feature_array& f3) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 };
 
 
