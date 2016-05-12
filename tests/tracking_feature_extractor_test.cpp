@@ -112,6 +112,7 @@ BOOST_AUTO_TEST_CASE( TrackingFeatureExtractor_SimpleMove )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(
                 ts,
@@ -126,7 +127,7 @@ BOOST_AUTO_TEST_CASE( TrackingFeatureExtractor_SimpleMove )
                 false, //with_merger_resolution
                 3, //n_dim
                 5, //transition_parameter
-                {},
+                initList,
                 0, //border_width for app/disapp costs
                 true, //with_constraints
                 uparam, // uncertainty parameters
@@ -331,6 +332,7 @@ BOOST_AUTO_TEST_CASE(TrackFeatureExtractor_CplexMBest)
                             );
 
     Parameter consTrackingParams = Parameter();
+	std::vector<int> initList;
 
     EventVectorVectorVector events = tracking(ts,
                                      consTrackingParams,
@@ -344,7 +346,7 @@ BOOST_AUTO_TEST_CASE(TrackFeatureExtractor_CplexMBest)
                                      false, //with_merger_resolution
                                      3, //n_dim
                                      5, //transition_parameter
-                                     {},
+                                     initList,
                                      0, //border_width for app/disapp costs
                                      true, //with_constraints
                                      uparam, // uncertainty parameters
@@ -524,6 +526,7 @@ BOOST_AUTO_TEST_CASE(DivisionFeatureExtractor_CplexMBest)
                             );
 
     Parameter consTrackingParams = Parameter();
+	std::vector<int> initList;
 
     EventVectorVectorVector events = tracking(ts,
                                      consTrackingParams,
@@ -537,7 +540,7 @@ BOOST_AUTO_TEST_CASE(DivisionFeatureExtractor_CplexMBest)
                                      false, //with_merger_resolution
                                      3, //n_dim
                                      5, //transition_parameter
-                                     {},
+                                     initList,
                                      0, //border_width for app/disapp costs
                                      true, //with_constraints
                                      uparam, // uncertainty parameters
@@ -713,6 +716,7 @@ BOOST_AUTO_TEST_CASE(TrackingFeatureExtractor_CplexMBest)
                             );
 
     Parameter consTrackingParams = Parameter();
+	std::vector<int> initList;
 
     EventVectorVectorVector events = tracking(ts,
                                      consTrackingParams,
@@ -726,7 +730,7 @@ BOOST_AUTO_TEST_CASE(TrackingFeatureExtractor_CplexMBest)
                                      false, //with_merger_resolution
                                      3, //n_dim
                                      5, //transition_parameter
-                                     {},
+                                     initList,
                                      0, //border_width for app/disapp costs
                                      true, //with_constraints
                                      uparam, // uncertainty parameters
@@ -924,6 +928,7 @@ BOOST_AUTO_TEST_CASE(TrackingFeatureExtractor_FeatureFile)
                             );
 
     Parameter consTrackingParams = Parameter();
+	std::vector<int> initList;
 
     EventVectorVectorVector events = tracking(ts,
                                      consTrackingParams,
@@ -937,7 +942,7 @@ BOOST_AUTO_TEST_CASE(TrackingFeatureExtractor_FeatureFile)
                                      false, //with_merger_resolution
                                      3, //n_dim
                                      5, //transition_parameter
-                                     {},
+                                     initList,
                                      0, //border_width for app/disapp costs
                                      true, //with_constraints
                                      uparam, // uncertainty parameters
@@ -1153,6 +1158,7 @@ BOOST_AUTO_TEST_CASE(TrackingFeatureExtractor_LabelExport)
                             );
 
     Parameter consTrackingParams = Parameter();
+	std::vector<int> initList;
 
     EventVectorVectorVector events = tracking(ts,
                                      consTrackingParams,
@@ -1166,7 +1172,7 @@ BOOST_AUTO_TEST_CASE(TrackingFeatureExtractor_LabelExport)
                                      false, //with_merger_resolution
                                      3, //n_dim
                                      5, //transition_parameter
-                                     {},
+                                     initList,
                                      0, //border_width for app/disapp costs
                                      true, //with_constraints
                                      uparam, // uncertainty parameters
