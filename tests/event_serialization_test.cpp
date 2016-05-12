@@ -111,6 +111,7 @@ BOOST_AUTO_TEST_CASE( Event_Serialization )
     std::cout << "run conservation tracking" << std::endl;
 
     Parameter consTrackingParams = Parameter();
+	std::vector<int> initList;
 
     EventVectorVectorVector events = tracking(
                 ts,
@@ -125,7 +126,7 @@ BOOST_AUTO_TEST_CASE( Event_Serialization )
                 false, //with_merger_resolution
                 3, //n_dim
                 5, //transition_parameter
-                {},
+                initList,
                 0, //border_width for app/disapp costs
                 true, // with_constraints
                 UncertaintyParameter(),
