@@ -238,7 +238,10 @@ else(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 # tools
-add_subdirectory(tools/)
+set(WITH_TOOLS "False" CACHE BOOL "Build tools.")
+if(WITH_TOOLS)
+	add_subdirectory(tools/)
+endif()
 
 # Tests
 if(WITH_TESTS)

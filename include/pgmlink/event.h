@@ -74,7 +74,7 @@ public:
     PGMLINK_EXPORT bool operator!=(const Event& other) const;
     PGMLINK_EXPORT bool operator<(const Event& other) const;
     PGMLINK_EXPORT bool operator>(const Event& other) const;
-    friend std::ostream& operator<< (std::ostream &out, const Event &e);
+    friend PGMLINK_EXPORT std::ostream& operator<< (std::ostream &out, const Event &e);
 
 private:
     uint32_t n_features_;
