@@ -11,6 +11,7 @@
 
 #include "pgmlink/pgm.h"
 #include "pgmlink/constraint_function.hxx"
+#include "pgmlink/pgmlink_export.h"
 
 namespace pgmlink
 {
@@ -36,7 +37,7 @@ public:
     typedef ConstraintPoolOpengmModel::IndexType IndexType;
 
 public:
-    ConstraintPool(ValueType big_m = 200.0,
+    PGMLINK_EXPORT ConstraintPool(ValueType big_m = 200.0,
                    bool with_divisions = true,
                    bool with_appearance = true,
                    bool with_disappearance = true,
@@ -316,28 +317,28 @@ void ConstraintPool::add_constraint(const CONSTRAINT_TYPE&)
 }
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::IncomingConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::IncomingConstraint& constraint);
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::OutgoingConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::OutgoingConstraint& constraint);
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::DetectionConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::DetectionConstraint& constraint);
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueConstraint& constraint);
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::IncomingLinearConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::IncomingLinearConstraint& constraint);
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::OutgoingLinearConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::OutgoingLinearConstraint& constraint);
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::DetectionLinearConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::DetectionLinearConstraint& constraint);
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueLinearConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueLinearConstraint& constraint);
 
 //------------------------------------------------------------------------
 template<class GM, class INF>
@@ -741,29 +742,29 @@ void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>&,
 }
 
 template<>
-void ConstraintPool::constraint_indices<ConstraintPool::IncomingConstraint>(std::vector<ConstraintPool::IndexType>& indices, const IncomingConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::constraint_indices<ConstraintPool::IncomingConstraint>(std::vector<ConstraintPool::IndexType>& indices, const IncomingConstraint& constraint);
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const OutgoingConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const OutgoingConstraint& constraint);
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const DetectionConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const DetectionConstraint& constraint);
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const FixNodeValueConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const FixNodeValueConstraint& constraint);
 
 // Linear
 template<>
-void ConstraintPool::constraint_indices<ConstraintPool::IncomingLinearConstraint>(std::vector<ConstraintPool::IndexType>& indices, const IncomingLinearConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::constraint_indices<ConstraintPool::IncomingLinearConstraint>(std::vector<ConstraintPool::IndexType>& indices, const IncomingLinearConstraint& constraint);
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const OutgoingLinearConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const OutgoingLinearConstraint& constraint);
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const DetectionLinearConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const DetectionLinearConstraint& constraint);
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const FixNodeValueLinearConstraint& constraint);
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const FixNodeValueLinearConstraint& constraint);
 
 //------------------------------------------------------------------------
 template<class CONSTRAINT_TYPE>
@@ -791,35 +792,35 @@ void ConstraintPool::configure_function(FUNCTION_TYPE* func, CONSTRAINT_TYPE con
 }
 
 template<>
-void ConstraintPool::configure_function(IncomingConstraintFunction<ValueType, IndexType, LabelType>*, ConstraintPool::IncomingConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(IncomingConstraintFunction<ValueType, IndexType, LabelType>*, ConstraintPool::IncomingConstraint);
 
 template<>
-void ConstraintPool::configure_function(OutgoingNoDivConstraintFunction<ValueType, IndexType, LabelType>*, ConstraintPool::OutgoingConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(OutgoingNoDivConstraintFunction<ValueType, IndexType, LabelType>*, ConstraintPool::OutgoingConstraint);
 
 template<>
-void ConstraintPool::configure_function(OutgoingConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::OutgoingConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(OutgoingConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::OutgoingConstraint);
 
 template<>
-void ConstraintPool::configure_function(DetectionConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::DetectionConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(DetectionConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::DetectionConstraint);
 
 template<>
-void ConstraintPool::configure_function(FixNodeValueConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::FixNodeValueConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(FixNodeValueConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::FixNodeValueConstraint);
 
 // Linear
 template<>
-void ConstraintPool::configure_function(IncomingLinearConstraintFunction<ValueType, IndexType, LabelType>*, ConstraintPool::IncomingLinearConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(IncomingLinearConstraintFunction<ValueType, IndexType, LabelType>*, ConstraintPool::IncomingLinearConstraint);
 
 template<>
-void ConstraintPool::configure_function(OutgoingNoDivLinearConstraintFunction<ValueType, IndexType, LabelType>*, ConstraintPool::OutgoingLinearConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(OutgoingNoDivLinearConstraintFunction<ValueType, IndexType, LabelType>*, ConstraintPool::OutgoingLinearConstraint);
 
 template<>
-void ConstraintPool::configure_function(OutgoingLinearConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::OutgoingLinearConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(OutgoingLinearConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::OutgoingLinearConstraint);
 
 template<>
-void ConstraintPool::configure_function(DetectionLinearConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::DetectionLinearConstraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(DetectionLinearConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::DetectionLinearConstraint);
 
 template<>
-void ConstraintPool::configure_function(FixNodeValueLinearConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::FixNodeValueLinearConstraint constraint);
+PGMLINK_EXPORT void ConstraintPool::configure_function(FixNodeValueLinearConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::FixNodeValueLinearConstraint constraint);
 
 //------------------------------------------------------------------------
 // Serialization
