@@ -12,6 +12,7 @@
 #include "pgmlink/pgm.h"
 #include "pgmlink/inferencemodel/constraint_pool.hxx"
 #include "pgmlink/inferencemodel/inferencemodel.h"
+#include "../pgmlink_export.h"
 
 namespace pgmlink
 {
@@ -38,50 +39,50 @@ public:
 
 public: // API
     // constructor
-    ConsTrackingInferenceModel(Parameter& param);
+    PGMLINK_EXPORT ConsTrackingInferenceModel(Parameter& param);
 
-    virtual void build_from_graph(const HypothesesGraph&);
+    virtual PGMLINK_EXPORT void build_from_graph(const HypothesesGraph&);
 
-    virtual void fixFirstDisappearanceNodesToLabels(
+    virtual PGMLINK_EXPORT void fixFirstDisappearanceNodesToLabels(
             const HypothesesGraph& g,
             const HypothesesGraph &tracklet_graph,
             std::map<HypothesesGraph::Node, std::vector<HypothesesGraph::Node> > &traxel2tracklet_map);
-    void fixNodesToLabels( HypothesesGraph& hypothesesGraph );
+    PGMLINK_EXPORT void fixNodesToLabels( HypothesesGraph& hypothesesGraph );
 
-    GraphicalModelType& get_model();
+    PGMLINK_EXPORT GraphicalModelType& get_model();
 
-    virtual IlpSolution infer();
-    void set_inference_params(size_t numberOfSolutions,
+    virtual PGMLINK_EXPORT IlpSolution infer();
+    PGMLINK_EXPORT void set_inference_params(size_t numberOfSolutions,
                               const std::string& feature_filename,
                               const std::string& constraints_filename,
                               const std::string& ground_truth_filename);
 
-    IlpSolution extractSolution(size_t k, const std::string& ground_truth_filename);
-    void set_starting_point(const IlpSolution& solution);
+    PGMLINK_EXPORT IlpSolution extractSolution(size_t k, const std::string& ground_truth_filename);
+    PGMLINK_EXPORT void set_starting_point(const IlpSolution& solution);
 
     // write or extract results to hypotheses graph
-    virtual void conclude(HypothesesGraph &g,
+    virtual PGMLINK_EXPORT void conclude(HypothesesGraph &g,
                           HypothesesGraph &tracklet_graph,
                           std::map<HypothesesGraph::Node, std::vector<HypothesesGraph::Node> > &tracklet2traxel_node_map,
                           IlpSolution &solution);
 
-    IlpSolution extract_solution_from_graph(const HypothesesGraph &g,
+    PGMLINK_EXPORT IlpSolution extract_solution_from_graph(const HypothesesGraph &g,
                           const HypothesesGraph &tracklet_graph,
                           const std::map<HypothesesGraph::Node, std::vector<HypothesesGraph::Node> > &tracklet2traxel_node_map,
                           size_t solutionIndex=0) const;
 
     // output
-    void printResults(const HypothesesGraph &g);
-    void write_labeledgraph_to_file(const HypothesesGraph & g,
+    PGMLINK_EXPORT void printResults(const HypothesesGraph &g);
+    PGMLINK_EXPORT void write_labeledgraph_to_file(const HypothesesGraph & g,
                                     const std::string &ground_truth_filename);
 
     opengm::learning::Weights<double> weights_;
-    void setWeight ( size_t, double);
-    GraphicalModelType model();
-    size_t get_number_of_division_nodes();
-    size_t get_number_of_transition_nodes();
-    size_t get_number_of_appearance_nodes();
-    size_t get_number_of_disappearance_nodes();
+    PGMLINK_EXPORT void setWeight ( size_t, double);
+    PGMLINK_EXPORT GraphicalModelType model();
+    PGMLINK_EXPORT size_t get_number_of_division_nodes();
+    PGMLINK_EXPORT size_t get_number_of_transition_nodes();
+    PGMLINK_EXPORT size_t get_number_of_appearance_nodes();
+    PGMLINK_EXPORT size_t get_number_of_disappearance_nodes();
 
 protected:
     void add_appearance_nodes( const HypothesesGraph& );
