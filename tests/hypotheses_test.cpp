@@ -106,10 +106,10 @@ BOOST_AUTO_TEST_CASE( lgf_serialization )
     /*HypothesesGraph::Arc a0 =*/ g.addArc(n00, n01);
     /*HypothesesGraph::Arc a1 =*/ g.addArc(n00, n11);
 
-    cout << "without traxels\n";
+    std::cout << "without traxels\n";
     std::map<std::string, bool> config; // default value for entries == false!
     write_lgf(g, std::cout, config);
-    cout << "\n";
+    std::cout << "\n";
 
     // now with some optional node/arc maps
     Traxel tr00, tr01, tr11;
@@ -146,17 +146,17 @@ BOOST_AUTO_TEST_CASE( lgf_serialization )
     stringstream ss;
     config["node_traxel"] = true;
     write_lgf(g, ss, config);
-    cout << "with traxels\n";
-    cout << ss.str();
-    cout << "\n";
+    std::cout << "with traxels\n";
+    std::cout << ss.str();
+    std::cout << "\n";
 
     HypothesesGraph g_new;
     read_lgf(g_new, ss, config);
-    cout << "restored from lgf\n";
+    std::cout << "restored from lgf\n";
     stringstream ss2;
     write_lgf(g_new, ss2, config);
-    cout << ss2.str();
-    cout << "\n";
+    std::cout << ss2.str();
+    std::cout << "\n";
 
     BOOST_CHECK_EQUAL(ss.str(), ss2.str());
 }
