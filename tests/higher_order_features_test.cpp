@@ -569,8 +569,8 @@ BOOST_AUTO_TEST_CASE( DivisionTraxels_operator_traxelgraph )
         ConstTraxelRefVector traxelrefs = div_traxels[0];
         BOOST_CHECK_EQUAL(traxelrefs.size(), 3);
         BOOST_CHECK_EQUAL(traxelrefs[0]->Id, 3);
-        BOOST_CHECK((traxelrefs[1]->Id == 5) or (traxelrefs[1]->Id == 6));
-        BOOST_CHECK((traxelrefs[2]->Id == 5) or (traxelrefs[2]->Id == 6));
+        BOOST_CHECK((traxelrefs[1]->Id == 5) || (traxelrefs[1]->Id == 6));
+        BOOST_CHECK((traxelrefs[2]->Id == 5) || (traxelrefs[2]->Id == 6));
     }
 
     // get the division traxels to depth 2
@@ -598,9 +598,9 @@ BOOST_AUTO_TEST_CASE( DivisionTraxels_operator_traxelgraph )
         BOOST_CHECK_EQUAL(traxelrefs.size(), 6);
         BOOST_CHECK_EQUAL(traxelrefs[0]->Id, 3);
         BOOST_CHECK_EQUAL(traxelrefs[1]->Id, 1);
-        BOOST_CHECK((traxelrefs[2]->Id == 5) or (traxelrefs[2]->Id == 6));
+        BOOST_CHECK((traxelrefs[2]->Id == 5) || (traxelrefs[2]->Id == 6));
         BOOST_CHECK_EQUAL(traxelrefs[3]->Id - traxelrefs[2]->Id, 2);
-        BOOST_CHECK((traxelrefs[4]->Id == 5) or (traxelrefs[4]->Id == 6));
+        BOOST_CHECK((traxelrefs[4]->Id == 5) || (traxelrefs[4]->Id == 6));
         BOOST_CHECK_EQUAL(traxelrefs[5]->Id - traxelrefs[4]->Id, 2);
     }
 }
@@ -628,8 +628,8 @@ BOOST_AUTO_TEST_CASE( DivisionTraxels_operator_trackletgraph )
         ConstTraxelRefVector traxelrefs = div_traxels[0];
         BOOST_CHECK_EQUAL(traxelrefs.size(), 3);
         BOOST_CHECK_EQUAL(traxelrefs[0]->Id, 3);
-        BOOST_CHECK((traxelrefs[1]->Id == 5) or (traxelrefs[1]->Id == 6));
-        BOOST_CHECK((traxelrefs[2]->Id == 5) or (traxelrefs[2]->Id == 6));
+        BOOST_CHECK((traxelrefs[1]->Id == 5) || (traxelrefs[1]->Id == 6));
+        BOOST_CHECK((traxelrefs[2]->Id == 5) || (traxelrefs[2]->Id == 6));
     }
 
     // get the division traxels to depth 2
@@ -657,9 +657,9 @@ BOOST_AUTO_TEST_CASE( DivisionTraxels_operator_trackletgraph )
         BOOST_CHECK_EQUAL(traxelrefs.size(), 6);
         BOOST_CHECK_EQUAL(traxelrefs[0]->Id, 3);
         BOOST_CHECK_EQUAL(traxelrefs[1]->Id, 1);
-        BOOST_CHECK((traxelrefs[2]->Id == 5) or (traxelrefs[2]->Id == 6));
+        BOOST_CHECK((traxelrefs[2]->Id == 5) || (traxelrefs[2]->Id == 6));
         BOOST_CHECK_EQUAL(traxelrefs[3]->Id - traxelrefs[2]->Id, 2);
-        BOOST_CHECK((traxelrefs[4]->Id == 5) or (traxelrefs[4]->Id == 6));
+        BOOST_CHECK((traxelrefs[4]->Id == 5) || (traxelrefs[4]->Id == 6));
         BOOST_CHECK_EQUAL(traxelrefs[5]->Id - traxelrefs[4]->Id, 2);
     }
 }
