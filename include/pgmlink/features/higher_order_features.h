@@ -56,6 +56,7 @@ diffusion_calculator.calculate(positions, return_value);
 #include "pgmlink/traxels.h" /* for traxels */
 #include "pgmlink/hypotheses.h" /* for hypotheses graph */
 #include "pgmlink/classifier_auxiliary.h" /* for class FeatureCalculator */
+#include "../pgmlink_export.h"
 
 // boost
 #include <boost/serialization/serialization.hpp> /* for serialization */
@@ -339,10 +340,10 @@ The tracks in the following example are:
 class TrackTraxels : public TraxelsOfInterest
 {
 public:
-    TrackTraxels(bool require_div_start = false, bool require_div_end = false);
-    virtual ~TrackTraxels() {};
-    virtual const std::string& name() const;
-    virtual const std::vector<ConstTraxelRefVector>& operator()(
+    PGMLINK_EXPORT TrackTraxels(bool require_div_start = false, bool require_div_end = false);
+    virtual PGMLINK_EXPORT ~TrackTraxels() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT const std::vector<ConstTraxelRefVector>& operator()(
         const HypothesesGraph& graph
     );
 protected:
@@ -376,13 +377,13 @@ cell is always in the 0th position.
 class DivisionTraxels : public TraxelsOfInterest
 {
 public:
-    DivisionTraxels(size_t depth = 1) : depth_(depth) {};
-    virtual ~DivisionTraxels() {};
-    virtual const std::string& name() const;
-    virtual const std::vector<ConstTraxelRefVector>& operator()(
+    PGMLINK_EXPORT DivisionTraxels(size_t depth = 1) : depth_(depth) {};
+    virtual PGMLINK_EXPORT ~DivisionTraxels() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT const std::vector<ConstTraxelRefVector>& operator()(
         const HypothesesGraph& graph
     );
-    virtual const std::vector<ConstTraxelRefVector>& operator()(
+    virtual PGMLINK_EXPORT const std::vector<ConstTraxelRefVector>& operator()(
         const HypothesesGraph& graph,
         size_t depth
     );

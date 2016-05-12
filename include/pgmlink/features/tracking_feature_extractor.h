@@ -72,14 +72,14 @@ private:
 class DivisionFeatureExtractor : public TrackingFeatureExtractorBase
 {
 public:
-    DivisionFeatureExtractor();
-    void compute_features(
+    PGMLINK_EXPORT DivisionFeatureExtractor();
+    PGMLINK_EXPORT void compute_features(
         ConstTraxelRefVector& traxelref_vec,
         FeatureVectorView return_vector);
-    void compute_features(
+    PGMLINK_EXPORT void compute_features(
         ConstTraxelRefVectors& traxelref_vecs,
         FeatureMatrix& return_matrix);
-    virtual size_t get_feature_vector_length() const;
+    virtual PGMLINK_EXPORT size_t get_feature_vector_length() const;
 private:
     void compute_id_features(ConstTraxelRefVector&, std::string);
     void compute_sq_diff_features(ConstTraxelRefVector&, std::string);
@@ -208,11 +208,11 @@ private:
 class BorderDistanceFilter
 {
 public:
-    BorderDistanceFilter(
+    PGMLINK_EXPORT BorderDistanceFilter(
         const FieldOfView& field_of_view,
         double t_margin,
         double spatial_margin);
-    bool is_out_of_margin(const Traxel& traxel) const;
+    PGMLINK_EXPORT bool is_out_of_margin(const Traxel& traxel) const;
 private:
     FieldOfView fov_;
 };
