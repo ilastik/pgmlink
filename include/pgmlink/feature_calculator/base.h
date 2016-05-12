@@ -6,8 +6,8 @@
 
 // pgmlink
 #include "pgmlink/features/feature.h"
-#include "pgmlink/feature_calculator/base.h"
 #include "pgmlink/features/feature_extraction.h"
+#include "../pgmlink_export.h"
 
 namespace pgmlink
 {

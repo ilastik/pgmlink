@@ -20,7 +20,7 @@ namespace feature_extraction
 class AsymmetricRatioCalculator : public FeatureCalculator
 {
 public:
-    static const std::string name_;
+    static PGMLINK_EXPORT const std::string name_;
 
     virtual PGMLINK_EXPORT ~AsymmetricRatioCalculator();
     virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
