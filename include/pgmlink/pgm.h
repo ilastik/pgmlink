@@ -417,7 +417,7 @@ typedef pgm::OpengmModelDeprecated::ogmGraphicalModel::LabelType LabelType;
 typedef pgm::OpengmModelDeprecated::ogmGraphicalModel::IndexType IndexType;
 
 typedef double Energy;
-typedef opengm::LinearConstraintFunction<double,size_t,size_t> LinearConstraintFunctionType;
+PGMLINK_EXPORT typedef opengm::LinearConstraintFunction<ValueType,size_t,size_t> LinearConstraintFunctionType;
 
 typedef pgm::IncomingConstraintFunction<Energy, size_t, size_t> InConsFunc;
 typedef pgm::OutgoingConstraintFunction<Energy, size_t, size_t> OutConsFunc;

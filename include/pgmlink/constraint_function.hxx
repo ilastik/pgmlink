@@ -6,7 +6,7 @@
 #include <opengm/functions/function_properties_base.hxx>
 #include <vector>
 #include "opengm/functions/constraint_functions/linear_constraint_function.hxx"
-
+#include "pgmlink_export.h"
 namespace pgmlink
 {
 namespace pgm
@@ -125,7 +125,7 @@ public:
         shape_(shape_begin, shape_end)
     {}
 
-    LinearConstraintFunction() {}
+    PGMLINK_EXPORT LinearConstraintFunction() {}
 
     /// operator is called to evaluate a certain labeling
     /// only compute the result when needed!
@@ -196,7 +196,7 @@ public:
         ConstraintFunction<T, I, L>(shape_begin, shape_end, variable_indices, index_reordering)
     {}
 
-    IncomingConstraintFunction() {}
+    PGMLINK_EXPORT IncomingConstraintFunction() {}
 protected:
     virtual T get_energy_of_configuration(const std::vector<L>& configuration) const
     {
@@ -246,7 +246,7 @@ public:
         LinearConstraintFunction<T, I, L>(shape_begin, shape_end)
     {}
 
-    IncomingLinearConstraintFunction() {}
+    PGMLINK_EXPORT IncomingLinearConstraintFunction() {}
 protected:
     virtual T get_energy_of_configuration(const std::vector<L>& configuration) const
     {
@@ -294,7 +294,7 @@ public:
         with_divisions_(true)
     {}
 
-    OutgoingConstraintFunction() {}
+    PGMLINK_EXPORT OutgoingConstraintFunction() {}
 
     void set_with_divisions(bool enable)
     {
@@ -357,7 +357,7 @@ public:
         with_divisions_(true)
     {}
 
-    OutgoingLinearConstraintFunction() {}
+    PGMLINK_EXPORT OutgoingLinearConstraintFunction() {}
 
     void set_with_divisions(bool enable)
     {
@@ -415,7 +415,7 @@ public:
         ConstraintFunction<T, I, L>(shape_begin, shape_end, variable_indices, index_reordering)
     {}
 
-    OutgoingNoDivConstraintFunction() {}
+    PGMLINK_EXPORT OutgoingNoDivConstraintFunction() {}
 
 protected:
     virtual T get_energy_of_configuration(const std::vector<L>& configuration) const
@@ -465,7 +465,7 @@ public:
         LinearConstraintFunction<T, I, L>(shape_begin, shape_end)
     {}
 
-    OutgoingNoDivLinearConstraintFunction() {}
+    PGMLINK_EXPORT OutgoingNoDivLinearConstraintFunction() {}
 
 protected:
     virtual T get_energy_of_configuration(const std::vector<L>& configuration) const
@@ -512,7 +512,7 @@ public:
         with_misdetections_(true)
     {}
 
-    DetectionConstraintFunction() {}
+    PGMLINK_EXPORT DetectionConstraintFunction() {}
 
     void set_with_misdetections(bool enable)
     {
@@ -579,7 +579,7 @@ public:
         with_misdetections_(true)
     {}
 
-    DetectionLinearConstraintFunction() {}
+    PGMLINK_EXPORT DetectionLinearConstraintFunction() {}
 
     void set_with_misdetections(bool enable)
     {
@@ -641,7 +641,7 @@ public:
         value(0)
     {}
 
-    FixNodeValueConstraintFunction() {}
+    PGMLINK_EXPORT FixNodeValueConstraintFunction() {}
 
     void set_desired_value(size_t val){ value = val; }
 
@@ -687,7 +687,7 @@ public:
         value(0)
     {}
 
-    FixNodeValueLinearConstraintFunction() {}
+    PGMLINK_EXPORT FixNodeValueLinearConstraintFunction() {}
 
     void set_desired_value(size_t val){ value = val; }
 
