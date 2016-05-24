@@ -75,7 +75,7 @@ void EnergyComputer::convexifyEnergies(feature_array& energies, feature_type eps
         auto bestStateIt = std::min_element(energies.begin(), energies.end());
         int bestStateIdx = std::distance(energies.begin(), bestStateIt);
 
-        for(int direction : {-1, +1})
+        for(int direction=-1;direction<=1;direction+=2)
         {
             auto pos = bestStateIdx + direction;
             feature_type previousGradient = 0;
