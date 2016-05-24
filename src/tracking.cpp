@@ -99,7 +99,7 @@ namespace pgmlink
 ////
 //// class ChaingraphTracking
 ////
-
+#ifndef NO_ILP
 void ChaingraphTracking::set_with_divisions(bool state)
 {
     with_divisions_ = state;
@@ -254,6 +254,7 @@ std::vector<std::vector<Event> > ChaingraphTracking::operator()(TraxelStore& ts)
 
     return *events(*graph);
 }
+#endif
 
 std::vector<std::map<unsigned int, bool> > ChaingraphTracking::detections()
 {
@@ -370,10 +371,6 @@ EventVectorVectorVector ConsTracking::operator()(
 
     if (with_merger_resolution)
     {
-        // always run merger resolving with CPLEX
-        SolverType chosen_solver = solver_;
-        solver_ = SolverType::CplexSolver;
-
         EventVectorVectorVector merger_resolved_events;
 
         for(auto& event : events)
@@ -393,9 +390,6 @@ EventVectorVectorVector ConsTracking::operator()(
                                                  transition_classifier
                                              ));
         }
-
-        // reset solver
-        solver_ = chosen_solver;
 
         return merger_resolved_events;
     }
@@ -1224,7 +1218,7 @@ void ConsTracking::writeStructuredLearningFiles(std::string feature_file_name,
                                       std::string ground_truth_file_name,
                                       Parameter param)
 {
-
+#ifndef NO_ILP
     //create empty files that opengm can append to
     createStructuredLearningFiles(feature_file_name,constraints_file_name,ground_truth_file_name);
 
@@ -1277,6 +1271,7 @@ void ConsTracking::writeStructuredLearningFiles(std::string feature_file_name,
     {
         transpose_matrix_in_file(feature_file_name);
     }
+#endif
 }
 
 std::vector<double> ConsTracking::learnTrackingWeights(std::string feature_file_name,

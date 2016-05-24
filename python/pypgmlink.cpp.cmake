@@ -17,7 +17,7 @@ void export_gmm();
 void export_region_feature_extraction();
 void export_evaluation();
 
-BOOST_PYTHON_MODULE( pgmlink )
+BOOST_PYTHON_MODULE( pgmlink@SUFFIX@ )
 {
     vigra::import_vigranumpy();
     export_field_of_view();

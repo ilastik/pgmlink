@@ -17,10 +17,12 @@
 #include <boost/bimap.hpp>
 #include <opengm/inference/inference.hxx>
 
+#ifndef NO_ILP
 #ifdef WITH_GUROBI
 #include <opengm/inference/lpgurobi.hxx>
 #else
 #include <opengm/inference/lpcplex.hxx>
+#endif
 #endif
 
 #include "pgmlink/pgm.h"
@@ -52,10 +54,12 @@ namespace pgm
 namespace chaingraph
 {
 
+#ifndef NO_ILP
 #ifdef WITH_GUROBI
   typedef opengm::LPGurobi<OpengmModel, opengm::Minimizer> OpengmLPCplex;
 #else
   typedef opengm::LPCplex<OpengmModel, opengm::Minimizer> OpengmLPCplex;
+#endif
 #endif
 
 using boost::function;
@@ -221,9 +225,11 @@ public:
     // build
     PGMLINK_EXPORT virtual chaingraph::Model* build( const HypothesesGraph& ) const = 0;
 
+#ifndef NO_ILP
     // refinement
     PGMLINK_EXPORT void add_hard_constraints( const Model&, const HypothesesGraph&, OpengmLPCplex& );
     PGMLINK_EXPORT void fix_detections( const Model&, const HypothesesGraph&, OpengmLPCplex& );
+#endif
 
     // cplex parameters
     PGMLINK_EXPORT void set_cplex_timeout( double seconds );
@@ -242,7 +248,9 @@ protected:
 
 
 private:
+#ifndef NO_ILP
     static void couple( const chaingraph::Model&, const HypothesesGraph::Node&, const HypothesesGraph::Arc&, OpengmLPCplex& );
+#endif
 
     bool with_detection_vars_;
     bool with_divisions_;
@@ -314,7 +322,5 @@ private:
 /**/
 /* implementation */
 /**/
-#include <boost/ptr_container/ptr_vector.hpp>
-#include <iostream>
 
 #endif /* PGMLINK_PGM_CHAINGRAPH_H */

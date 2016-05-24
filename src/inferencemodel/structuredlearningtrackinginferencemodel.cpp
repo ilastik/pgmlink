@@ -9,6 +9,8 @@
 namespace pgmlink
 {
 
+#ifndef NO_ILP
+
 void StructuredLearningTrackingInferenceModel::fixFirstDisappearanceNodesToLabels(
         const HypothesesGraph &g,
         const HypothesesGraph& tracklet_graph,
@@ -601,5 +603,7 @@ ConsTrackingInferenceModel::IlpSolution StructuredLearningTrackingInferenceModel
 
     return solution;
 }
+
+#endif
 
 } // namespace pgmlink

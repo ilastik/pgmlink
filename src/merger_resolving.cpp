@@ -984,7 +984,7 @@ void resolve_graph(const HypothesesGraph& src,
 
     ConservationTracking pgm(param);
 
-    pgm.perturbedInference(dest);//,param);
+    pgm.perturbedInference(dest, true);//,param);
 
     // Remap results from clones to original nodes.
     merge_split_divisions(dest, division_splits, arc_cross_reference_divisions);

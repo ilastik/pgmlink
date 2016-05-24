@@ -9,6 +9,8 @@ namespace pgmlink
 {
 namespace pgm
 {
+    
+#ifndef NO_ILP
 
 typedef ConstraintPoolOpengmModel::FunctionIdentifier FunctionIdentifierType;
 typedef opengm::LinearConstraintFunction<ValueType, IndexType, LabelType> LinearConstraintFunctionType;
@@ -1472,5 +1474,6 @@ void ConstraintPool::configure_function(FixNodeValueLinearConstraintFunction<Val
     func->set_desired_value(constraint.value);
 }
 
+#endif
 } // namespace pgm
 } // namespace pgmlink

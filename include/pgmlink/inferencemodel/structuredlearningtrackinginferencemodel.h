@@ -5,7 +5,10 @@
 
 #include <opengm/graphicalmodel/graphicalmodel.hxx>
 #include <opengm/inference/inference.hxx>
+
+#ifndef NO_ILP
 #include <opengm/inference/lpcplex2.hxx>
+#endif
 
 #include "pgmlink/hypotheses.h"
 #include "pgmlink/pgm.h"
@@ -41,11 +44,13 @@ public:
         borderWidth_(borderWidth),
         learningWeights_(learningWeights)
     {
+#ifndef NO_ILP
         cplex2_param_.verbose_ = true;
         cplex2_param_.integerConstraintNodeVar_ = true;
         cplex2_param_.epGap_ = ep_gap;
         cplex2_param_.timeLimit_ = cplex_timeout;
         cplex2_param_.numberOfThreads_ = num_threads;
+#endif
     }
 
 
@@ -98,12 +103,14 @@ protected:
     opengm::learning::Weights<double>& learningWeights_;
 };
 
+#ifndef NO_ILP
 template<class INF>
 void StructuredLearningTrackingInferenceModel::add_constraints(INF &optimizer)
 {
     linear_constraint_pool_.add_constraints_to_model(model_, optimizer);
     LOG(logDEBUG) << "StructuredLearningTrackingInferenceModel::add_constraints";
 }
+#endif
 
 } // namespace pgmlink
 

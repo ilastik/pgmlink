@@ -31,7 +31,7 @@ namespace pgmlink
 
 /*
  * Feature datastructures now in featurestore.h
-typedef float feature_type;
+typedef double feature_type;
 typedef std::vector<feature_type> feature_array;
 typedef std::vector<feature_array> feature_arrays;
 typedef std::map<std::string,feature_array> FeatureMap;

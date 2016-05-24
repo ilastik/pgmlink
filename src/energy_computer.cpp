@@ -68,11 +68,42 @@ void EnergyComputer::storeNodeEnergies(
 	}
 }
 
-void EnergyComputer::convexifyEnergies(feature_array& energies)
+void EnergyComputer::convexifyEnergies(feature_array& energies, feature_type eps)
 {
 	if(convexify_)
 	{
-		// TODO: implement me!
+        auto bestStateIt = std::min_element(energies.begin(), energies.end());
+        int bestStateIdx = std::distance(energies.begin(), bestStateIt);
+
+        for(int direction : {-1, +1})
+        {
+            auto pos = bestStateIdx + direction;
+            feature_type previousGradient = 0;
+
+            while(pos >= 0 && pos < energies.size())
+            {
+                feature_type newGradient = energies[pos] - energies[pos - direction];
+                if(abs(newGradient - previousGradient) < eps)
+                {
+                    // cost function's derivative is roughly constant, add epsilon
+                    previousGradient += eps;
+                    energies[pos] = energies[pos-direction] + previousGradient;
+                }
+                else if(newGradient < previousGradient)
+                {
+                    // cost function got too flat, set feature value to match old slope
+                    previousGradient += eps;
+                    energies[pos] = energies[pos-direction] + previousGradient;
+                }
+                else
+                {
+                    // all good, continue with new slope
+                    previousGradient = newGradient;
+                }
+
+                pos += direction;
+            }
+        }
 	}
 }
 
@@ -81,8 +112,8 @@ void EnergyComputer::computeDetectionEnergy(HypothesesGraph& graph, boost::share
 	TraxelMap& traxel_map = graph.get(node_traxel());
     TrackletMap& tracklet_map = graph.get(node_tracklet());
 
-    feature_array energyPerCellCount(param_.max_number_objects, std::numeric_limits<feature_type>::infinity());
-    for(size_t state = 0; state < param_.max_number_objects; ++state)
+    feature_array energyPerCellCount(param_.max_number_objects + 1, std::numeric_limits<feature_type>::infinity());
+    for(size_t state = 0; state <= param_.max_number_objects; ++state)
     {
     	feature_type& energy = energyPerCellCount[state];
 
@@ -124,6 +155,9 @@ void EnergyComputer::computeDetectionEnergy(HypothesesGraph& graph, boost::share
 
 void EnergyComputer::computeDivisionEnergy(HypothesesGraph& graph, boost::shared_ptr<FeatureStore> fs, HypothesesGraph::Node n)
 {
+    if(!param_.with_divisions)
+        return;
+
 	TraxelMap& traxel_map = graph.get(node_traxel());
     TrackletMap& tracklet_map = graph.get(node_tracklet());
 
@@ -149,6 +183,9 @@ void EnergyComputer::computeDivisionEnergy(HypothesesGraph& graph, boost::shared
 
 void EnergyComputer::computeAppearanceEnergy(HypothesesGraph& graph, boost::shared_ptr<FeatureStore> fs, HypothesesGraph::Node n)
 {
+    if(!param_.with_appearance)
+        return;
+
 	TraxelMap& traxel_map = graph.get(node_traxel());
     TrackletMap& tracklet_map = graph.get(node_tracklet());
 
@@ -181,7 +218,7 @@ void EnergyComputer::computeAppearanceEnergy(HypothesesGraph& graph, boost::shar
     }
 
     feature_array energyPerCellCount;
-    for(size_t state = 0; state < param_.max_number_objects; ++state)
+    for(size_t state = 0; state <= param_.max_number_objects; ++state)
     	energyPerCellCount.push_back(energy * state);
 
 	convexifyEnergies(energyPerCellCount);
@@ -190,6 +227,9 @@ void EnergyComputer::computeAppearanceEnergy(HypothesesGraph& graph, boost::shar
 
 void EnergyComputer::computeDisappearanceEnergy(HypothesesGraph& graph, boost::shared_ptr<FeatureStore> fs, HypothesesGraph::Node n)
 {
+    if(!param_.with_disappearance)
+        return;
+    
 	TraxelMap& traxel_map = graph.get(node_traxel());
     TrackletMap& tracklet_map = graph.get(node_tracklet());
 
@@ -222,7 +262,7 @@ void EnergyComputer::computeDisappearanceEnergy(HypothesesGraph& graph, boost::s
     }
 
     feature_array energyPerCellCount;
-    for(size_t state = 0; state < param_.max_number_objects; ++state)
+    for(size_t state = 0; state <= param_.max_number_objects; ++state)
     	energyPerCellCount.push_back(energy * state);
 
 	convexifyEnergies(energyPerCellCount);

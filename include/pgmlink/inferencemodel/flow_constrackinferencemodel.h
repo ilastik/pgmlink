@@ -41,6 +41,8 @@ public:
                                      HypothesesGraph::Arc a,
                                      size_t state);
 
+    void set_inference_params(bool isMergerResolving = false);
+
 protected:
     // dpct inference members
     dpct::FlowGraph inference_graph_;
@@ -49,6 +51,8 @@ protected:
     std::map<HypothesesGraph::Node, dpct::FlowGraph::Arc> dis_reference_map_;
     std::map<HypothesesGraph::Node, dpct::FlowGraph::Arc> div_reference_map_;
     std::map<HypothesesGraph::Arc, dpct::FlowGraph::Arc> arc_reference_map_;
+
+    bool isMergerResolving_;
 };
 
 template<class ArcIterator>

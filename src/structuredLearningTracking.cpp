@@ -15,27 +15,30 @@
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
+#ifndef NO_ILP
 #ifdef WITH_GUROBI
 #include <opengm/inference/lpgurobi.hxx>
 #else
 #include <opengm/inference/lpcplex2.hxx>
+#endif
 #endif
 
 #ifdef WITH_OPENMP
 #include <omp.h>
 #endif
 
+#ifndef NO_ILP
 #include <opengm/learning/loss/hammingloss.hxx>
 #include <opengm/learning/solver/CplexBackend.h>
 #include <opengm/learning/solver/QuadraticSolverBackend.h>
 #include <opengm/learning/struct-max-margin.hxx>
+#endif
 
 #include "pgmlink/randomforest.h"
 #include "pgmlink/features/feature.h"
 #include "pgmlink/pgm.h"
 #include "pgmlink/hypotheses.h"
 #include "pgmlink/log.h"
-#include "pgmlink/reasoner_pgm.h"
 #include "pgmlink/reasoner_constracking.h"
 #include "pgmlink/merger_resolving.h"
 #include "pgmlink/structuredLearningTracking.h"
@@ -53,6 +56,7 @@ using boost::shared_array;
 namespace pgmlink
 {
 
+#ifndef NO_ILP
 ////
 //// class StructuredLearningTracking
 ////
@@ -821,5 +825,7 @@ double StructuredLearningTracking::weight(int index){
 void StructuredLearningTracking::setWeight(int index, double val){
     trackingWeights_.setWeight(index,val);
 }
+
+#endif
 
 } // namespace tracking

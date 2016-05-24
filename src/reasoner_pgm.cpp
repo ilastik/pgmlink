@@ -8,6 +8,7 @@
 #include <string.h>
 #include <memory.h>
 
+#ifndef NO_ILP
 #ifdef WITH_GUROBI
 #include <opengm/inference/lpgurobi.hxx>
 #else
@@ -167,3 +168,5 @@ void Chaingraph::reset()
 }
 
 } /* namespace pgmlink */
+
+#endif
