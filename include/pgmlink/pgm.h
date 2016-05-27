@@ -27,6 +27,7 @@
 #include "pgmlink/util.h"
 #include "pgmlink/constraint_function.hxx"
 #include "opengm/functions/constraint_functions/linear_constraint_function.hxx"
+#include "pgmlink_export.h"
 
 namespace pgmlink
 {
@@ -73,27 +74,27 @@ public:
     typedef opengm::meta::TypeAtTypeList<ogmGraphicalModel::FunctionTypeList, 0>::type ExplicitFunctionType;
     typedef ogmGraphicalModel::FunctionIdentifier FunctionIdentifier;
 
-    OpengmModelDeprecated()
+    PGMLINK_EXPORT OpengmModelDeprecated()
     {
         model_ = new ogmGraphicalModel();
     }
-    ~OpengmModelDeprecated()
+    PGMLINK_EXPORT ~OpengmModelDeprecated()
     {
         delete model_;
     }
 
-    ogmGraphicalModel* Model()
+    PGMLINK_EXPORT ogmGraphicalModel* Model()
     {
         return model_;
     }
-    const ogmGraphicalModel* Model() const
+    PGMLINK_EXPORT const ogmGraphicalModel* Model() const
     {
         return model_;
     }
 
 private:
-    OpengmModelDeprecated(const OpengmModelDeprecated&);
-    OpengmModelDeprecated& operator=(const OpengmModelDeprecated&);
+    PGMLINK_EXPORT OpengmModelDeprecated(const OpengmModelDeprecated&);
+    PGMLINK_EXPORT OpengmModelDeprecated& operator=(const OpengmModelDeprecated&);
 
     ogmGraphicalModel* model_;
 };
@@ -419,19 +420,19 @@ typedef pgm::OpengmModelDeprecated::ogmGraphicalModel::IndexType IndexType;
 typedef double Energy;
 PGMLINK_EXPORT typedef opengm::LinearConstraintFunction<ValueType,size_t,size_t> LinearConstraintFunctionType;
 
-typedef pgm::IncomingConstraintFunction<Energy, size_t, size_t> InConsFunc;
-typedef pgm::OutgoingConstraintFunction<Energy, size_t, size_t> OutConsFunc;
-typedef pgm::OutgoingNoDivConstraintFunction<Energy, size_t, size_t> OutNoDivConsFunc;
-typedef pgm::DetectionConstraintFunction<Energy, size_t, size_t> DetConsFunc;
-typedef pgm::FixNodeValueConstraintFunction<Energy, size_t, size_t> FixNodeValConsFunc;
+PGMLINK_EXPORT typedef pgm::IncomingConstraintFunction<Energy, size_t, size_t> InConsFunc;
+PGMLINK_EXPORT typedef pgm::OutgoingConstraintFunction<Energy, size_t, size_t> OutConsFunc;
+PGMLINK_EXPORT typedef pgm::OutgoingNoDivConstraintFunction<Energy, size_t, size_t> OutNoDivConsFunc;
+PGMLINK_EXPORT typedef pgm::DetectionConstraintFunction<Energy, size_t, size_t> DetConsFunc;
+PGMLINK_EXPORT typedef pgm::FixNodeValueConstraintFunction<Energy, size_t, size_t> FixNodeValConsFunc;
 
-typedef pgm::IncomingLinearConstraintFunction<Energy, size_t, size_t> InLinearConsFunc;
-typedef pgm::OutgoingLinearConstraintFunction<Energy, size_t, size_t> OutLinearConsFunc;
-typedef pgm::OutgoingNoDivLinearConstraintFunction<Energy, size_t, size_t> OutNoDivLinearConsFunc;
-typedef pgm::DetectionLinearConstraintFunction<Energy, size_t, size_t> DetLinearConsFunc;
-typedef pgm::FixNodeValueLinearConstraintFunction<Energy, size_t, size_t> FixNodeValLinearConsFunc;
+PGMLINK_EXPORT typedef pgm::IncomingLinearConstraintFunction<Energy, size_t, size_t> InLinearConsFunc;
+PGMLINK_EXPORT typedef pgm::OutgoingLinearConstraintFunction<Energy, size_t, size_t> OutLinearConsFunc;
+PGMLINK_EXPORT typedef pgm::OutgoingNoDivLinearConstraintFunction<Energy, size_t, size_t> OutNoDivLinearConsFunc;
+PGMLINK_EXPORT typedef pgm::DetectionLinearConstraintFunction<Energy, size_t, size_t> DetLinearConsFunc;
+PGMLINK_EXPORT typedef pgm::FixNodeValueLinearConstraintFunction<Energy, size_t, size_t> FixNodeValLinearConsFunc;
 
-typedef opengm::GraphicalModel
+PGMLINK_EXPORT typedef opengm::GraphicalModel
 <ValueType, OperatorType,  typename opengm::meta::TypeListGenerator
   < LinearConstraintFunctionType,
     InConsFunc, OutConsFunc, OutNoDivConsFunc, DetConsFunc, FixNodeValConsFunc,

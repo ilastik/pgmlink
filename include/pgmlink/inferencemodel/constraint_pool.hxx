@@ -76,7 +76,7 @@ public:
     template<class GM, class INF>
     void add_constraints_to_model(GM& model, INF& optimizer, std::map<size_t, size_t>& index_mapping);
 
-    size_t get_num_constraints()
+    PGMLINK_EXPORT size_t get_num_constraints()
     {
         return incoming_constraints_.size() + outgoing_constraints_.size() + detection_constraints_.size();
     }
@@ -86,7 +86,7 @@ public:
 //        return incoming_linear_constraints_.size() + outgoing_linear_constraints_.size() + detection_linear_constraints_.size();
 //    }
 
-    void force_softconstraint(bool enable)
+    PGMLINK_EXPORT void force_softconstraint(bool enable)
     {
         if(enable)
         {
@@ -95,7 +95,7 @@ public:
         force_softconstraint_ = enable;
     }
 
-    void set_big_m(ValueType m)
+    PGMLINK_EXPORT void set_big_m(ValueType m)
     {
         big_m_ = m;
     }
@@ -105,7 +105,7 @@ public:
     class IncomingConstraint
     {
     public:
-        IncomingConstraint(const std::vector<IndexType>& transition_nodes,
+        PGMLINK_EXPORT IncomingConstraint(const std::vector<IndexType>& transition_nodes,
                            IndexType disappearance_node):
             transition_nodes(transition_nodes),
             disappearance_node(disappearance_node)
@@ -116,16 +116,16 @@ public:
 
     private:
         // boost serialization interface
-        friend class boost::serialization::access;
+        PGMLINK_EXPORT friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int);
-        IncomingConstraint() {}
+        PGMLINK_EXPORT IncomingConstraint() {}
     };
 
     class IncomingLinearConstraint
     {
     public:
-        IncomingLinearConstraint(const std::vector<IndexType>& transition_nodes,
+        PGMLINK_EXPORT IncomingLinearConstraint(const std::vector<IndexType>& transition_nodes,
                            IndexType disappearance_node):
             transition_nodes(transition_nodes),
             disappearance_node(disappearance_node)
@@ -136,16 +136,16 @@ public:
 
     private:
         // boost serialization interface
-        friend class boost::serialization::access;
+        PGMLINK_EXPORT friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int);
-        IncomingLinearConstraint() {}
+        PGMLINK_EXPORT IncomingLinearConstraint() {}
     };
 
     class OutgoingConstraint
     {
     public:
-        OutgoingConstraint(IndexType appearance_node,
+        PGMLINK_EXPORT OutgoingConstraint(IndexType appearance_node,
                            int division_node,
                            const std::vector<IndexType>& transition_nodes):
             appearance_node(appearance_node),
@@ -159,16 +159,16 @@ public:
 
     private:
         // boost serialization interface
-        friend class boost::serialization::access;
+        PGMLINK_EXPORT friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int);
-        OutgoingConstraint() {}
+        PGMLINK_EXPORT OutgoingConstraint() {}
     };
 
     class OutgoingLinearConstraint
     {
     public:
-        OutgoingLinearConstraint(IndexType appearance_node,
+        PGMLINK_EXPORT OutgoingLinearConstraint(IndexType appearance_node,
                            int division_node,
                            const std::vector<IndexType>& transition_nodes):
             appearance_node(appearance_node),
@@ -182,16 +182,16 @@ public:
 
     private:
         // boost serialization interface
-        friend class boost::serialization::access;
+        PGMLINK_EXPORT friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int);
-        OutgoingLinearConstraint() {}
+        PGMLINK_EXPORT OutgoingLinearConstraint() {}
     };
 
     class DetectionConstraint
     {
     public:
-        DetectionConstraint(IndexType disappearance_node,
+        PGMLINK_EXPORT DetectionConstraint(IndexType disappearance_node,
                             IndexType appearance_node):
             disappearance_node(disappearance_node),
             appearance_node(appearance_node)
@@ -202,16 +202,16 @@ public:
 
     private:
         // boost serialization interface
-        friend class boost::serialization::access;
+        PGMLINK_EXPORT friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int);
-        DetectionConstraint() {}
+        PGMLINK_EXPORT DetectionConstraint() {}
     };
 
     class DetectionLinearConstraint
     {
     public:
-        DetectionLinearConstraint(IndexType disappearance_node,
+        PGMLINK_EXPORT DetectionLinearConstraint(IndexType disappearance_node,
                             IndexType appearance_node):
             disappearance_node(disappearance_node),
             appearance_node(appearance_node)
@@ -222,16 +222,16 @@ public:
 
     private:
         // boost serialization interface
-        friend class boost::serialization::access;
+        PGMLINK_EXPORT friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int);
-        DetectionLinearConstraint() {}
+        PGMLINK_EXPORT DetectionLinearConstraint() {}
     };
 
     class FixNodeValueConstraint
     {
     public:
-        FixNodeValueConstraint(IndexType node,
+        PGMLINK_EXPORT FixNodeValueConstraint(IndexType node,
                                size_t value):
             node(node),
             value(value)
@@ -242,16 +242,16 @@ public:
 
     private:
         // boost serialization interface
-        friend class boost::serialization::access;
+        PGMLINK_EXPORT friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int);
-        FixNodeValueConstraint() {}
+        PGMLINK_EXPORT FixNodeValueConstraint() {}
     };
 
     class FixNodeValueLinearConstraint
     {
     public:
-        FixNodeValueLinearConstraint(IndexType node,
+        PGMLINK_EXPORT FixNodeValueLinearConstraint(IndexType node,
                                size_t value):
             node(node),
             value(value)
@@ -262,10 +262,10 @@ public:
 
     private:
         // boost serialization interface
-        friend class boost::serialization::access;
+        PGMLINK_EXPORT friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int);
-        FixNodeValueLinearConstraint() {}
+        PGMLINK_EXPORT FixNodeValueLinearConstraint() {}
     };
 
 protected:
@@ -306,7 +306,7 @@ protected:
 
 private:
     // boost serialization interface
-    friend class boost::serialization::access;
+    PGMLINK_EXPORT friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int);
 };
@@ -617,7 +617,7 @@ void ConstraintPool::add_constraint_type_to_model(GM& model, INF&, const std::ve
 //------------------------------------------------------------------------
 // specialization for IncomingConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      IncomingConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::IncomingConstraint>
@@ -630,7 +630,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for OutgoingConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      OutgoingConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::OutgoingConstraint>
@@ -641,7 +641,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      );
 
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      OutgoingNoDivConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::OutgoingConstraint>
@@ -654,7 +654,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for DetectionConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      DetectionConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::DetectionConstraint>
@@ -667,7 +667,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for FixNodeValueConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      FixNodeValueConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::FixNodeValueConstraint>
@@ -680,7 +680,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for IncomingLinearConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      IncomingLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::IncomingLinearConstraint>
@@ -693,7 +693,7 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for OutgoingLinearConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      OutgoingLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::OutgoingLinearConstraint>
@@ -704,7 +704,7 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      );
 
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      OutgoingNoDivLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::OutgoingLinearConstraint>
@@ -717,7 +717,7 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for DetectionLinearConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      DetectionLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::DetectionLinearConstraint>
@@ -730,7 +730,7 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for FixNodeValueLinearConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      FixNodeValueLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::FixNodeValueLinearConstraint>

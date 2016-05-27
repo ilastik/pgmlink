@@ -15,6 +15,7 @@
 #include <opengm/graphicalmodel/graphicalmodel_hdf5.hxx>
 
 #include "pgmlink/inferencemodel/constraint_pool.hxx"
+#include "pgmlink/constraint_function.hxx"
 
 using namespace pgmlink::pgm;
 
@@ -656,6 +657,7 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Serialization_Test)
 	labeling.push_back(1);
 
     BOOST_CHECK_EQUAL(model2.evaluate(labeling.begin()), 0);
+
 
     // delete tempfile
     remove(filename.c_str());

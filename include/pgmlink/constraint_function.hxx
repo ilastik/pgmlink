@@ -47,7 +47,7 @@ public:
         variable_indices_(variable_indices)
     {}
 
-    ConstraintFunction() {}
+    PGMLINK_EXPORT ConstraintFunction() {}
 
     /// operator is called to evaluate a certain labeling
     /// only compute the result when needed!

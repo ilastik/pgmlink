@@ -20,13 +20,13 @@ const LinearConstraintFunctionType::LinearConstraintType::LinearConstraintOperat
 const LinearConstraintFunctionType::LinearConstraintType::LinearConstraintOperatorValueType lessEqualOperator = LinearConstraintFunctionType::LinearConstraintType::LinearConstraintOperatorType::LessEqual;
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::IncomingConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::IncomingConstraint& constraint)
 {
     incoming_constraints_.push_back(constraint);
 }
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::OutgoingConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::OutgoingConstraint& constraint)
 {
     // here we separate the outgoing constraints with division node from those without,
     // such that the template specializations work
@@ -41,26 +41,26 @@ void ConstraintPool::add_constraint(const ConstraintPool::OutgoingConstraint& co
 }
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::DetectionConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::DetectionConstraint& constraint)
 {
     detection_constraints_.push_back(constraint);
 }
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueConstraint& constraint)
 {
     fix_node_value_constraints_.push_back(constraint);
 }
 
 // LINEAR
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::IncomingLinearConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::IncomingLinearConstraint& constraint)
 {
     incoming_linear_constraints_.push_back(constraint);
 }
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::OutgoingLinearConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::OutgoingLinearConstraint& constraint)
 {
     // here we separate the outgoing constraints with division node from those without,
     // such that the template specializations work
@@ -75,13 +75,13 @@ void ConstraintPool::add_constraint(const ConstraintPool::OutgoingLinearConstrai
 }
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::DetectionLinearConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::DetectionLinearConstraint& constraint)
 {
     detection_linear_constraints_.push_back(constraint);
 }
 
 template<>
-void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueLinearConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueLinearConstraint& constraint)
 {
     fix_node_value_linear_constraints_.push_back(constraint);
 }
@@ -89,7 +89,7 @@ void ConstraintPool::add_constraint(const ConstraintPool::FixNodeValueLinearCons
 //------------------------------------------------------------------------
 // specialization for IncomingConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      IncomingConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::IncomingConstraint>
@@ -142,7 +142,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for IncomingLinearConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      IncomingLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::IncomingLinearConstraint>
@@ -234,7 +234,7 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for OutgoingConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      OutgoingConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::OutgoingConstraint>
@@ -401,7 +401,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 }
 
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      OutgoingNoDivConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::OutgoingConstraint>
@@ -422,7 +422,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for OutgoingLinearConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      OutgoingLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::OutgoingLinearConstraint>
@@ -796,7 +796,7 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
 }
 
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      OutgoingNoDivLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::OutgoingLinearConstraint>
@@ -817,7 +817,7 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for DetectionConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      DetectionConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::DetectionConstraint>
@@ -952,7 +952,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for DetectionLinearConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      DetectionLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::DetectionLinearConstraint>
@@ -1254,7 +1254,7 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for FixNodeValueConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
      ConstraintPoolCplexOptimizer,
      FixNodeValueConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::FixNodeValueConstraint>
@@ -1285,7 +1285,7 @@ void ConstraintPool::add_constraint_type_to_problem<ConstraintPoolOpengmModel,
 //------------------------------------------------------------------------
 // specialization for FixNodeValueLinearConstraintFunction
 template<>
-void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
+PGMLINK_EXPORT void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
      ConstraintPoolCplex2Optimizer,
      FixNodeValueLinearConstraintFunction<ConstraintPool::ValueType, ConstraintPool::IndexType, ConstraintPool::LabelType>,
      ConstraintPool::FixNodeValueLinearConstraint>
@@ -1342,14 +1342,14 @@ void ConstraintPool::add_constraint_type_to_model<ConstraintPoolOpengmModel,
 
 //------------------------------------------------------------------------
 template<>
-void ConstraintPool::constraint_indices<ConstraintPool::IncomingConstraint>(std::vector<ConstraintPool::IndexType>& indices, const IncomingConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::constraint_indices<ConstraintPool::IncomingConstraint>(std::vector<ConstraintPool::IndexType>& indices, const IncomingConstraint& constraint)
 {
     indices.insert(indices.begin(), constraint.transition_nodes.begin(), constraint.transition_nodes.end());
     indices.push_back(constraint.disappearance_node);
 }
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const OutgoingConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const OutgoingConstraint& constraint)
 {
     indices.push_back(constraint.appearance_node);
 
@@ -1363,27 +1363,27 @@ void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& 
 }
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const DetectionConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const DetectionConstraint& constraint)
 {
     indices.push_back(constraint.disappearance_node);
     indices.push_back(constraint.appearance_node);
 }
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const FixNodeValueConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const FixNodeValueConstraint& constraint)
 {
     indices.push_back(constraint.node);
 }
 
 template<>
-void ConstraintPool::constraint_indices<ConstraintPool::IncomingLinearConstraint>(std::vector<ConstraintPool::IndexType>& indices, const IncomingLinearConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::constraint_indices<ConstraintPool::IncomingLinearConstraint>(std::vector<ConstraintPool::IndexType>& indices, const IncomingLinearConstraint& constraint)
 {
     indices.insert(indices.begin(), constraint.transition_nodes.begin(), constraint.transition_nodes.end());
     indices.push_back(constraint.disappearance_node);
 }
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const OutgoingLinearConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const OutgoingLinearConstraint& constraint)
 {
     indices.push_back(constraint.appearance_node);
 
@@ -1397,21 +1397,21 @@ void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& 
 }
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const DetectionLinearConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const DetectionLinearConstraint& constraint)
 {
     indices.push_back(constraint.disappearance_node);
     indices.push_back(constraint.appearance_node);
 }
 
 template<>
-void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const FixNodeValueLinearConstraint& constraint)
+PGMLINK_EXPORT void ConstraintPool::constraint_indices(std::vector<ConstraintPool::IndexType>& indices, const FixNodeValueLinearConstraint& constraint)
 {
     indices.push_back(constraint.node);
 }
 
 //------------------------------------------------------------------------
 template<>
-void ConstraintPool::configure_function(IncomingConstraintFunction<ValueType, IndexType, LabelType>*, IncomingConstraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(IncomingConstraintFunction<ValueType, IndexType, LabelType>*, IncomingConstraint)
 {
     // no flags needed
 }
@@ -1423,13 +1423,13 @@ void ConstraintPool::configure_function(OutgoingNoDivConstraintFunction<ValueTyp
 }
 
 template<>
-void ConstraintPool::configure_function(OutgoingConstraintFunction<ValueType, IndexType, LabelType>* func, OutgoingConstraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(OutgoingConstraintFunction<ValueType, IndexType, LabelType>* func, OutgoingConstraint)
 {
     func->set_with_divisions(with_divisions_);
 }
 
 template<>
-void ConstraintPool::configure_function(DetectionConstraintFunction<ValueType, IndexType, LabelType>* func, DetectionConstraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(DetectionConstraintFunction<ValueType, IndexType, LabelType>* func, DetectionConstraint)
 {
     func->set_with_appearance(with_appearance_);
     func->set_with_disappearance(with_disappearance_);
@@ -1437,31 +1437,31 @@ void ConstraintPool::configure_function(DetectionConstraintFunction<ValueType, I
 }
 
 template<>
-void ConstraintPool::configure_function(FixNodeValueConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::FixNodeValueConstraint constraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(FixNodeValueConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::FixNodeValueConstraint constraint)
 {
     func->set_desired_value(constraint.value);
 }
 
 template<>
-void ConstraintPool::configure_function(IncomingLinearConstraintFunction<ValueType, IndexType, LabelType>*, IncomingLinearConstraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(IncomingLinearConstraintFunction<ValueType, IndexType, LabelType>*, IncomingLinearConstraint)
 {
     // no flags needed
 }
 
 template<>
-void ConstraintPool::configure_function(OutgoingNoDivLinearConstraintFunction<ValueType, IndexType, LabelType>*, OutgoingLinearConstraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(OutgoingNoDivLinearConstraintFunction<ValueType, IndexType, LabelType>*, OutgoingLinearConstraint)
 {
     // no flags needed
 }
 
 template<>
-void ConstraintPool::configure_function(OutgoingLinearConstraintFunction<ValueType, IndexType, LabelType>* func, OutgoingLinearConstraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(OutgoingLinearConstraintFunction<ValueType, IndexType, LabelType>* func, OutgoingLinearConstraint)
 {
     func->set_with_divisions(with_divisions_);
 }
 
 template<>
-void ConstraintPool::configure_function(DetectionLinearConstraintFunction<ValueType, IndexType, LabelType>* func, DetectionLinearConstraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(DetectionLinearConstraintFunction<ValueType, IndexType, LabelType>* func, DetectionLinearConstraint)
 {
     func->set_with_appearance(with_appearance_);
     func->set_with_disappearance(with_disappearance_);
@@ -1469,7 +1469,7 @@ void ConstraintPool::configure_function(DetectionLinearConstraintFunction<ValueT
 }
 
 template<>
-void ConstraintPool::configure_function(FixNodeValueLinearConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::FixNodeValueLinearConstraint constraint)
+PGMLINK_EXPORT void ConstraintPool::configure_function(FixNodeValueLinearConstraintFunction<ValueType, IndexType, LabelType>* func, ConstraintPool::FixNodeValueLinearConstraint constraint)
 {
     func->set_desired_value(constraint.value);
 }
