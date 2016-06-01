@@ -572,8 +572,7 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Serialization_Test)
 	labeling.push_back(1);
 	labeling.push_back(1);
 	labeling.push_back(1);
-
-    BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
+	BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
     //---------------------------------------------------------------------
     // load serialized model and constraint pool
