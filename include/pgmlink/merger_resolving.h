@@ -20,15 +20,15 @@
 #include <boost/python.hpp>
 
 // pgmlink headers
-#include "pgmlink/hypotheses.h"
-#include "pgmlink/event.h"
-#include "pgmlink/traxels.h"
-#include "pgmlink/reasoner.h"
-#include "pgmlink/merger_resolving_grammar.h"
-#include "pgmlink/reasoner_constracking.h"
-#include "pgmlink/features/feature.h"
-#include "pgmlink/pgmlink_export.h"
-#include "pgmlink/conservationtracking_parameter.h"
+#include "hypotheses.h"
+#include "event.h"
+#include "traxels.h"
+#include "reasoner.h"
+#include "merger_resolving_grammar.h"
+#include "reasoner_constracking.h"
+#include "features/feature.h"
+#include "pgmlink_export.h"
+#include "conservationtracking_parameter.h"
 
 // boost serialization for arma::mat
 namespace boost {
@@ -521,7 +521,7 @@ class MergerResolver
                    FeatureHandlerBase& handler);
 
  public:
-  PGMLINK_EXPORT MergerResolver(HypothesesGraph* g, size_t num_dimensions, const std::vector<int>& max_traxel_id_at={}) 
+  PGMLINK_EXPORT MergerResolver(HypothesesGraph* g, size_t num_dimensions, const std::vector<int>& max_traxel_id_at=std::vector<int>()) 
   : g_(g), n_dimensions_(num_dimensions), max_traxel_id_at_(max_traxel_id_at)
   {
     if (!g_)

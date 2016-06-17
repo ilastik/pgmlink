@@ -15,12 +15,12 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 
-#include "pgmlink/event.h"
-#include "pgmlink/pgmlink_export.h"
-#include "pgmlink/traxels.h"
-#include "pgmlink/field_of_view.h"
-#include "pgmlink/merger_resolving.h"
-#include "pgmlink/conservationtracking_parameter.h"
+#include "event.h"
+#include "pgmlink_export.h"
+#include "traxels.h"
+#include "field_of_view.h"
+#include "merger_resolving.h"
+#include "conservationtracking_parameter.h"
 #include <boost/python.hpp>
 
 namespace pgmlink
@@ -214,8 +214,6 @@ public:
         enable_disappearance_(true)
     {}
 
-    ConsTracking() {}
-
     PGMLINK_EXPORT EventVectorVectorVector operator()(
             TraxelStore& ts,
             Parameter& param,
@@ -229,7 +227,7 @@ public:
             bool with_merger_resolution = true,
             int n_dim = 3,
             double transition_parameter = 5.,
-            const std::vector<int>& max_traxel_id_at = {},
+            const std::vector<int>& max_traxel_id_at = std::vector<int>(),
             double border_width = 0,
             bool with_constraints = true,
             UncertaintyParameter uncertaintyParam = UncertaintyParameter(),
@@ -303,7 +301,7 @@ public:
             bool with_tracklets = true,
             int n_dim = 3,
             double transition_parameter = 5.,
-            const std::vector<int>& max_traxel_id_at = {},
+            const std::vector<int>& max_traxel_id_at = std::vector<int>(),
             bool with_constraints = true,
             boost::python::object transitionClassifier = boost::python::object()
             );

@@ -22,9 +22,9 @@ class SquareRootSquaredDifferenceCalculator : public FeatureCalculator
 public:
     static const std::string name_;
 
-    virtual ~SquareRootSquaredDifferenceCalculator();
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~SquareRootSquaredDifferenceCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 };
 
 } // namespace feature_extraction

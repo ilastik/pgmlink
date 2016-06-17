@@ -128,6 +128,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -141,7 +142,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -170,7 +171,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger )
         for (std::vector<Event>::const_iterator it = (*it_t).begin(); it != (*it_t).end(); ++it)
         {
             Event e = *it;
-            cout << t << ": " << e << endl;
+            std::cout << t << ": " << e.type << std::endl;
             BOOST_CHECK_NE(e.type, Event::Disappearance);
             BOOST_CHECK_NE(e.type, Event::Appearance);
             BOOST_CHECK_NE(e.type, Event::Division);
@@ -267,6 +268,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Division )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -280,7 +282,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Division )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -378,6 +380,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_SimpleMove )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -391,7 +394,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_SimpleMove )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -528,6 +531,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger_Volume )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -541,7 +545,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger_Volume )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -659,6 +663,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Disappearance )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -672,7 +677,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Disappearance )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -810,6 +815,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_AppearanceAndDisappearance )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -823,7 +829,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_AppearanceAndDisappearance )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -1055,6 +1061,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Appearance )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -1068,7 +1075,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Appearance )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -1087,7 +1094,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Appearance )
         for (std::vector<Event>::const_iterator it = (*it_t).begin(); it != (*it_t).end(); ++it)
         {
             Event e = *it;
-            cout << e << endl;
+            std::cout << e.type << std::endl;
             ++num_events;
             BOOST_CHECK_NE(e.type, Event::Disappearance);
             BOOST_CHECK_NE(e.type, Event::Division);
@@ -1235,6 +1242,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_AppearanceSimple )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -1248,7 +1256,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_AppearanceSimple )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -1450,6 +1458,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Tracklets )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -1463,7 +1472,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Tracklets )
             false, //with_merger_resolution
             3, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -1726,6 +1735,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger3 )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -1739,7 +1749,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger3 )
             true, //with_merger_resolution
             2, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -1765,7 +1775,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger3 )
             {
                 ++disapps;
             }
-            cout << e << endl;
+            std::cout << e.type << std::endl;
             ++num_events;
         }
         ++t;
@@ -1947,6 +1957,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector_Traxels )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -1960,7 +1971,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector_Traxels )
             false, //with_merger_resolution
             2, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -1989,7 +2000,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector_Traxels )
         }
         else
         {
-            cout << "unexpected event: " << e;
+            std::cout << "unexpected event: " << e.type;
             BOOST_CHECK(false);
         }
     }
@@ -2012,7 +2023,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector_Traxels )
         }
         else
         {
-            cout << "unexpected event: " << e;
+            std::cout << "unexpected event: " << e.type;
             BOOST_CHECK(false);
         }
     }
@@ -2138,6 +2149,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector_Tracklets 
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -2151,7 +2163,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector_Tracklets 
             false, //with_merger_resolution
             2, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -2180,7 +2192,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector_Tracklets 
         }
         else
         {
-            cout << "unexpected event: " << e;
+            std::cout << "unexpected event: " << e.type;
             BOOST_CHECK(false);
         }
     }
@@ -2203,7 +2215,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector_Tracklets 
         }
         else
         {
-            cout << "unexpected event: " << e;
+            std::cout << "unexpected event: " << e.type;
             BOOST_CHECK(false);
         }
     }
@@ -2343,6 +2355,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger4 )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -2356,7 +2369,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger4 )
             false, //with_merger_resolution
             2, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -2397,7 +2410,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Merger4 )
             {
                 ++moves;
             }
-            cout << e << endl;
+            std::cout << e.type << std::endl;
             ++num_events;
         }
         ++t;
@@ -2566,6 +2579,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_MergerResolvingDivision )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -2579,7 +2593,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_MergerResolvingDivision )
             true, //with_merger_resolution
             2, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -2610,7 +2624,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_MergerResolvingDivision )
            ++num_mergers;
            BOOST_CHECK((e.traxel_ids[0] == 21 && e.traxel_ids.size() == 3) || (e.traxel_ids[0] == 22 && e.traxel_ids.size() == 3));
        } else  {
-           cout << "unexpected event: " << e;
+           std::cout << "unexpected event: " << e.type;
            BOOST_CHECK(false);
        }
     }
@@ -2736,6 +2750,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector2 )
 
     Parameter consTrackingParams = Parameter();
     UncertaintyParameter uparam;
+	std::vector<int> initList;
 
     std::vector< std::vector<Event> > events = tracking(ts,
             consTrackingParams,
@@ -2749,7 +2764,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector2 )
             false, //with_merger_resolution
             2, //n_dim
             5, //transition_parameter
-            {},
+            initList,
             0, //border_width for app/disapp costs
             true, //with_constraints
             uparam, // uncertainty parameters
@@ -2774,7 +2789,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector2 )
         }
         else
         {
-            cout << "unexpected event: " << e;
+            std::cout << "unexpected event: " << e.type;
             BOOST_CHECK(false);
         }
     }
@@ -2793,7 +2808,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector2 )
         }
         else
         {
-            cout << "unexpected event: " << e;
+            std::cout << "unexpected event: " << e.type;
             BOOST_CHECK(false);
         }
     }
@@ -2812,7 +2827,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_TranslationVector2 )
         }
         else
         {
-            cout << "unexpected event: " << e;
+            std::cout << "unexpected event: " << e.type;
             BOOST_CHECK(false);
         }
     }
@@ -2985,7 +3000,7 @@ BOOST_AUTO_TEST_CASE( Tracking_ConservationTracking_Factorize )
     {
         para = std::vector<double>(5, 1.);
         para[i] = 10;
-        cout << para[0] << "  " << para[1]  << "  " << para[2]  << "  " << para[3] << "  " << para[4] << std::endl;
+        std::cout << para[0] << "  " << para[1]  << "  " << para[2]  << "  " << para[3] << "  " << para[4] << std::endl;
 
         events = tracking.track(0,
                                 0.5,

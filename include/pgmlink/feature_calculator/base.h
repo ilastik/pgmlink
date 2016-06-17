@@ -6,8 +6,8 @@
 
 // pgmlink
 #include "pgmlink/features/feature.h"
-#include "pgmlink/feature_calculator/base.h"
 #include "pgmlink/features/feature_extraction.h"
+#include "../pgmlink_export.h"
 
 namespace pgmlink
 {
@@ -21,14 +21,14 @@ namespace feature_extraction
 class FeatureCalculator
 {
 public:
-    virtual ~FeatureCalculator();
-    virtual feature_array calculate(const feature_array& /* f1 */ ) const;
-    virtual feature_array calculate(const feature_array& /* f1 */, const feature_array& /* f2 */) const;
-    virtual feature_array calculate(const feature_array& /* f1 */, const feature_array& /* f2 */, const feature_array& /* f3 */) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~FeatureCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& /* f1 */ ) const;
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& /* f1 */, const feature_array& /* f2 */) const;
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& /* f1 */, const feature_array& /* f2 */, const feature_array& /* f3 */) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 
-    bool operator==(const FeatureCalculator& other);
-    bool operator!=(const FeatureCalculator& other);
+    PGMLINK_EXPORT bool operator==(const FeatureCalculator& other);
+    PGMLINK_EXPORT bool operator!=(const FeatureCalculator& other);
 
 private:
     static const std::string name_;

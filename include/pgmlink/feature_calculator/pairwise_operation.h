@@ -18,10 +18,10 @@ class PairwiseOperationCalculator : public FeatureCalculator {
  public:
   typedef boost::function<feature_array(const feature_array&, const feature_array&)> Operation;
 
-  PairwiseOperationCalculator(Operation op, const std::string& name );
-  virtual ~PairwiseOperationCalculator();
-  virtual feature_array calculate(const feature_array& f1, const feature_array& f2) const;
-  virtual const std::string& name() const;
+  PGMLINK_EXPORT PairwiseOperationCalculator(Operation op, const std::string& name );
+  virtual PGMLINK_EXPORT ~PairwiseOperationCalculator();
+  virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
+  virtual PGMLINK_EXPORT const std::string& name() const;
 
  private:
   std::string name_;

@@ -11,7 +11,7 @@
 
 // pgmlink
 #include "feature.h"
-#include "pgmlink/pgmlink_export.h"
+#include "../pgmlink_export.h"
 
 namespace pgmlink
 {
@@ -69,12 +69,12 @@ namespace helpers
 ////
 //// function convenience_feature_extraction
 ////
-MultipleFeatureExtraction::CombinedFeatureMap convenience_feature_extraction( const MultipleFeatureExtraction::FeatureList& features,
+PGMLINK_EXPORT MultipleFeatureExtraction::CombinedFeatureMap convenience_feature_extraction( const MultipleFeatureExtraction::FeatureList& features,
         const Traxel& trax );
-MultipleFeatureExtraction::CombinedFeatureMap convenience_feature_extraction( const MultipleFeatureExtraction::FeatureList& features,
+PGMLINK_EXPORT MultipleFeatureExtraction::CombinedFeatureMap convenience_feature_extraction( const MultipleFeatureExtraction::FeatureList& features,
         const Traxel& trax1,
         const Traxel& trax2 );
-MultipleFeatureExtraction::CombinedFeatureMap convenience_feature_extraction( const MultipleFeatureExtraction::FeatureList& features,
+PGMLINK_EXPORT MultipleFeatureExtraction::CombinedFeatureMap convenience_feature_extraction( const MultipleFeatureExtraction::FeatureList& features,
         const Traxel& trax1,
         const Traxel& trax2,
         const Traxel& trax3 );

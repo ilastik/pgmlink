@@ -17,18 +17,18 @@
 
 #include <opengm/graphicalmodel/weights.hxx>
 
-#include "pgmlink/event.h"
-#include "pgmlink/pgmlink_export.h"
-#include "pgmlink/traxels.h"
-#include "pgmlink/tracking.h"
-#include "pgmlink/field_of_view.h"
-#include "pgmlink/merger_resolving.h"
-#include "pgmlink/hypotheses.h"
+#include "event.h"
+#include "pgmlink_export.h"
+#include "traxels.h"
+#include "tracking.h"
+#include "field_of_view.h"
+#include "merger_resolving.h"
+#include "hypotheses.h"
 #include <boost/python.hpp>
-#include "pgmlink/reasoner_constracking.h"
-#include "pgmlink/conservationtracking_parameter.h"
-#include "pgmlink/inferencemodel/structuredlearningtrackinginferencemodel.h"
-#include "pgmlink/structured_learning_tracking_dataset.h"
+#include "reasoner_constracking.h"
+#include "conservationtracking_parameter.h"
+#include "inferencemodel/structuredlearningtrackinginferencemodel.h"
+#include "structured_learning_tracking_dataset.h"
 
 namespace pgmlink
 {

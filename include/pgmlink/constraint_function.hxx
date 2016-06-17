@@ -6,7 +6,7 @@
 #include <opengm/functions/function_properties_base.hxx>
 #include <vector>
 #include "opengm/functions/constraint_functions/linear_constraint_function.hxx"
-
+#include "pgmlink_export.h"
 namespace pgmlink
 {
 namespace pgm

@@ -134,6 +134,7 @@ BOOST_AUTO_TEST_CASE( GumbelPerturbAndMAP )
                             );
 
     Parameter consTrackingParams = Parameter();
+	std::vector<int> initList;
 
     tracking(ts,
              consTrackingParams,
@@ -147,7 +148,7 @@ BOOST_AUTO_TEST_CASE( GumbelPerturbAndMAP )
              false, //with_merger_resolution
              3, //n_dim
              5, //transition_parameter
-             {},
+             initList,
              0, //border_width for app/disapp costs
              true, //with_constraints
              uparam, // uncertainty parameters
@@ -296,7 +297,8 @@ BOOST_AUTO_TEST_CASE( ClassifierUncertaintyForDivision )
                             );
 
     Parameter consTrackingParams = Parameter();
-
+	std::vector<int> initList;
+    
     tracking(ts,
              consTrackingParams,
              0, // forbidden_cost
@@ -309,7 +311,7 @@ BOOST_AUTO_TEST_CASE( ClassifierUncertaintyForDivision )
              false, //with_merger_resolution
              3, //n_dim
              5, //transition_parameter
-             {},
+             initList,
              0, //border_width for app/disapp costs
              true, //with_constraints
              uparam, // uncertainty parameters
@@ -439,7 +441,8 @@ BOOST_AUTO_TEST_CASE( diverseUncertainty )
                             );
 
     Parameter consTrackingParams = Parameter();
-
+	std::vector<int> initList;
+    
     EventVectorVectorVector events = tracking(ts,
                                      consTrackingParams,
                                      0, // forbidden_cost
@@ -452,7 +455,7 @@ BOOST_AUTO_TEST_CASE( diverseUncertainty )
                                      false, //with_merger_resolution
                                      3, //n_dim
                                      5, //transition_parameter
-                                     {},
+                                     initList,
                                      0, //border_width for app/disapp costs
                                      true, //with_constraints
                                      uparam, // uncertainty parameters

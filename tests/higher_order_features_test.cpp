@@ -14,27 +14,27 @@ using namespace pgmlink;
 using namespace pgmlink::features;
 
 // using namespace boost;
-typedef typename
+typedef
 property_map<node_timestep, HypothesesGraph::base_graph>::type
 node_timestep_type;
-typedef typename
+typedef
 property_map<node_active_count, HypothesesGraph::base_graph>::type
 node_active_map_type;
-typedef typename
+typedef
 property_map<arc_active_count, HypothesesGraph::base_graph>::type
 arc_active_map_type;
-typedef typename
+typedef
 property_map<division_active_count, HypothesesGraph::base_graph>::type
 div_active_map_type;
-typedef typename
+typedef
 property_map<node_traxel, HypothesesGraph::base_graph>::type
 node_traxel_type;
-typedef typename
+typedef
 property_map<node_tracklet, HypothesesGraph::base_graph>::type
 node_tracklet_type;
-typedef typename HypothesesGraph::NodeIt NodeIt;
-typedef typename HypothesesGraph::InArcIt InArcIt;
-typedef typename HypothesesGraph::OutArcIt OutArcIt;
+typedef HypothesesGraph::NodeIt NodeIt;
+typedef HypothesesGraph::InArcIt InArcIt;
+typedef HypothesesGraph::OutArcIt OutArcIt;
 
 void get_graph(HypothesesGraph& graph)
 {
@@ -569,8 +569,8 @@ BOOST_AUTO_TEST_CASE( DivisionTraxels_operator_traxelgraph )
         ConstTraxelRefVector traxelrefs = div_traxels[0];
         BOOST_CHECK_EQUAL(traxelrefs.size(), 3);
         BOOST_CHECK_EQUAL(traxelrefs[0]->Id, 3);
-        BOOST_CHECK((traxelrefs[1]->Id == 5) or (traxelrefs[1]->Id == 6));
-        BOOST_CHECK((traxelrefs[2]->Id == 5) or (traxelrefs[2]->Id == 6));
+        BOOST_CHECK((traxelrefs[1]->Id == 5) || (traxelrefs[1]->Id == 6));
+        BOOST_CHECK((traxelrefs[2]->Id == 5) || (traxelrefs[2]->Id == 6));
     }
 
     // get the division traxels to depth 2
@@ -598,9 +598,9 @@ BOOST_AUTO_TEST_CASE( DivisionTraxels_operator_traxelgraph )
         BOOST_CHECK_EQUAL(traxelrefs.size(), 6);
         BOOST_CHECK_EQUAL(traxelrefs[0]->Id, 3);
         BOOST_CHECK_EQUAL(traxelrefs[1]->Id, 1);
-        BOOST_CHECK((traxelrefs[2]->Id == 5) or (traxelrefs[2]->Id == 6));
+        BOOST_CHECK((traxelrefs[2]->Id == 5) || (traxelrefs[2]->Id == 6));
         BOOST_CHECK_EQUAL(traxelrefs[3]->Id - traxelrefs[2]->Id, 2);
-        BOOST_CHECK((traxelrefs[4]->Id == 5) or (traxelrefs[4]->Id == 6));
+        BOOST_CHECK((traxelrefs[4]->Id == 5) || (traxelrefs[4]->Id == 6));
         BOOST_CHECK_EQUAL(traxelrefs[5]->Id - traxelrefs[4]->Id, 2);
     }
 }
@@ -628,8 +628,8 @@ BOOST_AUTO_TEST_CASE( DivisionTraxels_operator_trackletgraph )
         ConstTraxelRefVector traxelrefs = div_traxels[0];
         BOOST_CHECK_EQUAL(traxelrefs.size(), 3);
         BOOST_CHECK_EQUAL(traxelrefs[0]->Id, 3);
-        BOOST_CHECK((traxelrefs[1]->Id == 5) or (traxelrefs[1]->Id == 6));
-        BOOST_CHECK((traxelrefs[2]->Id == 5) or (traxelrefs[2]->Id == 6));
+        BOOST_CHECK((traxelrefs[1]->Id == 5) || (traxelrefs[1]->Id == 6));
+        BOOST_CHECK((traxelrefs[2]->Id == 5) || (traxelrefs[2]->Id == 6));
     }
 
     // get the division traxels to depth 2
@@ -657,9 +657,9 @@ BOOST_AUTO_TEST_CASE( DivisionTraxels_operator_trackletgraph )
         BOOST_CHECK_EQUAL(traxelrefs.size(), 6);
         BOOST_CHECK_EQUAL(traxelrefs[0]->Id, 3);
         BOOST_CHECK_EQUAL(traxelrefs[1]->Id, 1);
-        BOOST_CHECK((traxelrefs[2]->Id == 5) or (traxelrefs[2]->Id == 6));
+        BOOST_CHECK((traxelrefs[2]->Id == 5) || (traxelrefs[2]->Id == 6));
         BOOST_CHECK_EQUAL(traxelrefs[3]->Id - traxelrefs[2]->Id, 2);
-        BOOST_CHECK((traxelrefs[4]->Id == 5) or (traxelrefs[4]->Id == 6));
+        BOOST_CHECK((traxelrefs[4]->Id == 5) || (traxelrefs[4]->Id == 6));
         BOOST_CHECK_EQUAL(traxelrefs[5]->Id - traxelrefs[4]->Id, 2);
     }
 }
@@ -1271,10 +1271,10 @@ BOOST_AUTO_TEST_CASE( CovarianceCalculator_test )
 
     LOG(logINFO) << "  " << inv_cov(0, 0) << "\t" << inv_cov(1, 0);
     LOG(logINFO) << "  " << inv_cov(0, 1) << "\t" << inv_cov(1, 1);
-    BOOST_CHECK(( 1.89 < inv_cov(0, 0)) and (inv_cov(0, 0) <  1.90));
-    BOOST_CHECK((-2.13 < inv_cov(1, 0)) and (inv_cov(1, 0) < -2.12));
-    BOOST_CHECK((-2.13 < inv_cov(0, 1)) and (inv_cov(0, 1) < -2.12));
-    BOOST_CHECK(( 2.71 < inv_cov(1, 1)) and (inv_cov(1, 1) <  2.72));
+    BOOST_CHECK(( 1.89 < inv_cov(0, 0)) && (inv_cov(0, 0) <  1.90));
+    BOOST_CHECK((-2.13 < inv_cov(1, 0)) && (inv_cov(1, 0) < -2.12));
+    BOOST_CHECK((-2.13 < inv_cov(0, 1)) && (inv_cov(0, 1) < -2.12));
+    BOOST_CHECK(( 2.71 < inv_cov(1, 1)) && (inv_cov(1, 1) <  2.72));
 }
 
 BOOST_AUTO_TEST_CASE( SquaredMahalanobisCalculator_test )
@@ -1299,13 +1299,13 @@ BOOST_AUTO_TEST_CASE( SquaredMahalanobisCalculator_test )
     }
     BOOST_CHECK_EQUAL(matrix.shape(0), 7);
     BOOST_CHECK_EQUAL(matrix.shape(1), 1);
-    BOOST_CHECK(( 0.7153 < matrix(0, 0)) and (matrix(0, 0) <  0.7154));
-    BOOST_CHECK(( 2.1810 < matrix(1, 0)) and (matrix(1, 0) <  2.1811));
-    BOOST_CHECK(( 2.9443 < matrix(2, 0)) and (matrix(2, 0) <  2.9444));
-    BOOST_CHECK(( 0.1657 < matrix(3, 0)) and (matrix(3, 0) <  0.1658));
-    BOOST_CHECK(( 1.1733 < matrix(4, 0)) and (matrix(4, 0) <  1.1734));
-    BOOST_CHECK(( 0.3489 < matrix(5, 0)) and (matrix(5, 0) <  0.3490));
-    BOOST_CHECK(( 4.4711 < matrix(6, 0)) and (matrix(6, 0) <  4.4712));
+    BOOST_CHECK(( 0.7153 < matrix(0, 0)) &&  (matrix(0, 0) <  0.7154));
+    BOOST_CHECK(( 2.1810 < matrix(1, 0)) && (matrix(1, 0) <  2.1811));
+    BOOST_CHECK(( 2.9443 < matrix(2, 0)) && (matrix(2, 0) <  2.9444));
+    BOOST_CHECK(( 0.1657 < matrix(3, 0)) && (matrix(3, 0) <  0.1658));
+    BOOST_CHECK(( 1.1733 < matrix(4, 0)) && (matrix(4, 0) <  1.1734));
+    BOOST_CHECK(( 0.3489 < matrix(5, 0)) && (matrix(5, 0) <  0.3490));
+    BOOST_CHECK(( 4.4711 < matrix(6, 0)) && (matrix(6, 0) <  4.4712));
 }
 
 BOOST_AUTO_TEST_CASE( MVNOutlierCalculator_calculate )

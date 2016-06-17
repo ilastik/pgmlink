@@ -1,5 +1,6 @@
 #include "pgmlink/inferencemodel/constrackinginferencemodel.h"
 #include <boost/python.hpp>
+#include <iso646.h> // for not, and, or on MSVC
 
 namespace pgmlink
 {
@@ -273,19 +274,19 @@ void ConsTrackingInferenceModel::add_division_nodes(const HypothesesGraph& g)
     number_of_division_nodes_ = count;
 }
 
-unsigned int ConsTrackingInferenceModel::get_number_of_division_nodes(){
+size_t ConsTrackingInferenceModel::get_number_of_division_nodes(){
     return number_of_division_nodes_;
 }
 
-unsigned int ConsTrackingInferenceModel::get_number_of_transition_nodes(){
+size_t ConsTrackingInferenceModel::get_number_of_transition_nodes(){
     return number_of_transition_nodes_;
 }
 
-unsigned int ConsTrackingInferenceModel::get_number_of_appearance_nodes(){
+size_t ConsTrackingInferenceModel::get_number_of_appearance_nodes(){
     return number_of_appearance_nodes_;
 }
 
-unsigned int ConsTrackingInferenceModel::get_number_of_disappearance_nodes(){
+size_t ConsTrackingInferenceModel::get_number_of_disappearance_nodes(){
     return number_of_disappearance_nodes_;
 }
 
@@ -319,12 +320,12 @@ void ConsTrackingInferenceModel::printResults(const HypothesesGraph& g)
             it != app_node_map_.end(); ++it)
     {
         c = 0;
-        for( std::vector<long unsigned int>::const_iterator i = active_nodes_count[it->first].begin();
+        for( std::vector<size_t>::const_iterator i = active_nodes_count[it->first].begin();
                 i != active_nodes_count[it->first].end();
                 ++i)
         {
             LOG(logINFO) << *i;
-            if (*i > 0)
+            if (*i)
             {
                 c++;
             }
@@ -341,7 +342,7 @@ void ConsTrackingInferenceModel::printResults(const HypothesesGraph& g)
                 ++i)
         {
             LOG(logDEBUG4) << *i << " ";
-            if (*i > 0)
+            if (*i)
             {
                 c++;
             }
@@ -530,7 +531,7 @@ size_t ConsTrackingInferenceModel::add_detection_factors(const HypothesesGraph& 
         //functor add detection table
         factorIndex = add_div_m_best_perturbation(energies, Detection, factorIndex);
         
-        typename GraphicalModelType::FunctionIdentifier funcId = add_marray_as_explicit_function(shape, energies);
+        GraphicalModelType::FunctionIdentifier funcId = add_marray_as_explicit_function(shape, energies);
 
         // sorting only works because appearance nodes have lower variable indices than disappearances
         // and the matrix is constructed such that appearances are along coords[0], ...
@@ -587,7 +588,7 @@ size_t ConsTrackingInferenceModel::add_transition_factors(const HypothesesGraph&
         }
         factorIndex = add_div_m_best_perturbation(energies, Transition, factorIndex);
 
-        typename GraphicalModelType::FunctionIdentifier funcId = add_marray_as_explicit_function(shape, energies);
+        GraphicalModelType::FunctionIdentifier funcId = add_marray_as_explicit_function(shape, energies);
         model_.addFactor(funcId, vi, vi + 1);
     }
 
@@ -643,7 +644,7 @@ size_t ConsTrackingInferenceModel::add_division_factors(const HypothesesGraph& g
         }
         factorIndex = add_div_m_best_perturbation(energies, Division, factorIndex);
 
-        typename GraphicalModelType::FunctionIdentifier funcId = add_marray_as_explicit_function(shape, energies);
+        GraphicalModelType::FunctionIdentifier funcId = add_marray_as_explicit_function(shape, energies);
         model_.addFactor(funcId, vi, vi + 1);
     }
 
@@ -987,7 +988,7 @@ void ConsTrackingInferenceModel::conclude( HypothesesGraph& g,
         }
         for (HypothesesGraph::NodeIt n(g); n != lemon::INVALID; ++n)
         {
-            active_nodes_count.set(n, std::vector<long unsigned int>());
+            active_nodes_count.set(n, std::vector<size_t>());
             active_divisions_count.set(n, std::vector<bool>());
         }
     }

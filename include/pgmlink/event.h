@@ -11,7 +11,7 @@
 #include <stdexcept>
 #include <stdint.h>
 
-#include "pgmlink/pgmlink_export.h"
+#include "pgmlink_export.h"
 #include <boost/archive/text_iarchive.hpp>
 #include <boost/archive/text_oarchive.hpp>
 
@@ -74,7 +74,7 @@ public:
     PGMLINK_EXPORT bool operator!=(const Event& other) const;
     PGMLINK_EXPORT bool operator<(const Event& other) const;
     PGMLINK_EXPORT bool operator>(const Event& other) const;
-    friend std::ostream& operator<< (std::ostream &out, const Event &e);
+    friend PGMLINK_EXPORT std::ostream& operator<< (std::ostream &out, const Event &e);
 
 private:
     uint32_t n_features_;

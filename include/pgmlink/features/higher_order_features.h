@@ -56,6 +56,7 @@ diffusion_calculator.calculate(positions, return_value);
 #include "pgmlink/traxels.h" /* for traxels */
 #include "pgmlink/hypotheses.h" /* for hypotheses graph */
 #include "pgmlink/classifier_auxiliary.h" /* for class FeatureCalculator */
+#include "../pgmlink_export.h"
 
 // boost
 #include <boost/serialization/serialization.hpp> /* for serialization */
@@ -98,7 +99,7 @@ typedef vigra::MultiArrayView<2, feature_type> FeatureMatrixView;
   <TT>node_active</TT>, <TT>node_active2</TT> and <TT>arc_active</TT> property
   maps.
 */
-void set_solution(HypothesesGraph& graph, const size_t solution_index);
+PGMLINK_EXPORT void set_solution(HypothesesGraph& graph, const size_t solution_index);
 
 /**
 \brief write the solution stored in the property maps <TT>node_active_count</TT>
@@ -106,7 +107,7 @@ void set_solution(HypothesesGraph& graph, const size_t solution_index);
   <TT>node_active</TT>, <TT>node_active2</TT> and <TT>arc_active</TT> property
   maps.
 */
-void set_injected_solution(HypothesesGraph& graph);
+PGMLINK_EXPORT void set_injected_solution(HypothesesGraph& graph);
 
 /*=============================================================================
   pure virtual classes
@@ -155,9 +156,9 @@ public:
 class TraxelsFeatureExtractor
 {
 public:
-    TraxelsFeatureExtractor() {};
-    virtual ~TraxelsFeatureExtractor() {};
-    virtual const std::string& name() const = 0;
+    PGMLINK_EXPORT TraxelsFeatureExtractor() {};
+    virtual PGMLINK_EXPORT ~TraxelsFeatureExtractor() {};
+    virtual PGMLINK_EXPORT const std::string& name() const = 0;
     /**
     \brief extracts any features from the traxelvector given as the argument
 
@@ -166,11 +167,11 @@ public:
     \param[out] feature_matrix two dimensional matrix that contains the extracted
       features
     */
-    virtual void extract(
+    virtual PGMLINK_EXPORT void extract(
         const ConstTraxelRefVector& traxelrefs,
         FeatureMatrix& feature_matrix
     ) const = 0;
-    virtual FeatureMatrix extract(
+    virtual PGMLINK_EXPORT FeatureMatrix extract(
         const ConstTraxelRefVector& traxelrefs
     ) const;
 };
@@ -187,18 +188,18 @@ of this virtual class.
 class TraxelsFeatureCalculator
 {
 public:
-    TraxelsFeatureCalculator() {};
-    virtual ~ TraxelsFeatureCalculator() {};
-    virtual const std::string& name() const = 0;
-    virtual void calculate(
+    PGMLINK_EXPORT TraxelsFeatureCalculator() {};
+    virtual PGMLINK_EXPORT ~TraxelsFeatureCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const = 0;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const = 0;
-    virtual FeatureMatrix calculate(
+    virtual PGMLINK_EXPORT FeatureMatrix calculate(
         const FeatureMatrix& feature_matrix
     ) const;
     // TODO documentation of member function
-    virtual void calculate_for_all(
+    virtual PGMLINK_EXPORT void calculate_for_all(
         const ConstTraxelRefVectors& traxelrefs,
         FeatureMatrix& return_matrix,
         boost::shared_ptr<TraxelsFeatureExtractor> feature_extractor_ref
@@ -261,7 +262,7 @@ public:
     // tracks in the hypotheses graph.
     \endcode
     */
-    GraphFeatureCalculator(
+    PGMLINK_EXPORT GraphFeatureCalculator(
         boost::shared_ptr<TraxelsOfInterest> subsets_extractor_ptr,
         boost::shared_ptr<TraxelsFeatureExtractor> feature_extractor_ptr,
         boost::shared_ptr<TraxelsFeatureCalculator> feature_calculator_ptr
@@ -269,8 +270,8 @@ public:
         subsets_extractor_ptr_(subsets_extractor_ptr),
         feature_extractor_ptr_(feature_extractor_ptr),
         feature_calculator_ptr_(feature_calculator_ptr) {};
-    virtual ~GraphFeatureCalculator() {}
-    virtual void calculate(
+    virtual PGMLINK_EXPORT ~GraphFeatureCalculator() {}
+    virtual PGMLINK_EXPORT void calculate(
         const HypothesesGraph& graph,
         FeatureMatrix& return_matrix
     ) const;
@@ -300,15 +301,15 @@ public:
 
     The extract method the extracts this feature vector of the feature map.
     */
-    TraxelsFeaturesIdentity(const std::string& feature_name);
+    PGMLINK_EXPORT TraxelsFeaturesIdentity(const std::string& feature_name);
     /**
     \brief Takes many feature names that should be extracted in the extract
       method.
     */
-    TraxelsFeaturesIdentity(const std::vector<std::string>& feature_names);
-    virtual ~TraxelsFeaturesIdentity() {};
-    virtual const std::string& name() const;
-    virtual void extract(
+    PGMLINK_EXPORT TraxelsFeaturesIdentity(const std::vector<std::string>& feature_names);
+    virtual PGMLINK_EXPORT ~TraxelsFeaturesIdentity() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void extract(
         const ConstTraxelRefVector& traxelrefs,
         FeatureMatrix& feature_matrix
     ) const;
@@ -339,10 +340,10 @@ The tracks in the following example are:
 class TrackTraxels : public TraxelsOfInterest
 {
 public:
-    TrackTraxels(bool require_div_start = false, bool require_div_end = false);
-    virtual ~TrackTraxels() {};
-    virtual const std::string& name() const;
-    virtual const std::vector<ConstTraxelRefVector>& operator()(
+    PGMLINK_EXPORT TrackTraxels(bool require_div_start = false, bool require_div_end = false);
+    virtual PGMLINK_EXPORT ~TrackTraxels() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT const std::vector<ConstTraxelRefVector>& operator()(
         const HypothesesGraph& graph
     );
 protected:
@@ -376,13 +377,13 @@ cell is always in the 0th position.
 class DivisionTraxels : public TraxelsOfInterest
 {
 public:
-    DivisionTraxels(size_t depth = 1) : depth_(depth) {};
-    virtual ~DivisionTraxels() {};
-    virtual const std::string& name() const;
-    virtual const std::vector<ConstTraxelRefVector>& operator()(
+    PGMLINK_EXPORT DivisionTraxels(size_t depth = 1) : depth_(depth) {};
+    virtual PGMLINK_EXPORT ~DivisionTraxels() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT const std::vector<ConstTraxelRefVector>& operator()(
         const HypothesesGraph& graph
     );
-    virtual const std::vector<ConstTraxelRefVector>& operator()(
+    virtual PGMLINK_EXPORT const std::vector<ConstTraxelRefVector>& operator()(
         const HypothesesGraph& graph,
         size_t depth
     );
@@ -424,13 +425,13 @@ public:
     typedef boost::function<bool (const Traxel&)> FilterFunctionType;
     enum AppearanceType {Appearance, Disappearance};
 
-    AppearanceTraxels(
+    PGMLINK_EXPORT AppearanceTraxels(
         const AppearanceType appearance = AppearanceType::Appearance,
         FilterFunctionType traxel_filter_function = NULL
     );
-    virtual ~AppearanceTraxels() {};
-    virtual const std::string& name() const;
-    virtual const std::vector<ConstTraxelRefVector>& operator()(
+    virtual PGMLINK_EXPORT ~AppearanceTraxels() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT const std::vector<ConstTraxelRefVector>& operator()(
         const HypothesesGraph& graph
     );
 protected:
@@ -449,15 +450,15 @@ protected:
 class CompositionCalculator : public TraxelsFeatureCalculator
 {
 public:
-    CompositionCalculator(
+    PGMLINK_EXPORT CompositionCalculator(
         boost::shared_ptr<TraxelsFeatureCalculator> first_calculator_ptr,
         boost::shared_ptr<TraxelsFeatureCalculator> second_calculator_ptr
     ) :
         first_calculator_ptr_(first_calculator_ptr),
         second_calculator_ptr_(second_calculator_ptr) {};
-    virtual ~CompositionCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    virtual PGMLINK_EXPORT ~CompositionCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -541,13 +542,13 @@ position.
 class TraxelsFCFromFC : public TraxelsFeatureCalculator
 {
 public:
-    TraxelsFCFromFC(
+    PGMLINK_EXPORT TraxelsFCFromFC(
         boost::shared_ptr<FeatureCalculator> feature_calculator_ptr,
         size_t order
     ) : feature_calculator_ptr_(feature_calculator_ptr), order_(order) {};
-    virtual ~TraxelsFCFromFC() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    virtual PGMLINK_EXPORT ~TraxelsFCFromFC() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_vector
     ) const;
@@ -574,10 +575,10 @@ template<int N>
 class SumCalculator : public TraxelsFeatureCalculator
 {
 public:
-    SumCalculator() {};
-    virtual ~SumCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT SumCalculator() {};
+    virtual PGMLINK_EXPORT ~SumCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_vector
     ) const;
@@ -591,10 +592,10 @@ protected:
 class DiffCalculator : public TraxelsFeatureCalculator
 {
 public:
-    DiffCalculator() {};
-    virtual ~DiffCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT DiffCalculator() {};
+    virtual PGMLINK_EXPORT ~DiffCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -608,10 +609,10 @@ protected:
 class CurveCalculator : public TraxelsFeatureCalculator
 {
 public:
-    CurveCalculator() {};
-    virtual ~CurveCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT CurveCalculator() {};
+    virtual PGMLINK_EXPORT ~CurveCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -626,10 +627,10 @@ template<int N>
 class MinCalculator : public TraxelsFeatureCalculator
 {
 public:
-    MinCalculator() {};
-    virtual ~MinCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT MinCalculator() {};
+    virtual PGMLINK_EXPORT ~MinCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -644,10 +645,10 @@ template<int N>
 class MaxCalculator : public TraxelsFeatureCalculator
 {
 public:
-    MaxCalculator() {};
-    virtual ~MaxCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT MaxCalculator() {};
+    virtual PGMLINK_EXPORT ~MaxCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -662,10 +663,10 @@ template<int N>
 class MeanCalculator : public TraxelsFeatureCalculator
 {
 public:
-    MeanCalculator() {};
-    virtual ~MeanCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT MeanCalculator() {};
+    virtual PGMLINK_EXPORT ~MeanCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -682,10 +683,10 @@ protected:
 class DeviationCalculator : public TraxelsFeatureCalculator
 {
 public:
-    DeviationCalculator() {};
-    virtual ~DeviationCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT DeviationCalculator() {};
+    virtual PGMLINK_EXPORT ~DeviationCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -700,10 +701,10 @@ protected:
 class SquareCalculator : public TraxelsFeatureCalculator
 {
 public:
-    SquareCalculator() {};
-    virtual ~SquareCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT SquareCalculator() {};
+    virtual PGMLINK_EXPORT ~SquareCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -717,10 +718,10 @@ protected:
 class SquareRootCalculator : public TraxelsFeatureCalculator
 {
 public:
-    SquareRootCalculator() {};
-    virtual ~SquareRootCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT SquareRootCalculator() {};
+    virtual PGMLINK_EXPORT ~SquareRootCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -743,10 +744,10 @@ template<int N>
 class SquaredNormCalculator : public TraxelsFeatureCalculator
 {
 public:
-    SquaredNormCalculator() {};
-    virtual ~SquaredNormCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT SquaredNormCalculator() {};
+    virtual PGMLINK_EXPORT ~SquaredNormCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -815,10 +816,10 @@ MeanCalculator<0>
 class DotProductCalculator : public TraxelsFeatureCalculator
 {
 public:
-    DotProductCalculator() {};
-    virtual ~DotProductCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT DotProductCalculator() {};
+    virtual PGMLINK_EXPORT ~DotProductCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -853,10 +854,10 @@ The 2-norm is taken as the norm.
 class AngleCosineCalculator : public TraxelsFeatureCalculator
 {
 public:
-    AngleCosineCalculator() {};
-    virtual ~AngleCosineCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT AngleCosineCalculator() {};
+    virtual PGMLINK_EXPORT ~AngleCosineCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -873,14 +874,14 @@ protected:
 class ChildParentDiffCalculator : public TraxelsFeatureCalculator
 {
 public:
-    ChildParentDiffCalculator() {};
-    virtual ~ChildParentDiffCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT ChildParentDiffCalculator() {};
+    virtual PGMLINK_EXPORT ~ChildParentDiffCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
-    virtual void calculate(
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix,
         size_t depth
@@ -914,10 +915,10 @@ The 2-norm is taken as the norm.
 class DivAngleCosineCalculator : public TraxelsFeatureCalculator
 {
 public:
-    DivAngleCosineCalculator() {};
-    virtual ~DivAngleCosineCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT DivAngleCosineCalculator() {};
+    virtual PGMLINK_EXPORT ~DivAngleCosineCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -948,14 +949,14 @@ t1--t0
 class ChildDeceleration : public TraxelsFeatureCalculator
 {
 public:
-    ChildDeceleration() {};
-    virtual ~ChildDeceleration() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT ChildDeceleration() {};
+    virtual PGMLINK_EXPORT ~ChildDeceleration() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
-    virtual void calculate(
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix,
         size_t depth
@@ -978,10 +979,10 @@ template<bool INV>
 class CovarianceCalculator : public TraxelsFeatureCalculator
 {
 public:
-    CovarianceCalculator() {};
-    virtual ~CovarianceCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT CovarianceCalculator() {};
+    virtual PGMLINK_EXPORT ~CovarianceCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
@@ -1020,14 +1021,14 @@ Where \f$\vec{\mu}\f$ denotes the mean vector of all column vectors.
 class SquaredMahalanobisCalculator : public TraxelsFeatureCalculator
 {
 public:
-    SquaredMahalanobisCalculator() {};
-    virtual ~SquaredMahalanobisCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT SquaredMahalanobisCalculator() {};
+    virtual PGMLINK_EXPORT ~SquaredMahalanobisCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
-    virtual void calculate(
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix,
         const FeatureMatrix& inv_covariance_matrix
@@ -1059,14 +1060,14 @@ Definition of outlier:
 class MVNOutlierCalculator : public TraxelsFeatureCalculator
 {
 public:
-    MVNOutlierCalculator() {};
-    virtual ~MVNOutlierCalculator() {};
-    virtual const std::string& name() const;
-    virtual void calculate(
+    PGMLINK_EXPORT MVNOutlierCalculator() {};
+    virtual PGMLINK_EXPORT ~MVNOutlierCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
-    virtual void calculate(
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix,
         const FeatureScalar& sigma_threshold
@@ -1088,20 +1089,20 @@ public:
     typedef dlib::decision_function<KernelType> DecisionFunctionType;
     typedef dlib::svm_one_class_trainer<KernelType> OneClassSVMTrainerType;
 
-    SVMOutlierCalculator() : is_trained_(false) {};
-    virtual ~SVMOutlierCalculator() {};
-    virtual const std::string& name() const;
-    void train(
+    PGMLINK_EXPORT SVMOutlierCalculator() : is_trained_(false) {};
+    virtual PGMLINK_EXPORT ~SVMOutlierCalculator() {};
+    virtual PGMLINK_EXPORT const std::string& name() const;
+    PGMLINK_EXPORT void train(
         const FeatureMatrix& feature_matrix,
         const FeatureScalar& kernel_width = 1.0
     );
-    virtual void calculate(
+    virtual PGMLINK_EXPORT void calculate(
         const FeatureMatrix& feature_matrix,
         FeatureMatrix& return_matrix
     ) const;
-    void normalize_features(FeatureMatrix& feature_matrix) const;
-    void compute_feature_mean_var(const FeatureMatrix &feature_matrix);
-    bool is_trained() const;
+    PGMLINK_EXPORT void normalize_features(FeatureMatrix& feature_matrix) const;
+    PGMLINK_EXPORT void compute_feature_mean_var(const FeatureMatrix &feature_matrix);
+    PGMLINK_EXPORT bool is_trained() const;
 protected:
     DecisionFunctionType decision_function_;
     std::vector<double> feature_means_;

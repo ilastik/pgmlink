@@ -15,117 +15,206 @@
 #include <opengm/graphicalmodel/graphicalmodel_hdf5.hxx>
 
 #include "pgmlink/inferencemodel/constraint_pool.hxx"
+#include "pgmlink/constraint_function.hxx"
 
 using namespace pgmlink::pgm;
 
 BOOST_AUTO_TEST_CASE(IncomingFunctionTest)
 {
     // T1, T2, V nodes with label space 3
-    std::vector<size_t> shape = {3, 3, 3};
-    std::vector<size_t> ordering = {0, 1, 2};
+    std::vector<size_t> shape;
+	shape.push_back(3);
+	shape.push_back(3);
+	shape.push_back(3);
+
+    std::vector<size_t> ordering;
+	ordering.push_back(0);
+	ordering.push_back(1);
+	ordering.push_back(2);
 
     IncomingConstraintFunction<double, size_t, size_t> constraint_func(shape.begin(), shape.end(), ordering, ordering);
     constraint_func.set_forbidden_energy(200.0);
-    std::vector<size_t> labeling = {1, 2, 3};
+    std::vector<size_t> labeling;
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(3);
+
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {1, 2, 1};
+	labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(1);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 
-    labeling = {1, 0, 1};
+	labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(0);
+	labeling.push_back(1);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {1, 1, 2};
+	labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(2);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {1, 1, 0};
+	labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(0);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 }
 
 BOOST_AUTO_TEST_CASE(OutgoingFunctionTest)
 {
     // A, D, T1, T2
-    std::vector<size_t> shape = {3, 3, 3, 3};
-    std::vector<size_t> ordering = {0, 1, 2, 3};
+    std::vector<size_t> shape;
+	shape.push_back(3);
+	shape.push_back(3);
+	shape.push_back(3);
+	shape.push_back(3);
+	std::vector<size_t> ordering;
+	ordering.push_back(0);
+	ordering.push_back(1);
+	ordering.push_back(2);
+	ordering.push_back(3);
 
     OutgoingConstraintFunction<double, size_t, size_t> constraint_func(shape.begin(), shape.end(), ordering, ordering);
     constraint_func.set_forbidden_energy(200.0);
-    std::vector<size_t> labeling = {3, 0, 2, 1};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
+    std::vector<size_t> labeling;
+	labeling.push_back(3);
+	labeling.push_back(0);
+	labeling.push_back(2);
+	labeling.push_back(1);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {1, 0, 2, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(0);
+	labeling.push_back(2);
+    labeling.push_back(1);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 
-    labeling = {1, 1, 1, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+    labeling.push_back(1);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {1, 1, 2, 0};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(2);
+    labeling.push_back(0);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {2, 1, 1, 2}; // division not allowed when A > 1!
+    // division not allowed when A > 1!
+    labeling.clear();
+	labeling.push_back(2);
+	labeling.push_back(1);
+	labeling.push_back(1);
+    labeling.push_back(2);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 
     // test parameter effect
     constraint_func.set_with_divisions(false);
 
-    labeling = {1, 1, 1, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+    labeling.push_back(1);
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 }
 
 BOOST_AUTO_TEST_CASE(DetectionFunctionTest)
 {
     // V,A nodes with label space 3
-    std::vector<size_t> shape = {3, 3};
-    std::vector<size_t> ordering = {0, 1};
+    std::vector<size_t> shape;
+	shape.push_back(3);
+	shape.push_back(3);
+	std::vector<size_t> ordering;
+	ordering.push_back(0);
+	ordering.push_back(1);
 
     DetectionConstraintFunction<double, size_t, size_t> constraint_func(shape.begin(), shape.end(), ordering, ordering);
     constraint_func.set_forbidden_energy(200.0);
-    std::vector<size_t> labeling = {1, 1};
+    std::vector<size_t> labeling;
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {1, 2};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(2);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 
-    labeling = {1, 0};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(0);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {0, 2};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(2);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {2, 1};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
+    labeling.clear();
+	labeling.push_back(2);
+	labeling.push_back(1);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 
-    labeling = {0, 0};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(0);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
     // test the parameter effect
     constraint_func.set_with_appearance(false);
-    labeling = {0, 2};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(2);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 
-    labeling = {1, 0};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(0);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
     constraint_func.set_with_appearance(true);
     constraint_func.set_with_disappearance(false);
-    labeling = {0, 2};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(2);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 
-    labeling = {1, 0};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(0);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 
     constraint_func.set_with_disappearance(true);
     constraint_func.set_with_misdetections(false);
-    labeling = {0, 0};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(0);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 200.0);
 
-    labeling = {1, 0};
-    BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(0);
+	BOOST_CHECK_EQUAL(constraint_func(labeling.begin()), 0.0);
 }
 
 BOOST_AUTO_TEST_CASE(ConstraintPool_Size_Test)
 {
-    std::vector<size_t> dummy_vars = {1, 2, 3};
+    std::vector<size_t> dummy_vars;
+	dummy_vars.push_back(1);
+	dummy_vars.push_back(2);
+	dummy_vars.push_back(3);
 
     ConstraintPool cp;
     cp.add_constraint(ConstraintPool::IncomingConstraint(dummy_vars, 4));
@@ -153,11 +242,17 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Incoming_Factor_Test)
     model.addVariable(3);
     model.addVariable(3);
 
-    std::vector<size_t> labeling = {1, 1, 1};
+    std::vector<size_t> labeling;
+	labeling.push_back(1);
+    labeling.push_back(1);
+    labeling.push_back(1);
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0.0);
 
     ConstraintPool cp(200.0);
-    std::vector<size_t> indices = {0, 1};
+    std::vector<size_t> indices;
+	indices.push_back(0);
+	indices.push_back(1);
+
     cp.add_constraint(ConstraintPool::IncomingConstraint(indices, 2));
 
     opengm::ICM<OpengmModelDeprecated::ogmGraphicalModel, OpengmModelDeprecated::ogmAccumulator> inf(model);
@@ -166,14 +261,23 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Incoming_Factor_Test)
     // test wrong labelings
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
-    labeling = {1, 2, 2};
+    labeling.clear();
+    labeling.push_back(1);
+    labeling.push_back(2);
+    labeling.push_back(2);
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
     // test good labelings
-    labeling = {1, 1, 2};
+    labeling.clear();
+    labeling.push_back(1);
+    labeling.push_back(1);
+    labeling.push_back(2);
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
-    labeling = {0, 1, 1};
+    labeling.clear();
+    labeling.push_back(0);
+    labeling.push_back(1);
+    labeling.push_back(1);
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 }
 
@@ -185,31 +289,64 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Outgoing_Factor_Test)
     model.addVariable(3); // T
     model.addVariable(3); // T
 
-    std::vector<size_t> labeling = {1, 1, 1, 1};
+    std::vector<size_t> labeling;
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0.0);
 
     ConstraintPool cp(200.0);
-    std::vector<size_t> indices = {2, 3};
+    std::vector<size_t> indices;
+	indices.push_back(2);
+	indices.push_back(3);
+
     cp.add_constraint(ConstraintPool::OutgoingConstraint(0, 1, indices));
 
     opengm::ICM<OpengmModelDeprecated::ogmGraphicalModel, OpengmModelDeprecated::ogmAccumulator> inf(model);
     cp.add_constraints_to_problem(model, inf);
 
     // test wrong labelings
-    labeling = {2, 1, 2, 1};
+    labeling.clear();
+	labeling.push_back(2);
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
-    labeling = {0, 1, 1, 0};
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(0);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
-    labeling = {1, 1, 2, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
     // test good labelings
-    labeling = {1, 1, 2, 0};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(0);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
-    labeling = {2, 0, 1, 1};
+    labeling.clear();
+	labeling.push_back(2);
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 }
 
@@ -220,31 +357,58 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Outgoing_Factor_No_Division_Node_Test)
     model.addVariable(3); // T
     model.addVariable(3); // T
 
-    std::vector<size_t> labeling = {1, 1, 1};
+    std::vector<size_t> labeling;
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0.0);
 
     ConstraintPool cp(200.0);
-    std::vector<size_t> indices = {1, 2};
+    std::vector<size_t> indices;
+	indices.push_back(1);
+	indices.push_back(2);
+
     cp.add_constraint(ConstraintPool::OutgoingConstraint(0, -1, indices));
 
     opengm::ICM<OpengmModelDeprecated::ogmGraphicalModel, OpengmModelDeprecated::ogmAccumulator> inf(model);
     cp.add_constraints_to_problem(model, inf);
 
     // test wrong labelings
-    labeling = {2, 1, 2};
+    labeling.clear();
+	labeling.push_back(2);
+	labeling.push_back(1);
+	labeling.push_back(2);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
-    labeling = {0, 1, 0};
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(0);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
-    labeling = {1, 2, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
     // test good labelings
-    labeling = {1, 1, 0};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(0);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
-    labeling = {2, 1, 1};
+    labeling.clear();
+	labeling.push_back(2);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 }
 
@@ -254,7 +418,10 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Detection_Factor_Test)
     model.addVariable(3); // A
     model.addVariable(3); // V
 
-    std::vector<size_t> labeling = {1, 2};
+    std::vector<size_t> labeling;
+	labeling.push_back(1);
+	labeling.push_back(2);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0.0);
 
     ConstraintPool cp(200.0);
@@ -264,20 +431,35 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Detection_Factor_Test)
     cp.add_constraints_to_problem(model, inf);
 
     // test wrong labelings
-    labeling = {2, 1};
+    labeling.clear();
+	labeling.push_back(2);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
-    labeling = {1, 2};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(2);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
     // test good labelings
-    labeling = {1, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
-    labeling = {2, 0};
+    labeling.clear();
+	labeling.push_back(2);
+	labeling.push_back(0);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
-    labeling = {0, 2};
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(2);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 }
 
@@ -296,13 +478,34 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Serialization_Test)
     std::string filename(tmpnam(NULL));
     opengm::hdf5::save(model, filename, "tmp");
 
-    std::vector<size_t> labeling = {1, 1, 1, 1, 1, 1, 1};
+    std::vector<size_t> labeling;
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0.0);
 
     ConstraintPool cp(200.0);
     cp.add_constraint(ConstraintPool::DetectionConstraint(2, 3));
-    cp.add_constraint(ConstraintPool::OutgoingConstraint(3, 4, {5, 6}));
-    cp.add_constraint(ConstraintPool::IncomingConstraint({0, 1}, 2));
+// use with MS VS 2015 and later
+//    cp.add_constraint(ConstraintPool::OutgoingConstraint(3, 4, {5, 6}));
+    std::vector<size_t> vec_1;
+    vec_1.push_back(5);
+    vec_1.push_back(6);
+    cp.add_constraint(ConstraintPool::OutgoingConstraint(3, 4, vec_1));
+// end MS VS 2012 fix
+
+// use with MS VS 2015 and later
+//    cp.add_constraint(ConstraintPool::IncomingConstraint({0, 1}, 2));
+    std::vector<size_t> vec_2;
+    vec_2.push_back(0);
+    vec_2.push_back(1);
+    cp.add_constraint(ConstraintPool::IncomingConstraint(vec_2, 2));
+// end MS VS 2012 fix
 
     // save constraint pool to temp file
     std::string cp_filename(tmpnam(NULL));
@@ -316,21 +519,60 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Serialization_Test)
     cp.add_constraints_to_problem(model, inf);
 
     // test wrong labelings
-    labeling = {1, 1, 1, 1, 1, 1, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 200.0);
 
-    labeling = {1, 2, 0, 1, 1, 2, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 400.0);
 
     // test good labelings
-    labeling = {1, 1, 2, 2, 0, 0, 2};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(2);
+	labeling.push_back(0);
+	labeling.push_back(0);
+	labeling.push_back(2);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
-    labeling = {0, 2, 2, 2, 0, 1, 1};
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(2);
+	labeling.push_back(2);
+	labeling.push_back(2);
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
-    labeling = {1, 0, 1, 1, 1, 1, 1};
-    BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	BOOST_CHECK_EQUAL(model.evaluate(labeling.begin()), 0);
 
     //---------------------------------------------------------------------
     // load serialized model and constraint pool
@@ -344,28 +586,77 @@ BOOST_AUTO_TEST_CASE(ConstraintPool_Serialization_Test)
         ia & cp2;
     }
 
-    labeling = {1, 1, 1, 1, 1, 1, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model2.evaluate(labeling.begin()), 0.0);
 
     opengm::ICM<OpengmModelDeprecated::ogmGraphicalModel, OpengmModelDeprecated::ogmAccumulator> inf2(model2);
     cp2.add_constraints_to_problem(model2, inf2);
 
     // test wrong labelings
-    labeling = {1, 1, 1, 1, 1, 1, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model2.evaluate(labeling.begin()), 200.0);
 
-    labeling = {1, 2, 0, 1, 1, 2, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model2.evaluate(labeling.begin()), 400.0);
 
     // test good labelings
-    labeling = {1, 1, 2, 2, 0, 0, 2};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(2);
+	labeling.push_back(2);
+	labeling.push_back(0);
+	labeling.push_back(0);
+	labeling.push_back(2);
+
     BOOST_CHECK_EQUAL(model2.evaluate(labeling.begin()), 0);
 
-    labeling = {0, 2, 2, 2, 0, 1, 1};
+    labeling.clear();
+	labeling.push_back(0);
+	labeling.push_back(2);
+	labeling.push_back(2);
+	labeling.push_back(2);
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model2.evaluate(labeling.begin()), 0);
 
-    labeling = {1, 0, 1, 1, 1, 1, 1};
+    labeling.clear();
+	labeling.push_back(1);
+	labeling.push_back(0);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+	labeling.push_back(1);
+
     BOOST_CHECK_EQUAL(model2.evaluate(labeling.begin()), 0);
+
 
     // delete tempfile
     remove(filename.c_str());

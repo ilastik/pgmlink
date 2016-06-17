@@ -9,8 +9,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include "pgmlink/pgmlink_export.h"
-#include "pgmlink/log.h"
+#include "pgmlink_export.h"
+#include "log.h"
 
 //using namespace std;
 

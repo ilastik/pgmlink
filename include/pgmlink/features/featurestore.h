@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 
-#include "pgmlink/pgmlink_export.h"
+#include "../pgmlink_export.h"
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/shared_ptr.hpp>
@@ -29,28 +29,28 @@ typedef std::map<std::string, feature_array> FeatureMap;
 class FeatureStore
 {
 public:
-    FeatureStore();
+    PGMLINK_EXPORT FeatureStore();
 
     /// Get the features corresponding to a single traxel given by timestep and id
-    FeatureMap& get_traxel_features(int timestep, unsigned int id);
+    PGMLINK_EXPORT FeatureMap& get_traxel_features(int timestep, unsigned int id);
 
     /// Get the features corresponding to a single traxel
-    FeatureMap& get_traxel_features(const Traxel& traxel);
+    PGMLINK_EXPORT FeatureMap& get_traxel_features(const Traxel& traxel);
 
     /// Get the features corresponding to a pair of traxels (e.g. a Move)
-    FeatureMap& get_traxel_features(const Traxel& traxel_a, const Traxel& traxel_b);
+    PGMLINK_EXPORT FeatureMap& get_traxel_features(const Traxel& traxel_a, const Traxel& traxel_b);
 
     /// Get the features corresponding to a triplet (e.g. a division)
-    FeatureMap& get_traxel_features(const Traxel& traxel_a, const Traxel& traxel_b, const Traxel& traxel_c);
+    PGMLINK_EXPORT FeatureMap& get_traxel_features(const Traxel& traxel_a, const Traxel& traxel_b, const Traxel& traxel_c);
 
     /// Generic traxel feature retrieval
-    FeatureMap& get_traxel_features(const std::vector<const Traxel*>& traxels);
+    PGMLINK_EXPORT FeatureMap& get_traxel_features(const std::vector<const Traxel*>& traxels);
 
     /// dump contents to a stream
-    void dump(std::ostream &stream);
+    PGMLINK_EXPORT void dump(std::ostream &stream);
 
     /// dump features of a traxel to a stream
-    void dump(int timestep, unsigned int id, std::ostream &stream);
+    PGMLINK_EXPORT void dump(int timestep, unsigned int id, std::ostream &stream);
 private:
     /// Store a feature map for each traxel, but also for pairs,triplets,... of traxels,
     /// to be able to save features corresponding to moves,divisions,.. as well.

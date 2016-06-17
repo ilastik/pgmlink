@@ -8,6 +8,7 @@ include_directories(
   ${Boost_INCLUDE_DIRS}
   ${OPTIMIZER_INCLUDE_DIRS}
   ${PROJECT_SOURCE_DIR}/include/
+  ${PYTHON_INCLUDE_DIRS}
 )
 
 # enable dynamic linking with boost test

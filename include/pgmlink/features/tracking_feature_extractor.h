@@ -31,16 +31,16 @@ public:
     typedef std::vector<double> JointFeatureVector;
     typedef std::vector<std::string> FeatureDescriptionVector;
 public:
-    TrackingFeatureExtractorBase() {};
-    virtual size_t get_feature_vector_length() const = 0;
-    virtual void get_feature_descriptions(
+    PGMLINK_EXPORT TrackingFeatureExtractorBase() {};
+    virtual PGMLINK_EXPORT size_t get_feature_vector_length() const = 0;
+    virtual PGMLINK_EXPORT void get_feature_descriptions(
         FeatureDescriptionVector& feature_descriptions) const;
 protected:
-    virtual void init_compute(FeatureVectorView return_vector);
-    virtual void push_back_feature(
+    virtual PGMLINK_EXPORT void init_compute(FeatureVectorView return_vector);
+    virtual PGMLINK_EXPORT void push_back_feature(
         std::string feature_name,
         double feature_value);
-    virtual void push_back_feature(
+    virtual PGMLINK_EXPORT void push_back_feature(
         std::string feature_name,
         const MinMaxMeanVarCalculator& mmmv_calculator);
     FeatureVectorView::iterator feature_vector_it_;
@@ -54,14 +54,14 @@ class TrackFeatureExtractor : public TrackingFeatureExtractorBase
 */
 {
 public:
-    TrackFeatureExtractor();
-    void compute_features(
+    PGMLINK_EXPORT TrackFeatureExtractor();
+    PGMLINK_EXPORT void compute_features(
         ConstTraxelRefVector& traxelref_vec,
         FeatureVectorView return_vector);
-    void compute_features(
+    PGMLINK_EXPORT void compute_features(
         ConstTraxelRefVectors& traxelref_vecs,
         FeatureMatrix& return_matrix);
-    virtual size_t get_feature_vector_length() const;
+    PGMLINK_EXPORT virtual size_t get_feature_vector_length() const;
 private:
     void compute_sq_id_features(ConstTraxelRefVector&, std::string);
     void compute_sq_diff_features(ConstTraxelRefVector&, std::string);
@@ -72,14 +72,14 @@ private:
 class DivisionFeatureExtractor : public TrackingFeatureExtractorBase
 {
 public:
-    DivisionFeatureExtractor();
-    void compute_features(
+    PGMLINK_EXPORT DivisionFeatureExtractor();
+    PGMLINK_EXPORT void compute_features(
         ConstTraxelRefVector& traxelref_vec,
         FeatureVectorView return_vector);
-    void compute_features(
+    PGMLINK_EXPORT void compute_features(
         ConstTraxelRefVectors& traxelref_vecs,
         FeatureMatrix& return_matrix);
-    virtual size_t get_feature_vector_length() const;
+    virtual PGMLINK_EXPORT size_t get_feature_vector_length() const;
 private:
     void compute_id_features(ConstTraxelRefVector&, std::string);
     void compute_sq_diff_features(ConstTraxelRefVector&, std::string);
@@ -96,48 +96,49 @@ public:
     typedef std::vector<double> JointFeatureVector;
     typedef std::vector<std::string> FeatureDescription;
 
-public:
+private:
     /// Forbid usage of default constructor
-    TrackingFeatureExtractor() = delete;
+    PGMLINK_EXPORT TrackingFeatureExtractor();
 
+public:
     /// Create the extractor given a hypotheses graph
-    TrackingFeatureExtractor(boost::shared_ptr<HypothesesGraph> graph,
+    PGMLINK_EXPORT TrackingFeatureExtractor(boost::shared_ptr<HypothesesGraph> graph,
                              const FieldOfView &fov);
 
     /// Create the extractor given a hypotheses graph with filter function
-    TrackingFeatureExtractor(boost::shared_ptr<HypothesesGraph> graph,
+    PGMLINK_EXPORT TrackingFeatureExtractor(boost::shared_ptr<HypothesesGraph> graph,
                              const FieldOfView &fov,
                              boost::function<bool (const Traxel&)> margin_filter_function);
 
     /// Train the svms with the given hypotheses graph assuming that the arc and
     /// node active map contain a correct labeling
-    void train_track_svm();
-    void train_division_svm();
+    PGMLINK_EXPORT void train_track_svm();
+    PGMLINK_EXPORT void train_division_svm();
 
 #ifdef WITH_DLIB
     /// set and get for the outlier svms
-    boost::shared_ptr<SVMOutlierCalculator> get_track_svm() const;
-    boost::shared_ptr<SVMOutlierCalculator> get_division_svm() const;
-    void set_track_svm(boost::shared_ptr<SVMOutlierCalculator> track_svm);
-    void set_division_svm(boost::shared_ptr<SVMOutlierCalculator> division_svm);
+    PGMLINK_EXPORT boost::shared_ptr<SVMOutlierCalculator> get_track_svm() const;
+    PGMLINK_EXPORT boost::shared_ptr<SVMOutlierCalculator> get_division_svm() const;
+    PGMLINK_EXPORT void set_track_svm(boost::shared_ptr<SVMOutlierCalculator> track_svm);
+    PGMLINK_EXPORT void set_division_svm(boost::shared_ptr<SVMOutlierCalculator> division_svm);
 #endif
 
     /// Get the complete vector of features computed for the currently set solution
-    void get_feature_vector(JointFeatureVector& feature_vector) const;
+    PGMLINK_EXPORT void get_feature_vector(JointFeatureVector& feature_vector) const;
 
     /// Return a short description of the feature at the given index in the feature vector
-    const std::string get_feature_description(size_t feature_index) const;
+    PGMLINK_EXPORT const std::string get_feature_description(size_t feature_index) const;
 
     /// Dispatch computation of features here
-    void compute_features();
+    PGMLINK_EXPORT void compute_features();
 
     /// Set HDF5 filename to which the features of all tracks will be written
-    void set_track_feature_output_file(const std::string& filename);
+    PGMLINK_EXPORT void set_track_feature_output_file(const std::string& filename);
 
     /// Append features for this solution to the given file.
     /// If file does not exist, create it.
     /// Comments are ignored, and will not be copied to the edited file
-    void append_feature_vector_to_file(const std::string &filename);
+    PGMLINK_EXPORT void append_feature_vector_to_file(const std::string &filename);
 
 private:
     void push_back_feature(std::string feature_name, double feature_value);
@@ -207,11 +208,11 @@ private:
 class BorderDistanceFilter
 {
 public:
-    BorderDistanceFilter(
+    PGMLINK_EXPORT BorderDistanceFilter(
         const FieldOfView& field_of_view,
         double t_margin,
         double spatial_margin);
-    bool is_out_of_margin(const Traxel& traxel) const;
+    PGMLINK_EXPORT bool is_out_of_margin(const Traxel& traxel) const;
 private:
     FieldOfView fov_;
 };

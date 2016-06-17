@@ -31,6 +31,7 @@
 #include "pgmlink/hypotheses.h"
 #include "pgmlink/reasoner.h"
 #include "pgmlink/pgm_chaingraph.h"
+#include "pgmlink_export.h"
 
 namespace pgmlink 
 {
@@ -53,7 +54,7 @@ public:
     typedef pgm::chaingraph::Model::node_var_map node_var_map;
     typedef pgm::chaingraph::Model::arc_var_map arc_var_map;
 
-    Chaingraph(bool with_constraints = true,
+    PGMLINK_EXPORT Chaingraph(bool with_constraints = true,
                double ep_gap = 0.01,
                bool fixed_detections = false,
                double cplex_timeout = 1e+75
@@ -70,7 +71,7 @@ public:
     }
 
 
-    Chaingraph(const pgm::chaingraph::ModelBuilder& builder,
+    PGMLINK_EXPORT Chaingraph(const pgm::chaingraph::ModelBuilder& builder,
                bool with_constraints = true,
                double ep_gap = 0.01,
                bool fixed_detections = false,
@@ -83,19 +84,19 @@ public:
           cplex_timeout_(cplex_timeout),
           builder_(builder.clone())
     {};
-    ~Chaingraph();
+    PGMLINK_EXPORT ~Chaingraph();
 
-    virtual void formulate( const HypothesesGraph& );
-    virtual void infer();
-    virtual void conclude( HypothesesGraph& );
+    virtual PGMLINK_EXPORT void formulate( const HypothesesGraph& );
+    virtual PGMLINK_EXPORT void infer();
+    virtual PGMLINK_EXPORT void conclude( HypothesesGraph& );
 
-    double forbidden_cost() const;
-    bool with_constraints() const;
-    const pgm::chaingraph::ModelBuilder& builder()
+    PGMLINK_EXPORT double forbidden_cost() const;
+    PGMLINK_EXPORT bool with_constraints() const;
+    PGMLINK_EXPORT const pgm::chaingraph::ModelBuilder& builder()
     {
         return *builder_;
     }
-    void builder(const pgm::chaingraph::ModelBuilder& builder)
+    PGMLINK_EXPORT void builder(const pgm::chaingraph::ModelBuilder& builder)
     {
         if(builder_)
         {
@@ -109,19 +110,19 @@ public:
      * The returned pointer may be NULL before formulate() is called
      * the first time.
      **/
-    const pgm::OpengmModel* get_graphical_model() const;
+    PGMLINK_EXPORT const pgm::OpengmModel* get_graphical_model() const;
 
     /** Return mapping from HypothesesGraph nodes to graphical model variable ids
      *
      * The map is populated after the first call to formulate().
      */
-    const node_var_map& get_node_map() const;
+    PGMLINK_EXPORT const node_var_map& get_node_map() const;
 
     /** Return mapping from HypothesesGraph arcs to graphical model variable ids
      *
      * The map is populated after the first call to formulate().
      */
-    const arc_var_map& get_arc_map() const;
+    PGMLINK_EXPORT const arc_var_map& get_arc_map() const;
 
 
 private:

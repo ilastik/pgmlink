@@ -9,10 +9,10 @@
 
 #include <cmath>
 #include <stdexcept>
-#include "pgmlink/log.h"
-#include "pgmlink/traxels.h"
-#include "pgmlink/field_of_view.h"
-#include "pgmlink/pgmlink_export.h"
+#include "../log.h"
+#include "../traxels.h"
+#include "../field_of_view.h"
+#include "../pgmlink_export.h"
 
 namespace pgmlink
 {
@@ -194,7 +194,7 @@ public:
         : weights_(Weights)
     {}
 
-    PGMLINK_EXPORT double operator()( const Traxel& tr1, const Traxel& tr2, std::vector<double> Weights ) const;
+//    PGMLINK_EXPORT double operator()( const Traxel& tr1, const Traxel& tr2, std::vector<double> Weights ) const;
 private:
     std::vector<double> * weights_;
 };

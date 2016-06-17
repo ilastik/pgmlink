@@ -15,6 +15,7 @@
 // pgmlink
 #include "pgmlink/features/feature.h"
 #include "pgmlink/traxels.h"
+#include "pgmlink_export.h"
 
 namespace pgmlink
 {
@@ -27,13 +28,13 @@ public:
     static const std::string name_;
     static const unsigned length;
 
-    virtual ~FeatureCalculator();
-    virtual feature_array calculate(const feature_array& f1) const;
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2) const;
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2, const feature_array& f3) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~FeatureCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1) const;
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2, const feature_array& f3) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 
-    bool operator==(const FeatureCalculator& other);
+    PGMLINK_EXPORT bool operator==(const FeatureCalculator& other);
 };
 
 
@@ -43,9 +44,9 @@ public:
     static const std::string name_;
     static const unsigned length;
 
-    virtual ~IdentityCalculator();
-    virtual feature_array calculate(const feature_array& f1) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~IdentityCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 
 };
 
@@ -82,14 +83,14 @@ class VectorDifferenceCalculator : public FeatureCalculator
 {
 public:
     static const std::string name_;
-    static const unsigned length;
+    static PGMLINK_EXPORT const unsigned length;
 
-    virtual ~VectorDifferenceCalculator();
-    virtual feature_array calculate(
+    virtual PGMLINK_EXPORT ~VectorDifferenceCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(
         const feature_array& f1,
         const feature_array& f2
     ) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 };
 
 ////
@@ -101,15 +102,15 @@ class CurvatureCalculator : public FeatureCalculator
 {
 public:
     static const std::string name_;
-    static const unsigned length;
+    static PGMLINK_EXPORT const unsigned length;
 
-    virtual ~CurvatureCalculator();
-    virtual feature_array calculate(
+    virtual PGMLINK_EXPORT ~CurvatureCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(
         const feature_array& f1,
         const feature_array& f2,
         const feature_array& f3
     ) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 };
 
 
@@ -117,11 +118,11 @@ class SquareRootSquaredDifferenceCalculator : public FeatureCalculator
 {
 public:
     static const std::string name_;
-    static const unsigned length;
+    static PGMLINK_EXPORT const unsigned length;
 
-    virtual ~SquareRootSquaredDifferenceCalculator();
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~SquareRootSquaredDifferenceCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 };
 
 
@@ -129,12 +130,12 @@ class RatioCalculator : public FeatureCalculator
 {
 public:
     static const std::string name_;
-    static const unsigned length;
+    static PGMLINK_EXPORT const unsigned length;
 
-    virtual ~RatioCalculator();
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2) const;
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2, const feature_array& f3) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~RatioCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2, const feature_array& f3) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 };
 
 
@@ -142,12 +143,12 @@ class AsymmetricRatioCalculator : public FeatureCalculator
 {
 public:
     static const std::string name_;
-    static const unsigned length;
+    static PGMLINK_EXPORT const unsigned length;
 
-    virtual ~AsymmetricRatioCalculator();
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2) const;
-    virtual feature_array calculate(const feature_array& f1, const feature_array& f2, const feature_array& f3) const;
-    virtual const std::string& name() const;
+    virtual PGMLINK_EXPORT ~AsymmetricRatioCalculator();
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2) const;
+    virtual PGMLINK_EXPORT feature_array calculate(const feature_array& f1, const feature_array& f2, const feature_array& f3) const;
+    virtual PGMLINK_EXPORT const std::string& name() const;
 };
 
 
@@ -250,7 +251,7 @@ typedef ParentSquaredDifferences<Mean> MeanParentSquaredDifference;
 class Ratio
 {
 public:
-    feature_type operator()(feature_array::const_iterator begin, feature_array::const_iterator end)
+    PGMLINK_EXPORT feature_type operator()(feature_array::const_iterator begin, feature_array::const_iterator end)
     {
         assert(end - begin == 2);
         feature_array::const_iterator second = end - 1;
