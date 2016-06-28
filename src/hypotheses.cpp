@@ -629,6 +629,12 @@ boost::shared_ptr<std::vector< std::vector<Event> > > events(const HypothesesGra
                 // Disappearance
                 case 0:
                 {
+
+                    if(!get_active_node(nodes, nodes2, nodes_vector, map_type_id, node_at, iterationStep))
+                    {
+                        continue;
+                    }
+
                     if (t < g.latest_timestep())
                     {
                         Event e;
@@ -749,6 +755,12 @@ boost::shared_ptr<std::vector< std::vector<Event> > > events(const HypothesesGra
             for(node_timestep_map_t::ItemIt node_at(node_timestep_map, t + 1); node_at != lemon::INVALID; ++node_at)
             {
                 // count incoming arcs
+
+                if (!get_active_node(nodes, nodes2, nodes_vector, map_type_id, node_at, iterationStep))
+                {
+		  continue;
+		}
+
                 int count = 0;
                 for(HypothesesGraph::base_graph::InArcIt a(g, node_at); a != lemon::INVALID; ++a)
                 {
