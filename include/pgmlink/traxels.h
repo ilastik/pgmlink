@@ -106,6 +106,70 @@ private:
     void serialize( Archive&, const unsigned int /*version*/ );
 };
 
+class MinLocator
+    : public Locator
+{
+public:
+    PGMLINK_EXPORT MinLocator()
+        : Locator("CoordMinimum")
+    {}
+
+    PGMLINK_EXPORT virtual MinLocator* clone()
+    {
+        return new MinLocator(*this);
+    }
+    PGMLINK_EXPORT double X(const FeatureMap& m) const
+    {
+        return x_scale * coordinate_from(m, 0);
+    }
+    PGMLINK_EXPORT double Y(const FeatureMap& m) const
+    {
+        return y_scale * coordinate_from(m, 1);
+    }
+    PGMLINK_EXPORT double Z(const FeatureMap& m) const
+    {
+        return z_scale * coordinate_from(m, 2);
+    }
+
+private:
+    // boost serialize
+    friend class boost::serialization::access;
+    template< typename Archive >
+    void serialize( Archive&, const unsigned int /*version*/ );
+};
+
+class MaxLocator
+    : public Locator
+{
+public:
+    PGMLINK_EXPORT MaxLocator()
+        : Locator("CoordMaximum")
+    {}
+
+    PGMLINK_EXPORT virtual MaxLocator* clone()
+    {
+        return new MaxLocator(*this);
+    }
+    PGMLINK_EXPORT double X(const FeatureMap& m) const
+    {
+        return x_scale * coordinate_from(m, 0);
+    }
+    PGMLINK_EXPORT double Y(const FeatureMap& m) const
+    {
+        return y_scale * coordinate_from(m, 1);
+    }
+    PGMLINK_EXPORT double Z(const FeatureMap& m) const
+    {
+        return z_scale * coordinate_from(m, 2);
+    }
+
+private:
+    // boost serialize
+    friend class boost::serialization::access;
+    template< typename Archive >
+    void serialize( Archive&, const unsigned int /*version*/ );
+};
+
 class ComCorrLocator
     : public Locator
 {
@@ -182,11 +246,15 @@ public:
                           int timestep = 0,
 //                        FeatureMap fmap = FeatureMap(),
                           Locator* l = new ComLocator(),
-                          ComCorrLocator* lc = new ComCorrLocator())
+                          ComCorrLocator* lc = new ComCorrLocator(),
+                          MinLocator* minl = new MinLocator(),
+                          MaxLocator* maxl = new MaxLocator())
         : Id(id),
           Timestep(timestep),
           locator_(l),
-          corr_locator_(lc)
+          corr_locator_(lc),
+          min_locator_(minl),
+          max_locator_(maxl)
     {
         features = FeatureMapAccessor(this);
     }
@@ -266,6 +334,14 @@ public:
     PGMLINK_EXPORT double Y_corr() const;
     PGMLINK_EXPORT double Z_corr() const;
 
+    PGMLINK_EXPORT double X_min() const;
+    PGMLINK_EXPORT double Y_min() const;
+    PGMLINK_EXPORT double Z_min() const;
+
+    PGMLINK_EXPORT double X_max() const;
+    PGMLINK_EXPORT double Y_max() const;
+    PGMLINK_EXPORT double Z_max() const;
+
     // relation to other traxels
     PGMLINK_EXPORT double distance_to(const Traxel& other) const;
     PGMLINK_EXPORT double distance_to_corr(const Traxel& other) const;
@@ -284,6 +360,9 @@ private:
     Locator* locator_;
 
     ComCorrLocator* corr_locator_;
+
+    MinLocator* min_locator_;
+    MaxLocator* max_locator_;
 };
 
 // compare by (time,id) (Traxels can be used as keys (for instance in a std::map) )

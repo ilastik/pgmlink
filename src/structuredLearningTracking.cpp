@@ -575,15 +575,18 @@ void StructuredLearningTracking::structuredLearning(
             for(node_timestep_map_t::ItemIt node(timestep_map, t); node != lemon::INVALID; ++node){
 
                 if(ndim_==2 &&
-                   crops_[m].lower_bound()[1] <= traxel_map[node].X() && traxel_map[node].X() <= crops_[m].upper_bound()[1] &&
-                   crops_[m].lower_bound()[2] <= traxel_map[node].Y() && traxel_map[node].Y() <= crops_[m].upper_bound()[2] ||
+                   crops_[m].lower_bound()[1] <= traxel_map[node].X_max() && traxel_map[node].X_min() <= crops_[m].upper_bound()[1] &&
+                   crops_[m].lower_bound()[2] <= traxel_map[node].Y_max() && traxel_map[node].Y_min() <= crops_[m].upper_bound()[2] ||
                    ndim_==3 &&
-                   crops_[m].lower_bound()[1] <= traxel_map[node].X() && traxel_map[node].X() <= crops_[m].upper_bound()[1] &&
-                   crops_[m].lower_bound()[2] <= traxel_map[node].Y() && traxel_map[node].Y() <= crops_[m].upper_bound()[2] &&
-                   crops_[m].lower_bound()[3] <= traxel_map[node].Z() && traxel_map[node].Z() <= crops_[m].upper_bound()[3] ){
+                   crops_[m].lower_bound()[1] <= traxel_map[node].X_max() && traxel_map[node].X_min() <= crops_[m].upper_bound()[1] &&
+                   crops_[m].lower_bound()[2] <= traxel_map[node].Y_max() && traxel_map[node].Y_min() <= crops_[m].upper_bound()[2] &&
+                   crops_[m].lower_bound()[3] <= traxel_map[node].Z_max() && traxel_map[node].Z_min() <= crops_[m].upper_bound()[3] ){
 
                     selected_nodes[node] = true;
-                    //LOG(logINFO) << "app. node: " << traxel_map[node].Id << "    t " << timestep_map[node] << "    node num " << count;
+                    LOG(logDEBUG) << "node: " << traxel_map[node].Id << std::endl;
+                    LOG(logDEBUG) << traxel_map[node].X_min() << ", " << traxel_map[node].Y_min() << ", " << traxel_map[node].Z_min() << std::endl;
+                    LOG(logDEBUG) << traxel_map[node].X() << ", " << traxel_map[node].Y() << ", " << traxel_map[node].Z() << std::endl;
+                    LOG(logDEBUG) << traxel_map[node].X_max() << ", " << traxel_map[node].Y_max() << ", " << traxel_map[node].Z_max() << std::endl;
 
                     count++;
                 }
