@@ -39,9 +39,17 @@ Traxel::Traxel(const Traxel& other):
 {
     locator_ = other.locator_->clone();
     corr_locator_ = other.corr_locator_;
-    min_locator_ = (MinLocator*)locator_;
-    max_locator_ = (MaxLocator*)locator_;
     features = FeatureMapAccessor(this, other.features.get());
+
+    if (features.get().count("CoordMinimum") == 1)
+        min_locator_ = other.min_locator_;
+    else
+        min_locator_ = (MinLocator*)other.locator_;
+
+    if (features.get().count("CoordMaximum") == 1)
+        max_locator_ = other.max_locator_;
+    else
+        max_locator_ = (MaxLocator*)other.locator_;
 }
 
 Traxel& Traxel::operator=(const Traxel& other)
@@ -52,8 +60,17 @@ Traxel& Traxel::operator=(const Traxel& other)
     features = FeatureMapAccessor(this, other.features.get());
 
     corr_locator_ = other.corr_locator_;
-    min_locator_ = other.min_locator_;
-    max_locator_ = other.max_locator_;
+
+    if (features.get().count("CoordMinimum") == 1)
+        min_locator_ = other.min_locator_;
+    else
+        min_locator_ = (MinLocator*)other.locator_;
+
+    if (features.get().count("CoordMaximum") == 1)
+        max_locator_ = other.max_locator_;
+    else
+        max_locator_ = (MaxLocator*)other.locator_;
+
     // This gracefully handles self assignment
     Locator* temp = other.locator_->clone();
     delete locator_;
@@ -90,50 +107,32 @@ double Traxel::Z() const
 
 double Traxel::X_min() const
 {
-    if (features.get().count("CoorMinimum") == 1)
-        return min_locator_->X(features.get());
-    else
-        return locator_->X(features.get());
+    return min_locator_->X(features.get());
 }
 
 double Traxel::Y_min() const
 {
-    if (features.get().count("CoorMinimum") == 1)
-        return min_locator_->Y(features.get());
-    else
-        return locator_->Y(features.get());
+    return min_locator_->Y(features.get());
 }
 
 double Traxel::Z_min() const
 {
-    if (features.get().count("CoorMinimum") == 1)
-        return min_locator_->Z(features.get());
-    else
-        return locator_->Z(features.get());
+    return min_locator_->Z(features.get());
 }
 
 double Traxel::X_max() const
 {
-    if (features.get().count("CoorMaximum") == 1)
-        return max_locator_->X(features.get());
-    else
-        return locator_->X(features.get());
+    return max_locator_->X(features.get());
 }
 
 double Traxel::Y_max() const
 {
-    if (features.get().count("CoorMaximum") == 1)
-        return max_locator_->Y(features.get());
-    else
-        return locator_->Y(features.get());
+    return max_locator_->Y(features.get());
 }
 
 double Traxel::Z_max() const
 {
-    if (features.get().count("CoorMaximum") == 1)
-        return max_locator_->Z(features.get());
-    else
-        return locator_->Z(features.get());
+    return max_locator_->Z(features.get());
 }
 
 double Traxel::X_corr() const
