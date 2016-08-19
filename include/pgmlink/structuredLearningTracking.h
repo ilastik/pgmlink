@@ -135,7 +135,8 @@ public:
             unsigned int num_threads = 1,
             bool withNormalization = true,
             bool withClassifierPrior = true,
-            bool verbose = false);
+            bool verbose = false,
+            bool withNonNegativeWeights = false);
 
     PGMLINK_EXPORT void structuredLearningFromParam(Parameter& param);
 
@@ -161,7 +162,8 @@ public:
             unsigned int num_threads = 1,
             bool withNormalization = true,
             bool withClassifierPrior = true,
-            bool verbose = false);
+            bool verbose = false,
+            bool withNonNegativeWeights = false);
 
     PGMLINK_EXPORT void setParameterWeights(Parameter& param,std::vector<double> sltWeights);
 
