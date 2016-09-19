@@ -55,7 +55,8 @@ public:
         unsigned int num_threads = 0,
         bool withNormalization = true,
         bool withClassifierPrior = true,
-        bool verbose = false):
+        bool verbose = false,
+        bool withNonNegativeWeights = false):
     max_number_objects(max_number_objects),
     detection(detection),
     division(division),
@@ -87,12 +88,17 @@ public:
     withNormalization(withNormalization),
     withClassifierPrior(withClassifierPrior),
     verbose(verbose),
+    with_non_negative_weights(withNonNegativeWeights),
     with_swap(true),
     max_number_paths(std::numeric_limits<size_t>::max())
     {}
 
     // empty parameter needed for python
     Parameter() {}
+
+    void setWithNonNegativeWeights (bool flag){
+        with_non_negative_weights = flag;
+    }
 
     // settings
     unsigned int max_number_objects;
@@ -131,6 +137,7 @@ public:
     bool withNormalization;
     bool withClassifierPrior;
     bool verbose;
+    bool with_non_negative_weights;
 
     // cplex settings
     unsigned int num_threads;

@@ -328,7 +328,8 @@ Parameter StructuredLearningTracking::get_structured_learning_tracking_parameter
         unsigned int num_threads,
         bool withNormalization,
         bool withClassifierPrior,
-        bool verbose)
+        bool verbose,
+        bool withNonNegativeWeights)
 {
     LOG(logDEBUG1) << "max_number_objects  \t" << max_number_objects_  ;
     LOG(logDEBUG1) << "size_dependent_detection_prob\t" <<  use_size_dependent_detection_ ;
@@ -348,6 +349,7 @@ Parameter StructuredLearningTracking::get_structured_learning_tracking_parameter
     LOG(logDEBUG1) << "border_width\t" <<      border_width;
     LOG(logDEBUG1) << "with_constraints\t" <<      with_constraints;
     LOG(logDEBUG1) << "cplex_timeout\t" <<      cplex_timeout;
+    LOG(logDEBUG1) << "with_non_negative_weights\t" <<      withNonNegativeWeights;
     uncertaintyParam.print();
 
     Traxels empty;
@@ -393,7 +395,8 @@ Parameter StructuredLearningTracking::get_structured_learning_tracking_parameter
         num_threads,
         withNormalization,
         withClassifierPrior,
-        verbose
+        verbose,
+        withNonNegativeWeights
     );
     use_classifier_prior_ = withClassifierPrior;
 
@@ -434,7 +437,8 @@ void StructuredLearningTracking::structuredLearningFromParam(Parameter& param)
         param.num_threads,
         param.withNormalization,
         param.withClassifierPrior,
-        param.verbose
+        param.verbose,
+        param.with_non_negative_weights
     );
 }
 
@@ -520,7 +524,8 @@ void StructuredLearningTracking::structuredLearning(
         unsigned int num_threads,
         bool withNormalization,
         bool withClassifierPrior,
-        bool verbose
+        bool verbose,
+        bool withNonNegativeWeights
         )
 {
 
@@ -635,7 +640,8 @@ void StructuredLearningTracking::structuredLearning(
             num_threads,
             withNormalization,
             withClassifierPrior,
-            verbose);
+            verbose,
+            withNonNegativeWeights);
         uncertainty_param_ = uncertaintyParam;
 
         //param.transition = transition_;
@@ -773,6 +779,7 @@ void StructuredLearningTracking::structuredLearning(
 
     opengm::learning::StructMaxMargin<DSS>::Parameter para;
     para.optimizerParameter_.lambda = 1.00;
+    para.optimizerParameter_.nonNegativeWeights = withNonNegativeWeights;
 
     opengm::learning::StructMaxMargin<DSS> learner(sltDataset,para);
 

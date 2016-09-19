@@ -224,6 +224,7 @@ void export_track()
 #endif
 
     class_<Parameter>("ConservationTrackingParameter")
+    .def("setWithNonNegativeWeights", &Parameter::setWithNonNegativeWeights)
     .def("register_detection_func", &Parameter::register_detection_func)
     .def("register_division_func", &Parameter::register_division_func)
     .def("register_transition_func", &Parameter::register_transition_func)
